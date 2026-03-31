@@ -6,7 +6,7 @@
   <title>Métrica Ex - Soporte Crítico</title>
   <style>
     /* =========================================
-       TEMAS DE INTERFAZ
+       TEMAS DE INTERFAZ Y COLORES DE RANGO
        ========================================= */
     :root {
       --bg-main: #121212;
@@ -18,6 +18,10 @@
       --danger: #F44336;
       --warning: #FFC107;
       --shadow: 0 2px 8px rgba(0,0,0,0.2);
+      
+      /* Colores para dosis (Min = Suave, Max = Intenso) */
+      --val-min: #A5D6A7; 
+      --val-max: #4CAF50;
     }
 
     body.theme-blue {
@@ -30,6 +34,9 @@
       --danger: #D32F2F;
       --warning: #F57C00;
       --shadow: 0 2px 8px rgba(0,0,0,0.05);
+
+      --val-min: #64B5F6;
+      --val-max: #0277BD;
     }
 
     body.theme-pink {
@@ -42,6 +49,9 @@
       --danger: #D32F2F;
       --warning: #F57C00;
       --shadow: 0 2px 8px rgba(233, 30, 99, 0.1);
+
+      --val-min: #F48FB1;
+      --val-max: #C2185B;
     }
 
     body.theme-cyber {
@@ -53,6 +63,9 @@
       --border: #FF003C;
       --warning: #FFD600;
       --shadow: 0 0 10px rgba(255, 0, 60, 0.15), inset 0 0 5px rgba(255, 0, 60, 0.05);
+
+      --val-min: #FF8A80;
+      --val-max: #FF003C;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -134,52 +147,41 @@
        CONTROLES Y COMPONENTES
        ========================================= */
     .card { background-color: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow); transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; min-width: 0; }
-    h2 { font-size: 1.15rem; margin-bottom: 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
-    .placeholder-text { color: var(--text-muted); font-style: italic; }
-    .biometria-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
-    .input-group-full { grid-column: span 3; }
+    
+    .card-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 8px; user-select: none; -webkit-tap-highlight-color: transparent; }
+    .card-header h2 { font-size: 1.05rem; margin-bottom: 0; color: var(--accent); border-bottom: none; padding-bottom: 0; }
+    .collapse-icon { transition: transform 0.2s ease; color: var(--text-muted); }
+    .collapsed .collapse-icon { transform: rotate(180deg); }
+    .card-body { display: block; animation: fadeIn 0.2s ease; }
+    .collapsed + .card-body { display: none; }
+    
+    h2.static { font-size: 1.05rem; margin-bottom: 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+    .placeholder-text { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
+    
     .input-group { display: flex; flex-direction: column; }
-    .input-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-    .input-moderno { background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 1rem; font-family: inherit; text-align: center; transition: border-color 0.2s ease, box-shadow 0.2s ease; width: 100%; touch-action: manipulation; }
-    .input-moderno:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(var(--accent), 0.2); }
-    .btn-toggle { background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease; width: 100%; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; text-align: center; }
-    .btn-toggle:active { transform: scale(0.98); }
+    .input-label { font-size: 0.7rem; color: var(--text-muted); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
+    .input-moderno { background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); padding: 6px; border-radius: 6px; font-size: 1rem; font-family: inherit; text-align: center; transition: border-color 0.2s ease; width: 100%; }
+    .input-moderno:focus { outline: none; border-color: var(--accent); }
+    .btn-toggle { background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; cursor: pointer; transition: all 0.1s ease; width: 100%; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: center; align-items: center; text-align: center; gap: 4px; }
+    .btn-toggle:active { transform: scale(0.96); }
     .btn-danger { color: var(--danger); border-color: rgba(244, 67, 54, 0.4); }
     .btn-danger:active { background-color: rgba(244, 67, 54, 0.1); }
-    .panel-resultados-mini { background: rgba(0, 0, 0, 0.1); border: 1px solid var(--border); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.9rem; color: var(--accent); line-height: 1.6; word-break: break-word; }
+    
+    .panel-resultados-mini { background: rgba(0, 0, 0, 0.1); border: 1px solid var(--border); padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; line-height: 1.5; width: 100%; }
 
     /* =========================================
-       ESTILOS CALCULADORAS
+       ESTILOS CALCULADORAS (ULTRACONTRAÍDAS)
        ========================================= */
-    .calc-grid { display: flex; flex-direction: column; gap: 16px; }
-    .calc-category { background: rgba(0, 0, 0, 0.05); border-left: 3px solid var(--accent); padding: 12px; border-radius: 0 8px 8px 0; }
-    .calc-category h3 { font-size: 0.85rem; color: var(--text-muted); margin-top: 0; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .calc-item { display: flex; flex-direction: column; padding: 10px 0; border-bottom: 1px dashed var(--border); }
-    .calc-item:last-child { border-bottom: none; padding-bottom: 0; }
-    .calc-item-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; }
-    .calc-item-name { font-size: 0.95rem; color: var(--accent); font-weight: bold; }
-    .calc-item-name .value-highlight { color: var(--text-main); font-weight: normal; margin-left: 4px; }
-    .calc-item-range { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
-    .calc-item-body { display: flex; justify-content: flex-start; align-items: baseline; }
-    .calc-item-body-right { display: flex; justify-content: flex-end; align-items: baseline; width: 100%; }
-    .calc-item-cc { font-size: 0.85rem; color: var(--text-muted); }
-    .calc-item-sugerida { font-size: 1.15rem; color: var(--text-main); font-weight: bold; }
+    .calc-grid { display: flex; flex-direction: column; gap: 8px; }
+    .calc-category { background: rgba(0, 0, 0, 0.05); border-left: 2px solid var(--accent); padding: 6px 10px; border-radius: 0 6px 6px 0; margin-bottom: 4px; }
+    .calc-category h3 { font-size: 0.75rem; color: var(--text-muted); margin-top: 0; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    /* Clases de Color Clínico */
+    .val-min { color: var(--val-min); font-weight: normal; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
+    .val-max { color: var(--val-max); font-weight: bold; font-size: 0.95rem; white-space: nowrap; flex-shrink: 0; }
 
-    /* =========================================
-       PEDIATRÍA
-       ========================================= */
-    .pedia-peso-bar { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px; }
-    .pedia-peso-bar input { width: 120px; font-size: 1.2rem; font-weight: bold; }
-    .pedia-category { margin-bottom: 16px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
-    .pedia-category-header { background: rgba(0, 0, 0, 0.1); padding: 12px 16px; font-weight: bold; color: var(--accent); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
-    .pedia-item { padding: 12px 16px; border-bottom: 1px dashed var(--border); }
-    .pedia-item:last-child { border-bottom: none; }
-    .pedia-name { font-size: 1.1rem; color: var(--text-main); font-weight: bold; margin-bottom: 2px; }
-    .pedia-dose { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px; display: block; }
-    .pedia-pres-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
-    .pedia-pres-row:last-child { border-bottom: none; padding-bottom: 0; }
-    .pedia-pres-name { font-size: 0.9rem; color: var(--text-main); }
-    .pedia-pres-ml { font-size: 1.1rem; color: var(--accent); font-weight: bold; background: rgba(var(--accent), 0.1); padding: 2px 8px; border-radius: 4px; }
+    .pedia-peso-bar { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
+    .pedia-peso-bar input { width: 100px; font-size: 1.1rem; font-weight: bold; }
 
     /* =========================================
        LAYOUT RCP Y BITÁCORA
@@ -187,32 +189,20 @@
     .rcp-container { display: flex; flex-direction: column; height: 100%; max-height: calc(100vh - 120px); }
     .rcp-controls { flex-shrink: 0; padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
     .rcp-log-area { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
-    
     .rcp-time-grid { display: grid; grid-template-columns: 1fr 1fr; text-align: center; margin-bottom: 12px; }
-    .rcp-time-value { font-size: 2.8rem; font-family: monospace; font-weight: bold; line-height: 1; margin-top: 5px; }
-    .rcp-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
-    
-    .log-entry { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(128,128,128,0.2); font-size: 0.85rem; }
-    .log-datetime { color: var(--text-muted); white-space: nowrap; margin-right: 8px; font-family: monospace; font-size: 0.75rem; }
-    .log-action { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; margin-right: 8px; }
-    .log-timer { font-family: monospace; white-space: nowrap; color: var(--text-main); }
-
+    .rcp-time-value { font-size: 2.5rem; font-family: monospace; font-weight: bold; line-height: 1; margin-top: 5px; }
+    .rcp-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
+    .log-entry { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid rgba(128,128,128,0.2); font-size: 0.8rem; }
+    .log-datetime { color: var(--text-muted); white-space: nowrap; margin-right: 6px; font-family: monospace; font-size: 0.7rem; }
+    .log-action { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; margin-right: 6px; }
+    .log-timer { font-family: monospace; white-space: nowrap; color: var(--text-main); font-size: 0.8rem; }
     progress { -webkit-appearance: none; appearance: none; }
     progress::-webkit-progress-bar { background-color: var(--bg-main); border-radius: 4px; }
     progress::-webkit-progress-value { background-color: var(--accent); border-radius: 4px; transition: width 1s linear; }
     
-    @keyframes flashRed {
-      0% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); }
-      50% { background-color: rgba(244, 67, 54, 0.4); border-color: var(--danger); box-shadow: 0 0 20px var(--danger); }
-      100% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); }
-    }
+    @keyframes flashRed { 0% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } 50% { background-color: rgba(244, 67, 54, 0.4); border-color: var(--danger); box-shadow: 0 0 20px var(--danger); } 100% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } }
     .btn-alert-flash { animation: flashRed 1s infinite; color: #fff !important; }
-
-    @keyframes flashPulse {
-      0% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); }
-      50% { background-color: rgba(255, 193, 7, 0.4); border-color: var(--warning); box-shadow: 0 0 15px var(--warning); }
-      100% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); }
-    }
+    @keyframes flashPulse { 0% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); } 50% { background-color: rgba(255, 193, 7, 0.4); border-color: var(--warning); box-shadow: 0 0 15px var(--warning); } 100% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); } }
     .pulse-alarm-active { animation: flashPulse 1s infinite; }
   </style>
 </head>
@@ -221,28 +211,28 @@
   <header>
     <div class="header-top">
       <div class="app-title">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><rect width="256" height="256" fill="none"/><polygon points="160 16 72 144 144 144 96 240 184 112 112 112 160 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 6px; color: var(--accent);"><rect width="256" height="256" fill="none"/><polygon points="160 16 72 144 144 144 96 240 184 112 112 112 160 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
         MÉTRICA EX
       </div>
       <button class="theme-btn" onclick="cycleTheme()" title="Cambiar Tema">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128c0-38.6-28-64-56-64h-8a24,24,0,0,1,0-48Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="84" cy="108" r="12" fill="currentColor"/><circle cx="128" cy="76" r="12" fill="currentColor"/><circle cx="172" cy="108" r="12" fill="currentColor"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M128,24A104,104,0,1,0,232,128c0-38.6-28-64-56-64h-8a24,24,0,0,1,0-48Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="84" cy="108" r="12" fill="currentColor"/><circle cx="128" cy="76" r="12" fill="currentColor"/><circle cx="172" cy="108" r="12" fill="currentColor"/></svg>
       </button>
     </div>
     <nav class="nav-bar">
       <button class="nav-tab active" onclick="switchTab('choque')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="16 128 72 128 104 40 152 216 184 128 240 128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="16 128 72 128 104 40 152 216 184 128 240 128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
         <span class="nav-text">Choque</span>
       </button>
       <button class="nav-tab" onclick="switchTab('pediatria')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M84,80a32,32,0,0,1,88,0c0,15.7-12.1,29-28.3,31.7a40,40,0,1,1-31.4,0C96.1,109,84,95.7,84,80Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="80" cy="56" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="176" cy="56" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="80" cy="184" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="176" cy="184" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M84,80a32,32,0,0,1,88,0c0,15.7-12.1,29-28.3,31.7a40,40,0,1,1-31.4,0C96.1,109,84,95.7,84,80Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="80" cy="56" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="176" cy="56" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="80" cy="184" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="176" cy="184" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
         <span class="nav-text">Pedia</span>
       </button>
       <button class="nav-tab" onclick="switchTab('rcp')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="128" y1="128" x2="167.6" y2="88.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="8" x2="152" y2="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="128" y1="128" x2="167.6" y2="88.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="8" x2="152" y2="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
         <span class="nav-text">Reloj</span>
       </button>
       <button class="nav-tab" onclick="switchTab('extra')">
-        <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="48" y="48" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><rect x="144" y="48" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><rect x="48" y="144" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><rect x="144" y="144" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><rect x="48" y="48" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><rect x="144" y="48" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><rect x="48" y="144" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><rect x="144" y="144" width="64" height="64" rx="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
         <span class="nav-text">Extra</span>
       </button>
     </nav>
@@ -252,36 +242,53 @@
     <section id="choque" class="view-section active">
       <div class="panel-izquierdo">
         <div class="card">
-          <h2>Biometría</h2>
-          <div class="biometria-grid">
-            <div class="input-group-full"><button id="btn-sexo" class="btn-toggle" onclick="toggleSexo()">Hombre</button></div>
+          <h2 class="static">Biometría</h2>
+          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+            <button id="btn-sexo" class="btn-toggle" onclick="toggleSexo()" style="flex: 2;">Hombre</button>
+            <button class="btn-toggle btn-danger" onclick="resetBiometria()" style="flex: 1; font-size: 0.8rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 2px;"><rect width="256" height="256" fill="none"/><line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+              Borrar
+            </button>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px;">
+            <div class="input-group"><label class="input-label">Edad</label><input type="number" id="edad" class="input-moderno" placeholder="0" oninput="calcularMetricas()"></div>
             <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" id="peso" class="input-moderno" placeholder="0" oninput="syncPesoDesdeChoque()"></div>
             <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" id="talla" class="input-moderno" placeholder="0" oninput="calcularMetricas()"></div>
-            <div class="input-group"><label class="input-label">Edad</label><input type="number" id="edad" class="input-moderno" placeholder="0"></div>
-            <div class="input-group-full" style="margin-top: 4px;"><button class="btn-toggle btn-danger" onclick="resetBiometria()">Borrar Datos</button></div>
           </div>
           <div id="resultados-antropometricos" class="panel-resultados-mini">Esperando biometría...</div>
         </div>
       </div>
+      
       <div class="panel-derecho">
         <div class="card">
-          <h2>Secuencia Intubación Rápida</h2>
-          <div id="resultados-sir"><p class="placeholder-text">Ingresa el peso para calcular dosis.</p></div>
+          <div class="card-header" onclick="toggleCard(this)">
+            <h2>Secuencia Intubación Rápida</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+          </div>
+          <div class="card-body" id="resultados-sir"><p class="placeholder-text">Ingresa el peso para calcular dosis.</p></div>
         </div>
+
         <div class="card">
-          <h2>Infusiones y Mantenimiento</h2>
-          <div id="resultados-infusiones"><p class="placeholder-text">Ingresa el peso para calcular velocidad.</p></div>
+          <div class="card-header" onclick="toggleCard(this)">
+            <h2>Infusiones y Mantenimiento</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+          </div>
+          <div class="card-body" id="resultados-infusiones"><p class="placeholder-text">Ingresa el peso para calcular velocidad.</p></div>
         </div>
+
         <div class="card">
-          <h2>Accesos Vasculares</h2>
-          <div id="resultados-accesos"><p class="placeholder-text">Ingresa la talla para calcular CVC.</p></div>
+          <div class="card-header collapsed" onclick="toggleCard(this)">
+            <h2>Accesos Vasculares</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+          </div>
+          <div class="card-body" id="resultados-accesos"><p class="placeholder-text">Ingresa la talla para calcular CVC.</p></div>
         </div>
       </div>
     </section>
 
     <section id="pediatria" class="view-section">
       <div class="card pedia-peso-bar">
-        <label class="input-label" style="font-size: 1rem; margin-bottom: 0;">Peso del paciente (kg):</label>
+        <label class="input-label" style="font-size: 0.9rem; margin-bottom: 0;">Peso paciente (kg):</label>
         <input type="number" id="peso-pedia" class="input-moderno" placeholder="0" oninput="syncPesoDesdePedia()">
       </div>
       <div id="resultados-pediatria">
@@ -291,7 +298,6 @@
 
     <section id="rcp" class="view-section">
       <div class="card rcp-container">
-        
         <div class="rcp-controls">
           <div class="rcp-time-grid">
             <div>
@@ -302,48 +308,47 @@
               <div class="input-label" id="label-ciclo">Ciclo Actual</div>
               <div id="reloj-ciclo" class="rcp-time-value" style="color: var(--accent);">00:00</div>
               <div style="display: flex; justify-content: center;"><progress id="progreso-ciclo" value="0" max="120" style="width: 80%; height: 6px; border-radius: 3px; margin-top: 6px;"></progress></div>
-              <button id="btn-check-pulso" class="btn-toggle" style="display: none; background-color: var(--warning); color: #000; font-size: 0.95rem; padding: 10px; animation: flashRed 1s infinite; border: none; margin-top: 5px; width: 90%; margin-left: auto; margin-right: auto;" onclick="registrarPulso()">⚠️ CONFIRMAR RITMO</button>
+              <button id="btn-check-pulso" class="btn-toggle" style="display: none; background-color: var(--warning); color: #000; font-size: 0.9rem; padding: 8px; animation: flashRed 1s infinite; border: none; margin-top: 5px; width: 90%; margin-left: auto; margin-right: auto;" onclick="registrarPulso()">⚠️ CONFIRMAR RITMO</button>
             </div>
           </div>
 
           <div class="rcp-btn-grid">
-            <button id="btn-rcp-start" class="btn-toggle" onclick="toggleRCP()" style="background-color: var(--accent); color: #fff; border: none; padding: 12px; font-size: 1.05rem;">INICIAR RCP</button>
-            <button id="btn-metronomo" class="btn-toggle" onclick="toggleMetronomo()" style="border-color: var(--accent); color: var(--accent); padding: 12px; font-size: 1.05rem;">🎵 METRÓNOMO</button>
+            <button id="btn-rcp-start" class="btn-toggle" onclick="toggleRCP()" style="background-color: var(--accent); color: #fff; border: none;">INICIAR RCP</button>
+            <button id="btn-metronomo" class="btn-toggle" onclick="toggleMetronomo()" style="border-color: var(--accent); color: var(--accent);">🎵 METRÓNOMO</button>
           </div>
           
-          <div style="border-top: 1px dashed var(--border); margin: 12px 0;"></div>
+          <div style="border-top: 1px dashed var(--border); margin: 10px 0;"></div>
           
-          <div style="text-align: right; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;" id="timer-adrenalina-txt">Última dosis: --</div>
+          <div style="text-align: right; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px;" id="timer-adrenalina-txt">Última dosis: --</div>
           
           <div class="rcp-btn-grid">
-            <button id="btn-adrenalina" class="btn-toggle" style="border-color: var(--danger); color: var(--danger); padding: 12px; font-size: 1.05rem;" onclick="registrarAdrenalina()">Adrenalina</button>
-            <button id="btn-descarga" class="btn-toggle" style="border-color: var(--warning); color: var(--warning); padding: 12px; font-size: 1.05rem;" onclick="registrarDescarga()">Descarga <span id="contador-descarga">(0)</span></button>
-            <button id="btn-amiodarona" class="btn-toggle" onclick="registrarAmiodarona()" style="padding: 12px;">Amiodarona <span id="dosis-amio"></span></button>
-            <button id="btn-intubacion" class="btn-toggle" onclick="registrarIntubacion()" style="padding: 12px;">Intubación</button>
+            <button id="btn-adrenalina" class="btn-toggle" style="border-color: var(--danger); color: var(--danger);" onclick="registrarAdrenalina()">Adrenalina</button>
+            <button id="btn-descarga" class="btn-toggle" style="border-color: var(--warning); color: var(--warning);" onclick="registrarDescarga()">Descarga <span id="contador-descarga">(0)</span></button>
+            <button id="btn-amiodarona" class="btn-toggle" onclick="registrarAmiodarona()">Amiodarona <span id="dosis-amio"></span></button>
+            <button id="btn-intubacion" class="btn-toggle" onclick="registrarIntubacion()">Intubación</button>
           </div>
 
-          <div style="border-top: 1px dashed var(--border); margin: 12px 0;"></div>
+          <div style="border-top: 1px dashed var(--border); margin: 10px 0;"></div>
 
-          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()" style="width: 100%; padding: 12px; font-size: 1.05rem; letter-spacing: 2px;">
+          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()" style="width: 100%; letter-spacing: 2px;">
             TERMINAR RCP
           </button>
           
-          <button id="btn-reset-rcp" class="btn-toggle" onclick="resetRCP()" style="display: none; width: 100%; padding: 12px; font-size: 1.05rem; margin-top: 10px; border-color: var(--text-muted); color: var(--text-muted);">
-            NUEVO PACIENTE (REINICIAR)
+          <button id="btn-reset-rcp" class="btn-toggle" onclick="resetRCP()" style="display: none; width: 100%; margin-top: 8px; border-color: var(--text-muted); color: var(--text-muted);">
+            NUEVO PACIENTE
           </button>
         </div>
 
         <div class="rcp-log-area" id="log-eventos">
           <p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>
         </div>
-
       </div>
     </section>
 
     <section id="extra" class="view-section">
       <div class="panel-izquierdo">
         <div class="card">
-          <h2>Índice de Choque (Trauma)</h2>
+          <h2 class="static">Índice de Choque (Trauma)</h2>
           <div class="input-grid">
             <div class="input-group"><label class="input-label">FC (Lpm)</label><input type="number" id="fc-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
             <div class="input-group"><label class="input-label">PAS (mmHg)</label><input type="number" id="pas-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
@@ -353,21 +358,17 @@
           </div>
         </div>
         <div class="card">
-          <h2>Mantenimiento (Holliday-Segar)</h2>
-          <div id="resultados-mantenimiento"><p class="placeholder-text">Requiere peso del paciente en pestaña principal.</p></div>
-        </div>
-        <div class="card">
-          <h2>Ventilación (ARDSnet)</h2>
+          <h2 class="static">Ventilación (ARDSnet)</h2>
           <div id="resultados-ventilacion"><p class="placeholder-text">Requiere talla del paciente en pestaña principal.</p></div>
         </div>
       </div>
       
       <div class="panel-derecho">
         <div class="card">
-          <h2>Líquidos en Quemados</h2>
-          <div class="input-group" style="margin-bottom: 16px;">
+          <h2 class="static">Líquidos en Quemados</h2>
+          <div class="input-group" style="margin-bottom: 12px;">
             <label class="input-label">% SCQ</label>
-            <input type="number" id="scq" class="input-moderno" placeholder="Ej. 30" oninput="calcularQuemados()" style="font-size: 1.2rem; font-weight: bold;">
+            <input type="number" id="scq" class="input-moderno" placeholder="Ej. 30" oninput="calcularQuemados()" style="font-size: 1.1rem; font-weight: bold;">
           </div>
           <div id="resultados-quemados"><p class="placeholder-text">Ingresa el porcentaje de SCQ y el peso en la pestaña Choque.</p></div>
         </div>
@@ -376,19 +377,19 @@
   </main>
 
   <div id="custom-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.2s ease;">
-    <div style="background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 350px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.2s ease;" id="modal-box">
-      <h2 id="modal-title" style="margin-top: 0; border-bottom: none; padding-bottom: 0; font-size: 1.3rem;">Título</h2>
-      <p id="modal-msg" style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; line-height: 1.5;">Mensaje</p>
-      <div style="display: flex; gap: 12px; justify-content: flex-end;">
-        <button class="btn-toggle" style="width: auto; padding: 10px 16px; border-color: var(--border); color: var(--text-main);" onclick="cerrarModal()">Cancelar</button>
-        <button id="modal-btn-confirm" class="btn-toggle" style="width: auto; padding: 10px 16px;">Confirmar</button>
+    <div style="background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 320px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.2s ease;" id="modal-box">
+      <h2 id="modal-title" style="margin-top: 0; border-bottom: none; padding-bottom: 0; font-size: 1.2rem;">Título</h2>
+      <p id="modal-msg" style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.9rem; line-height: 1.4;">Mensaje</p>
+      <div style="display: flex; gap: 10px; justify-content: flex-end;">
+        <button class="btn-toggle" style="width: auto; padding: 8px 12px; border-color: var(--border); color: var(--text-main);" onclick="cerrarModal()">Cancelar</button>
+        <button id="modal-btn-confirm" class="btn-toggle" style="width: auto; padding: 8px 12px;">Confirmar</button>
       </div>
     </div>
   </div>
 
   <script>
     /* =========================================
-       SISTEMA DE FEEDBACK HÁPTICO Y AUDIO (NUEVO)
+       SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
        ========================================= */
     let audioCtx = null;
     function initAudio() {
@@ -401,12 +402,8 @@
     }
 
     function uiFeedback(vibeDuration = 15, freqStart = 600, freqEnd = 100, vol = 0.2) {
-      // 1. Haptic Feedback (Android only, iOS gracefully ignores)
-      if (navigator.vibrate) {
-        navigator.vibrate(vibeDuration);
-      }
+      if (navigator.vibrate) navigator.vibrate(vibeDuration);
       
-      // 2. Audio Click Feedback
       initAudio();
       if (!audioCtx) return;
       
@@ -415,7 +412,7 @@
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       
-      osc.type = 'sine'; // Tono suave y redondo
+      osc.type = 'sine'; 
       osc.frequency.setValueAtTime(freqStart, audioCtx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(freqEnd, audioCtx.currentTime + 0.05);
       
@@ -426,11 +423,16 @@
       osc.stop(audioCtx.currentTime + 0.05);
     }
 
+    function toggleCard(headerElement) {
+      uiFeedback(10);
+      headerElement.classList.toggle('collapsed');
+    }
+
     /* =========================================
        NAVEGACIÓN Y TEMAS
        ========================================= */
     function switchTab(tabId) {
-      uiFeedback(10, 800, 200, 0.1); // Clic ligero y agudo
+      uiFeedback(10, 800, 200, 0.1); 
       document.querySelectorAll('.view-section').forEach(section => { section.classList.remove('active'); });
       document.querySelectorAll('.nav-tab').forEach(tab => { tab.classList.remove('active'); });
       document.getElementById(tabId).classList.add('active');
@@ -479,8 +481,9 @@
     function calcularMetricas() {
       const pesoInput = parseFloat(document.getElementById('peso').value);
       const tallaInput = parseFloat(document.getElementById('talla').value);
+      const edadInput = parseFloat(document.getElementById('edad').value);
       const panelAntropo = document.getElementById('resultados-antropometricos');
-      let pesoIdealStr = '—'; let superficieStr = '—'; let pesoIdealNum = null;
+      let pesoIdealStr = '—'; let superficieStr = '—'; let pesoIdealNum = null; let ccHora = 0;
 
       if (pesoInput > 0 && tallaInput > 0) {
         const bsa = Math.sqrt((pesoInput * tallaInput) / 3600); superficieStr = bsa.toFixed(2) + ' m²';
@@ -488,17 +491,48 @@
         pesoIdealNum = paciente.sexo === 'M' ? 50 + (0.91 * ajuste) : 45.5 + (0.91 * ajuste);
         pesoIdealStr = pesoIdealNum.toFixed(1) + ' kg';
       }
+      
+      if (pesoInput > 0) {
+        let esAdulto = false;
+        if (edadInput && edadInput >= 18) esAdulto = true;
+        else if (!edadInput && pesoInput >= 40) esAdulto = true;
 
-      if (pesoInput > 0 || tallaInput > 0) { panelAntropo.innerHTML = `Peso Actual : ${pesoInput || '—'} kg<br>Peso Ideal  : ${pesoIdealStr}<br>Sup. Corp   : ${superficieStr}`; } 
-      else { panelAntropo.innerHTML = 'Esperando biometría...'; }
+        if (esAdulto) {
+            ccHora = ((pesoInput * 30) / 24).toFixed(0); 
+        } else {
+            if(pesoInput <= 10) ccHora = pesoInput * 4;
+            else if(pesoInput <= 20) ccHora = 40 + ((pesoInput - 10) * 2);
+            else ccHora = 60 + (pesoInput - 20);
+        }
+      }
+
+      let htmlAntropo = '';
+      if (pesoInput > 0 || tallaInput > 0) {
+        htmlAntropo = `
+          <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+            <span style="color: var(--text-muted);">Peso Ideal:</span>
+            <span style="font-weight: bold; color: var(--text-main);">${pesoIdealStr}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 2px 0;">
+            <span style="color: var(--text-muted);">Sup. Corporal:</span>
+            <span style="font-weight: bold; color: var(--text-main);">${superficieStr}</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 2px 0; border-top: 1px dashed rgba(128,128,128,0.3); margin-top: 4px; padding-top: 6px;">
+            <span style="color: var(--text-muted);">Líquidos Basales:</span>
+            <span style="font-weight: bold; color: var(--accent); font-size: 1.05rem;">${ccHora > 0 ? ccHora + ' cc/h' : '—'}</span>
+          </div>
+        `;
+      } else {
+        htmlAntropo = 'Esperando biometría...';
+      }
+      panelAntropo.innerHTML = htmlAntropo;
 
       if (pesoInput > 0) {
-        calcularSIR(pesoInput, pesoIdealNum); calcularInfusiones(pesoInput); renderPediatria(pesoInput); calcularMantenimiento(pesoInput); calcularQuemados();
+        calcularSIR(pesoInput, pesoIdealNum); calcularInfusiones(pesoInput); renderPediatria(pesoInput); calcularQuemados();
       } else {
         document.getElementById('resultados-sir').innerHTML = '<p class="placeholder-text">Ingresa el peso para calcular dosis.</p>';
         document.getElementById('resultados-infusiones').innerHTML = '<p class="placeholder-text">Ingresa el peso para calcular velocidad.</p>';
         document.getElementById('resultados-pediatria').innerHTML = '<div class="card"><p class="placeholder-text" style="text-align: center;">Ingresa el peso del niño para desplegar el recetario.</p></div>';
-        document.getElementById('resultados-mantenimiento').innerHTML = '<p class="placeholder-text">Requiere peso del paciente en pestaña principal.</p>';
         document.getElementById('resultados-quemados').innerHTML = '<p class="placeholder-text">Ingresa el porcentaje de SCQ y el peso en la pestaña Choque.</p>';
       }
 
@@ -514,26 +548,186 @@
        BASE DE DATOS PEDIÁTRICA Y CALCULADORAS
        ========================================= */
     const dbPediatria = [
-      { grupo: "Analgésicos y Antipiréticos", farmacos: [{ nombre: "Paracetamol", dosisTxt: "10 - 15 mg/kg/dosis (c/ 6-8h)", dosisCalc: 15, presentaciones: [{ desc: "Gotas 100mg/1ml", mg: 100, ml: 1 }, { desc: "Jarabe 160mg/5ml", mg: 160, ml: 5 }, { desc: "Jarabe 320mg/5ml", mg: 320, ml: 5 }] }, { nombre: "Ibuprofeno", dosisTxt: "5 - 10 mg/kg/dosis (c/ 6-8h)", dosisCalc: 10, presentaciones: [{ desc: "Suspensión 100mg/5ml", mg: 100, ml: 5 }, { desc: "Suspensión 200mg/5ml (Forte)", mg: 200, ml: 5 }] }, { nombre: "Metamizol Sódico", dosisTxt: "10 - 17 mg/kg/dosis (c/ 6-8h)", dosisCalc: 15, presentaciones: [{ desc: "Jarabe 250mg/5ml", mg: 250, ml: 5 }, { desc: "Gotas 500mg/1ml", mg: 500, ml: 1 }] }, { nombre: "Naproxeno", dosisTxt: "5 - 7.5 mg/kg/dosis (c/ 8-12h)", dosisCalc: 5, presentaciones: [{ desc: "Suspensión 125mg/5ml", mg: 125, ml: 5 }] }, { nombre: "Ketorolaco (IV/IM)", dosisTxt: "0.5 mg/kg/dosis (c/ 6h) *Rescate*", dosisCalc: 0.5, presentaciones: [{ desc: "Ampolleta 30mg/1ml", mg: 30, ml: 1 }] }] },
-      { grupo: "Vía Aérea y Esteroides", farmacos: [{ nombre: "Dexametasona", dosisTxt: "0.6 mg/kg/dosis (Única o c/24h)", dosisCalc: 0.6, presentaciones: [{ desc: "Ampolleta 8mg/2ml", mg: 4, ml: 1 }] }, { nombre: "Prednisolona", dosisTxt: "1 - 2 mg/kg/día (c/ 24h)", dosisCalc: 1, presentaciones: [{ desc: "Solución 15mg/5ml", mg: 15, ml: 5 }] }, { nombre: "Salbutamol (Nebulización)", dosisTxt: "0.15 mg/kg/dosis (Max 5mg)", dosisCalc: 0.15, presentaciones: [{ desc: "Sol. Nebulizar 5mg/1ml", mg: 5, ml: 1 }] }, { nombre: "Salbutamol (Oral)", dosisTxt: "0.15 mg/kg/dosis (c/ 8h)", dosisCalc: 0.15, presentaciones: [{ desc: "Jarabe 2mg/5ml", mg: 2, ml: 5 }] }] },
-      { grupo: "Antibióticos", farmacos: [{ nombre: "Amoxicilina", dosisTxt: "20 mg/kg/dosis c/8h", dosisCalc: 20, presentaciones: [{ desc: "Suspensión 250mg/5ml", mg: 250, ml: 5 }, { desc: "Suspensión 500mg/5ml", mg: 500, ml: 5 }] }, { nombre: "Amoxicilina / Ác. Clavulánico", dosisTxt: "15 mg/kg/dosis c/8h", dosisCalc: 15, presentaciones: [{ desc: "Suspensión 250mg/5ml", mg: 250, ml: 5 }, { desc: "Suspensión 400mg/5ml", mg: 400, ml: 5 }] }, { nombre: "Ceftriaxona (IM/IV)", dosisTxt: "50 - 75 mg/kg/día (c/ 12-24h)", dosisCalc: 50, presentaciones: [{ desc: "Vial 1g diluido en 10ml", mg: 100, ml: 1 }] }] },
-      { grupo: "Gastrointestinal", farmacos: [{ nombre: "Ondansetrón", dosisTxt: "0.15 mg/kg/dosis (c/ 8h)", dosisCalc: 0.15, presentaciones: [{ desc: "Ampolleta 4mg/2ml", mg: 2, ml: 1 }, { desc: "Ampolleta 8mg/4ml", mg: 2, ml: 1 }] }, { nombre: "Metoclopramida", dosisTxt: "0.1 mg/kg/dosis (c/ 8h)", dosisCalc: 0.1, presentaciones: [{ desc: "Ampolleta 10mg/2ml", mg: 10, ml: 2 }] }] }
+      { grupo: "Analgésicos y Antipiréticos", farmacos: [
+          { nombre: "Paracetamol", dosisTxt: "10-15 mg/kg", minD: 10, maxD: 15, presentaciones: [{ desc: "Gotas 100mg/1ml", mg: 100, ml: 1 }, { desc: "Jarabe 160mg/5ml", mg: 160, ml: 5 }, { desc: "Jarabe 320mg/5ml", mg: 320, ml: 5 }] }, 
+          { nombre: "Ibuprofeno", dosisTxt: "5-10 mg/kg", minD: 5, maxD: 10, presentaciones: [{ desc: "Susp 100mg/5ml", mg: 100, ml: 5 }, { desc: "Susp 200mg/5ml", mg: 200, ml: 5 }] }, 
+          { nombre: "Metamizol Sódico", dosisTxt: "10-17 mg/kg", minD: 10, maxD: 17, presentaciones: [{ desc: "Jarabe 250mg/5ml", mg: 250, ml: 5 }, { desc: "Gotas 500mg/1ml", mg: 500, ml: 1 }] }, 
+          { nombre: "Ketorolaco (IV/IM)", dosisTxt: "0.5 mg/kg", minD: 0.5, maxD: 0.5, presentaciones: [{ desc: "Amp 30mg/1ml", mg: 30, ml: 1 }] }
+        ] 
+      },
+      { grupo: "Vía Aérea y Esteroides", farmacos: [
+          { nombre: "Dexametasona", dosisTxt: "0.6 mg/kg", minD: 0.6, maxD: 0.6, presentaciones: [{ desc: "Amp 8mg/2ml", mg: 4, ml: 1 }] }, 
+          { nombre: "Prednisolona", dosisTxt: "1-2 mg/kg", minD: 1, maxD: 2, presentaciones: [{ desc: "Sol 15mg/5ml", mg: 15, ml: 5 }] }, 
+          { nombre: "Salbutamol (Neb)", dosisTxt: "0.15 mg/kg", minD: 0.15, maxD: 0.15, presentaciones: [{ desc: "Sol 5mg/1ml", mg: 5, ml: 1 }] }
+        ] 
+      },
+      { grupo: "Antibióticos", farmacos: [
+          { nombre: "Amoxicilina", dosisTxt: "20 mg/kg c/8h", minD: 20, maxD: 20, presentaciones: [{ desc: "Susp 250mg/5ml", mg: 250, ml: 5 }, { desc: "Susp 500mg/5ml", mg: 500, ml: 5 }] }, 
+          { nombre: "Amox / Ác. Clav", dosisTxt: "15 mg/kg c/8h", minD: 15, maxD: 15, presentaciones: [{ desc: "Susp 250mg/5ml", mg: 250, ml: 5 }, { desc: "Susp 400mg/5ml", mg: 400, ml: 5 }] }, 
+          { nombre: "Ceftriaxona (IV/IM)", dosisTxt: "50-75 mg/kg/día", minD: 50, maxD: 75, presentaciones: [{ desc: "Vial 1g dil 10ml", mg: 100, ml: 1 }] }
+        ] 
+      },
+      { grupo: "Gastrointestinal", farmacos: [
+          { nombre: "Ondansetrón", dosisTxt: "0.15 mg/kg", minD: 0.15, maxD: 0.15, presentaciones: [{ desc: "Amp 4mg/2ml", mg: 2, ml: 1 }, { desc: "Amp 8mg/4ml", mg: 2, ml: 1 }] }, 
+          { nombre: "Metoclopramida", dosisTxt: "0.1 mg/kg", minD: 0.1, maxD: 0.1, presentaciones: [{ desc: "Amp 10mg/2ml", mg: 10, ml: 2 }] }
+        ] 
+      }
     ];
-    function renderPediatria(peso) { const panelPedia = document.getElementById('resultados-pediatria'); let htmlOutput = ''; dbPediatria.forEach(grupo => { let farmacosHtml = ''; grupo.farmacos.forEach(farmaco => { const mgTotales = farmaco.dosisCalc * peso; let presentacionesHtml = ''; farmaco.presentaciones.forEach(pres => { const mlCalculados = ((mgTotales * pres.ml) / pres.mg).toFixed(1); presentacionesHtml += `<div class="pedia-pres-row"><span class="pedia-pres-name">${pres.desc}</span><span class="pedia-pres-ml">${mlCalculados} ml</span></div>`; }); farmacosHtml += `<div class="pedia-item"><div class="pedia-name">${farmaco.nombre}</div><div class="pedia-dose">Dosis sugerida: ${farmaco.dosisTxt}</div><div>${presentacionesHtml}</div></div>`; }); htmlOutput += `<div class="pedia-category"><div class="pedia-category-header">${grupo.grupo}</div>${farmacosHtml}</div>`; }); panelPedia.innerHTML = htmlOutput; }
 
-    function calcularSIR(pesoReal, pesoIdeal) { const panelSIR = document.getElementById('resultados-sir'); const pesoRoc = pesoIdeal ? pesoIdeal : pesoReal; function renderFarmacoSIR(nombre, unidad, presentacionTxt, minD, maxD, targetD, peso, concBase) { const targetVal = (peso * targetD).toFixed(0); const ccVal = (targetVal / concBase).toFixed(1); return `<div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">${nombre}</span><span class="calc-item-range">(${minD} - ${maxD} ${unidad}/kg)</span></div><div class="calc-item-body" style="justify-content: space-between;"><span style="font-size: 1.05rem; color: var(--text-main); font-weight: bold;">${targetVal} ${unidad}</span><span class="calc-item-cc">(${ccVal} cc de ampolleta ${presentacionTxt})</span></div></div>`; } panelSIR.innerHTML = `<div class="calc-grid"><div class="calc-category"><h3>1. Premedicación</h3>${renderFarmacoSIR('Fentanilo', 'mcg', '0.250mg/5ml', 1, 3, 2, pesoReal, 50)}${renderFarmacoSIR('Lidocaína 2%', 'mg', '500mg/50ml', 1, 1.5, 1.5, pesoReal, 20)}</div><div class="calc-category"><h3>2. Inducción</h3>${renderFarmacoSIR('Propofol', 'mg', '200mg/20ml', 1, 2, 1.5, pesoReal, 10)}${renderFarmacoSIR('Ketamina', 'mg', '500mg/10ml', 1, 2, 1.5, pesoReal, 50)}${renderFarmacoSIR('Etomidato', 'mg', '20mg/10ml', 0.2, 0.3, 0.3, pesoReal, 2)}</div><div class="calc-category"><h3>3. Parálisis</h3>${renderFarmacoSIR('Succinilcolina', 'mg', '100mg/5ml', 1, 2, 1.5, pesoReal, 20)}${renderFarmacoSIR('Rocuronio', 'mg', '50mg/5ml', 0.6, 1.2, 1.2, pesoRoc, 10)}</div></div>`; }
-    function calcularInfusiones(pesoReal) { const panelInf = document.getElementById('resultados-infusiones'); function renderInfusion(nombre, unidadDosis, dilucionTxt, concStr, minD, maxD, peso, concEnMl, isPerMin, isFixed = false) { const mult = isPerMin ? 60 : 1; const pesoEfectivo = isFixed ? 1 : peso; const minCcH = ((minD * pesoEfectivo * mult) / concEnMl).toFixed(1); const maxCcH = ((maxD * pesoEfectivo * mult) / concEnMl).toFixed(1); const minDStr = minD < 0.05 ? minD.toFixed(3) : minD.toFixed(2); const maxDStr = maxD < 0.05 ? maxD.toFixed(3) : maxD.toFixed(2); return `<div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">${nombre}: <span class="value-highlight">${minCcH}–${maxCcH} cc/h</span></span><span class="calc-item-range">(${minDStr}–${maxDStr} ${unidadDosis})</span></div><div class="calc-item-body"><span class="calc-item-cc">→ Solución: ${dilucionTxt} (${concStr})</span></div></div>`; } panelInf.innerHTML = `<div class="calc-grid"><div class="calc-category"><h3>Sedoanalgesia Continua</h3>${renderInfusion('Propofol', 'mg/kg/h', 'Propofol al 1%', '10 mg/mL', 1.0, 3.0, pesoReal, 10, false)}${renderInfusion('Midazolam', 'mg/kg/h', '100 mg en 100 cc Salina 0.9%', '1 mg/mL', 0.02, 0.10, pesoReal, 1, false)}${renderInfusion('Fentanilo', 'mcg/kg/h', '500 mcg en 100 cc Salina 0.9%', '5 mcg/mL', 0.50, 2.00, pesoReal, 5, false)}</div><div class="calc-category"><h3>Soporte Vasoactivo e Inotrópico</h3>${renderInfusion('Norepinefrina', 'mcg/kg/min', '16 mg en 100 cc Salina 0.9%', '160 mcg/mL', 0.05, 1.00, pesoReal, 160, true)}${renderInfusion('Epinefrina', 'mcg/kg/min', '8 mg en 100 cc Salina 0.9%', '80 mcg/mL', 0.05, 1.00, pesoReal, 80, true)}${renderInfusion('Vasopresina', 'UI/min', '40 UI en 100 cc Salina 0.9%', '0.4 UI/mL', 0.01, 0.04, pesoReal, 0.4, true, true)}${renderInfusion('Dobutamina', 'mcg/kg/min', '250 mg en 250 cc Salina 0.9%', '1000 mcg/mL', 2.0, 20.0, pesoReal, 1000, true)}</div></div>`; }
-    function calcularAccesos(talla) { const panelAccesos = document.getElementById('resultados-accesos'); const yD = ((talla / 10) - 1).toFixed(1); const yI = ((talla / 10) + 3).toFixed(1); const sD = ((talla / 10) - 2).toFixed(1); const sI = ((talla / 10) + 1).toFixed(1); panelAccesos.innerHTML = `<div class="calc-grid"><div class="calc-category"><h3>Profundidad CVC (Peres Modificada)</h3><div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">Yugular Interna Derecha</span></div><div class="calc-item-body-right"><span class="calc-item-sugerida" style="color: var(--accent);">${yD} cm</span></div></div><div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">Yugular Interna Izquierda</span></div><div class="calc-item-body-right"><span class="calc-item-sugerida" style="color: var(--accent);">${yI} cm</span></div></div><div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">Subclavia Derecha</span></div><div class="calc-item-body-right"><span class="calc-item-sugerida" style="color: var(--accent);">${sD} cm</span></div></div></div></div>`; }
-    function calcularVentilacion(pesoIdeal) { const panelVent = document.getElementById('resultados-ventilacion'); if (!pesoIdeal) return; const vt4 = Math.round(pesoIdeal * 4); const vt6 = Math.round(pesoIdeal * 6); const vt8 = Math.round(pesoIdeal * 8); panelVent.innerHTML = `<div class="calc-grid"><div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">Protector Estándar <span class="value-highlight">${vt6} ml</span></span><span class="calc-item-range">(6 ml/kg)</span></div></div><div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">Límite Superior <span class="value-highlight">${vt8} ml</span></span><span class="calc-item-range">(8 ml/kg)</span></div></div></div>`; }
-    function calcularIndiceChoque() { const fc = parseFloat(document.getElementById('fc-choque').value); const pas = parseFloat(document.getElementById('pas-choque').value); const panel = document.getElementById('resultados-indice-choque'); if(!fc || !pas) return; const si = (fc / pas).toFixed(2); let riesgo = ""; let color = "var(--text-main)"; if(si < 0.7) { riesgo = "Normal"; color = "var(--accent)"; } else if (si < 0.9) { riesgo = "Sangrado Oculto Posible"; color = "var(--warning)"; } else { riesgo = "Alerta: Transfusión Inminente"; color = "var(--danger)"; } panel.innerHTML = `<div class="calc-item" style="border: none; padding: 0;"><div class="calc-item-header" style="justify-content: center; margin-bottom: 8px;"><span style="font-size: 2.5rem; font-weight: bold; color: ${color}; line-height: 1;">${si}</span></div><div style="text-align: center; color: ${color}; font-weight: bold; font-size: 0.9rem;">${riesgo}</div></div>`; }
-    function calcularMantenimiento(peso) { const panel = document.getElementById('resultados-mantenimiento'); if(!peso || peso <= 0) return; let ccHora = 0; if(peso <= 10) ccHora = peso * 4; else if(peso <= 20) ccHora = 40 + ((peso - 10) * 2); else ccHora = 60 + (peso - 20); panel.innerHTML = `<div class="calc-item" style="border: none; padding: 0;"><div class="calc-item-header"><span class="calc-item-name">Regla 4-2-1</span></div><div class="calc-item-body"><span class="calc-item-sugerida" style="color: var(--accent);">${ccHora} cc/h</span></div></div>`; }
-    function calcularQuemados() { const peso = parseFloat(document.getElementById('peso').value); const scq = parseFloat(document.getElementById('scq').value); const panel = document.getElementById('resultados-quemados'); if(!peso || !scq || scq <= 0) return; const vol2 = 2 * peso * scq; const vol4 = 4 * peso * scq; panel.innerHTML = `<div class="calc-grid"><div class="calc-category"><h3>ATLS (2 ml/kg) - Térmicas</h3><div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">Total 24h:</span> <span class="calc-item-sugerida">${vol2} cc</span></div></div></div></div>`; }
+    function renderPediatria(peso) { 
+      const panelPedia = document.getElementById('resultados-pediatria'); 
+      let htmlOutput = ''; 
+      
+      dbPediatria.forEach(grupo => { 
+        let farmacosHtml = ''; 
+        grupo.farmacos.forEach(farmaco => { 
+          let presentacionesHtml = ''; 
+          farmaco.presentaciones.forEach(pres => { 
+            const minMg = farmaco.minD * peso;
+            const maxMg = farmaco.maxD * peso;
+            const minMl = ((minMg * pres.ml) / pres.mg).toFixed(1);
+            const maxMl = ((maxMg * pres.ml) / pres.mg).toFixed(1);
+
+            let valsHtml = '';
+            if (minMl === maxMl) {
+              valsHtml = `<span class="val-max">${maxMl} ml</span>`;
+            } else {
+              valsHtml = `<span class="val-min">${minMl} ml</span> <span style="color:var(--text-muted); font-size:0.8rem; margin:0 2px;">-</span> <span class="val-max">${maxMl} ml</span>`;
+            }
+
+            presentacionesHtml += `
+              <div style="display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px dashed rgba(128,128,128,0.1);">
+                <span style="font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; margin-right: 8px;">${pres.desc}</span>
+                <span style="display: flex; gap: 4px; align-items: baseline; flex-shrink: 0;">${valsHtml}</span>
+              </div>`; 
+          }); 
+          
+          farmacosHtml += `
+            <div class="calc-item" style="padding: 8px 0; border-bottom: 1px solid var(--border);">
+              <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: nowrap; overflow: hidden;">
+                <span style="font-size: 1rem; color: var(--accent); font-weight: bold; white-space: nowrap;">${farmaco.nombre}</span>
+                <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">(${farmaco.dosisTxt})</span>
+              </div>
+              <div style="display: flex; flex-direction: column;">
+                ${presentacionesHtml}
+              </div>
+            </div>`; 
+        }); 
+        htmlOutput += `<div class="calc-category" style="margin-bottom: 8px;"><h3>${grupo.grupo}</h3>${farmacosHtml}</div>`; 
+      }); 
+      
+      panelPedia.innerHTML = htmlOutput; 
+    }
+
+    function calcularSIR(pesoReal, pesoIdeal) { 
+      const panelSIR = document.getElementById('resultados-sir'); 
+      const pesoRoc = pesoIdeal ? pesoIdeal : pesoReal; 
+      
+      function renderFarmacoSIR(nombre, unidad, presentacionTxt, minD, maxD, peso, concBase) { 
+        const minVal = (peso * minD).toFixed(0); 
+        const maxVal = (peso * maxD).toFixed(0); 
+        const minCc = (minVal / concBase).toFixed(1); 
+        const maxCc = (maxVal / concBase).toFixed(1); 
+        
+        let valsHtml = '';
+        if (minCc === maxCc) {
+          valsHtml = `<span class="val-max">${maxCc} cc</span>`;
+        } else {
+          valsHtml = `<span class="val-min">${minCc} cc</span> <span style="color:var(--text-muted); margin:0 2px;">-</span> <span class="val-max">${maxCc} cc</span>`;
+        }
+
+        return `
+          <div class="calc-item" style="padding: 8px 0; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: nowrap; overflow: hidden;">
+              <span style="font-size: 1rem; color: var(--accent); font-weight: bold; white-space: nowrap;">${nombre}</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">(${minD}-${maxD} ${unidad}/kg)</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; margin-right: 8px;">${presentacionTxt}</span>
+              <span style="display: flex; gap: 4px; align-items: baseline; flex-shrink: 0;">${valsHtml}</span>
+            </div>
+          </div>`; 
+      } 
+      
+      panelSIR.innerHTML = `
+        <div class="calc-grid">
+          <div class="calc-category">
+            <h3>1. Premedicación</h3>
+            ${renderFarmacoSIR('Fentanilo', 'mcg', '500mcg/10ml', 1, 3, pesoReal, 50)}
+            ${renderFarmacoSIR('Lidocaína 2%', 'mg', '500mg/50ml', 1, 1.5, pesoReal, 20)}
+          </div>
+          <div class="calc-category">
+            <h3>2. Inducción</h3>
+            ${renderFarmacoSIR('Propofol', 'mg', '200mg/20ml', 1, 2, pesoReal, 10)}
+            ${renderFarmacoSIR('Ketamina', 'mg', '500mg/10ml', 1, 2, pesoReal, 50)}
+            ${renderFarmacoSIR('Etomidato', 'mg', '20mg/10ml', 0.2, 0.3, pesoReal, 2)}
+          </div>
+          <div class="calc-category">
+            <h3>3. Parálisis</h3>
+            ${renderFarmacoSIR('Succinilcolina', 'mg', '100mg/5ml', 1, 2, pesoReal, 20)}
+            ${renderFarmacoSIR('Rocuronio', 'mg', '50mg/5ml', 0.6, 1.2, pesoRoc, 10)}
+          </div>
+        </div>`; 
+    }
+
+    function calcularInfusiones(pesoReal) { 
+      const panelInf = document.getElementById('resultados-infusiones'); 
+      function renderInfusion(nombre, unidadDosis, dilucionTxt, minD, maxD, peso, concEnMl, isPerMin, isFixed = false) { 
+        const mult = isPerMin ? 60 : 1; 
+        const pesoEfectivo = isFixed ? 1 : peso; 
+        const minCcH = ((minD * pesoEfectivo * mult) / concEnMl).toFixed(1); 
+        const maxCcH = ((maxD * pesoEfectivo * mult) / concEnMl).toFixed(1); 
+        const minDStr = minD < 0.05 ? minD.toFixed(3) : minD.toFixed(2); 
+        const maxDStr = maxD < 0.05 ? maxD.toFixed(3) : maxD.toFixed(2); 
+        
+        let valsHtml = minCcH === maxCcH ? 
+          `<span class="val-max">${maxCcH} cc/h</span>` : 
+          `<span class="val-min">${minCcH} cc/h</span> <span style="color:var(--text-muted); margin:0 2px;">-</span> <span class="val-max">${maxCcH} cc/h</span>`;
+
+        return `
+          <div class="calc-item" style="padding: 8px 0; border-bottom: 1px solid var(--border);">
+            <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: nowrap; overflow: hidden;">
+              <span style="font-size: 1rem; color: var(--accent); font-weight: bold; white-space: nowrap;">${nombre}</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">(${minDStr}-${maxDStr} ${unidadDosis})</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; margin-right: 8px;">${dilucionTxt}</span>
+              <span style="display: flex; gap: 4px; align-items: baseline; flex-shrink: 0;">${valsHtml}</span>
+            </div>
+          </div>`; 
+      } 
+      panelInf.innerHTML = `
+        <div class="calc-grid">
+          <div class="calc-category">
+            <h3>Sedoanalgesia Continua</h3>
+            ${renderInfusion('Propofol 1%', 'mg/kg/h', 'Puro (10 mg/mL)', 1.0, 3.0, pesoReal, 10, false)}
+            ${renderInfusion('Midazolam', 'mg/kg/h', '100mg en 100cc', 0.02, 0.10, pesoReal, 1, false)}
+            ${renderInfusion('Fentanilo', 'mcg/kg/h', '500mcg en 100cc', 0.50, 2.00, pesoReal, 5, false)}
+            ${renderInfusion('Dexmedeto', 'mcg/kg/h', '400mcg en 100cc', 0.20, 1.40, pesoReal, 4, false)}
+          </div>
+          <div class="calc-category">
+            <h3>Soporte Vasoactivo e Inotrópico</h3>
+            ${renderInfusion('Norepinefrina', 'mcg/kg/min', '16mg en 100cc', 0.05, 1.00, pesoReal, 160, true)}
+            ${renderInfusion('Epinefrina', 'mcg/kg/min', '8mg en 100cc', 0.05, 1.00, pesoReal, 80, true)}
+            ${renderInfusion('Vasopresina', 'UI/min', '40 UI en 100cc', 0.01, 0.04, pesoReal, 0.4, true, true)}
+            ${renderInfusion('Dobutamina', 'mcg/kg/min', '250mg en 250cc', 2.0, 20.0, pesoReal, 1000, true)}
+          </div>
+        </div>`; 
+    }
+    
+    function calcularAccesos(talla) { const panelAccesos = document.getElementById('resultados-accesos'); const yD = ((talla / 10) - 1).toFixed(1); const yI = ((talla / 10) + 3).toFixed(1); const sD = ((talla / 10) - 2).toFixed(1); panelAccesos.innerHTML = `<div class="calc-grid"><div class="calc-category"><h3>Profundidad CVC (Peres Modificada)</h3><div class="calc-item" style="flex-direction: row; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border);"><span style="font-size: 0.9rem; color: var(--text-main); font-weight: bold;">Yugular Interna Der</span><span class="val-max">${yD} cm</span></div><div class="calc-item" style="flex-direction: row; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border);"><span style="font-size: 0.9rem; color: var(--text-main); font-weight: bold;">Yugular Interna Izq</span><span class="val-max">${yI} cm</span></div><div class="calc-item" style="flex-direction: row; justify-content: space-between; padding: 8px 0; border-bottom: none;"><span style="font-size: 0.9rem; color: var(--text-main); font-weight: bold;">Subclavia Derecha</span><span class="val-max">${sD} cm</span></div></div></div>`; }
+    
+    function calcularVentilacion(pesoIdeal) { const panelVent = document.getElementById('resultados-ventilacion'); if (!pesoIdeal) return; const vt6 = Math.round(pesoIdeal * 6); const vt8 = Math.round(pesoIdeal * 8); panelVent.innerHTML = `<div class="calc-grid"><div class="calc-item" style="flex-direction: row; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--border);"><span style="font-size: 0.9rem; color: var(--text-main); font-weight: bold;">Protector Estándar <span style="color:var(--text-muted); font-size:0.75rem; font-weight:normal;">(6 ml/kg)</span></span><span class="val-max">${vt6} ml</span></div><div class="calc-item" style="flex-direction: row; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: none;"><span style="font-size: 0.9rem; color: var(--text-main); font-weight: bold;">Límite Superior <span style="color:var(--text-muted); font-size:0.75rem; font-weight:normal;">(8 ml/kg)</span></span><span class="val-max">${vt8} ml</span></div></div>`; }
+    
+    function calcularIndiceChoque() { const fc = parseFloat(document.getElementById('fc-choque').value); const pas = parseFloat(document.getElementById('pas-choque').value); const panel = document.getElementById('resultados-indice-choque'); if(!fc || !pas) return; const si = (fc / pas).toFixed(2); let riesgo = ""; let color = "var(--text-main)"; if(si < 0.7) { riesgo = "Normal"; color = "var(--accent)"; } else if (si < 0.9) { riesgo = "Sangrado Oculto Posible"; color = "var(--warning)"; } else { riesgo = "Alerta: Transfusión Inminente"; color = "var(--danger)"; } panel.innerHTML = `<div class="calc-item" style="border: none; padding: 0;"><div style="display:flex; justify-content: center; width: 100%; margin-bottom: 4px;"><span style="font-size: 2rem; font-weight: bold; color: ${color}; line-height: 1;">${si}</span></div><div style="text-align: center; color: ${color}; font-weight: bold; font-size: 0.85rem; width: 100%;">${riesgo}</div></div>`; }
+    
+    function calcularQuemados() { const peso = parseFloat(document.getElementById('peso').value); const scq = parseFloat(document.getElementById('scq').value); const panel = document.getElementById('resultados-quemados'); if(!peso || !scq || scq <= 0) return; const vol2 = 2 * peso * scq; panel.innerHTML = `<div class="calc-grid"><div class="calc-category"><h3>ATLS (2 ml/kg) - Térmicas</h3><div class="calc-item" style="flex-direction: row; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: none;"><span style="font-size: 0.9rem; color: var(--text-main); font-weight: bold;">Total 24h:</span><span class="val-max">${vol2} cc</span></div></div></div>`; }
 
     /* =========================================
        SISTEMA DE MODAL CUSTOM
        ========================================= */
     function mostrarModal(titulo, mensaje, textoBtn, claseBtn, accionConfirmar) {
-      uiFeedback(20); // Clic para mostrar alerta
+      uiFeedback(20); 
       const modal = document.getElementById('custom-modal');
       const box = document.getElementById('modal-box');
       document.getElementById('modal-title').textContent = titulo;
@@ -544,7 +738,7 @@
       btnConfirm.className = `btn-toggle ${claseBtn}`;
       
       btnConfirm.onclick = () => {
-        uiFeedback(20); // Clic confirmar
+        uiFeedback(20); 
         accionConfirmar();
         cerrarModal();
       };
@@ -626,7 +820,7 @@
     }
 
     function toggleRCP() {
-      uiFeedback(30, 400, 50, 0.3); // Clonk pesado
+      uiFeedback(30, 400, 50, 0.3); 
       const btn = document.getElementById('btn-rcp-start');
       if (isRunning) {
         clearInterval(rcpInterval);
@@ -681,7 +875,7 @@
       document.getElementById('label-ciclo').style.display = 'none';
       playBeepCustom(400, 'square', 0.5, 2);
       setTimeout(() => playBeepCustom(600, 'square', 0.5, 2), 600);
-      if(navigator.vibrate) navigator.vibrate([200, 100, 200]); // Patrón de alerta
+      if(navigator.vibrate) navigator.vibrate([200, 100, 200]); 
     }
 
     function registrarPulso() {
@@ -811,7 +1005,7 @@
     function resetRCP() {
       mostrarModal(
         'NUEVO PACIENTE',
-        '¿Reiniciar todo para un nuevo paciente? Se perderá la bitácora actual.',
+        '¿Reiniciar todo para un nuevo paciente?',
         'Reiniciar',
         'btn-danger',
         ejecutarResetRCP
