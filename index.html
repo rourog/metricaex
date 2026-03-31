@@ -89,9 +89,9 @@
     }
     .theme-btn:active { transform: scale(0.9); }
 
-    main { flex: 1; overflow-y: auto; padding: 12px; padding-bottom: 90px; }
-    .view-section { display: none; animation: fadeIn 0.3s ease; }
-    .view-section.active { display: block; }
+    main { flex: 1; overflow-y: auto; padding: 12px; padding-bottom: 90px; display: flex; flex-direction: column; }
+    .view-section { flex: 1; display: none; flex-direction: column; }
+    .view-section.active { display: flex; }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
     /* =========================================
@@ -118,7 +118,8 @@
        ========================================= */
     @media (min-width: 900px) {
       main { max-width: 100%; padding: 16px 24px; }
-      .view-section.active#choque, .view-section.active#extra, .view-section.active#rcp { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start; }
+      .view-section.active#choque, .view-section.active#extra { display: grid; grid-template-columns: 320px 1fr; gap: 20px; align-items: start; }
+      .view-section.active#rcp { display: block; max-width: 600px; margin: 0 auto; width: 100%; }
       .panel-izquierdo { position: sticky; top: 0; }
       .panel-derecho { margin-top: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; align-items: start; }
       .view-section.active#pediatria { display: block; max-width: 800px; margin: 0 auto; }
@@ -141,7 +142,7 @@
     .input-label { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
     .input-moderno { background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 1rem; font-family: inherit; text-align: center; transition: border-color 0.2s ease, box-shadow 0.2s ease; width: 100%; touch-action: manipulation; }
     .input-moderno:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(var(--accent), 0.2); }
-    .btn-toggle { background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease; width: 100%; text-transform: uppercase; letter-spacing: 1px; }
+    .btn-toggle { background-color: var(--bg-main); border: 1px solid var(--border); color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: all 0.2s ease; width: 100%; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; text-align: center; }
     .btn-toggle:active { transform: scale(0.98); }
     .btn-danger { color: var(--danger); border-color: rgba(244, 67, 54, 0.4); }
     .btn-danger:active { background-color: rgba(244, 67, 54, 0.1); }
@@ -181,8 +182,21 @@
     .pedia-pres-ml { font-size: 1.1rem; color: var(--accent); font-weight: bold; background: rgba(var(--accent), 0.1); padding: 2px 8px; border-radius: 4px; }
 
     /* =========================================
-       RELOJ RCP Y ALARMAS VISUALES
+       LAYOUT RCP Y BITÁCORA
        ========================================= */
+    .rcp-container { display: flex; flex-direction: column; height: 100%; max-height: calc(100vh - 120px); }
+    .rcp-controls { flex-shrink: 0; padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+    .rcp-log-area { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
+    
+    .rcp-time-grid { display: grid; grid-template-columns: 1fr 1fr; text-align: center; margin-bottom: 12px; }
+    .rcp-time-value { font-size: 2.8rem; font-family: monospace; font-weight: bold; line-height: 1; margin-top: 5px; }
+    .rcp-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    
+    .log-entry { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(128,128,128,0.2); font-size: 0.85rem; }
+    .log-datetime { color: var(--text-muted); white-space: nowrap; margin-right: 8px; font-family: monospace; font-size: 0.75rem; }
+    .log-action { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; margin-right: 8px; }
+    .log-timer { font-family: monospace; white-space: nowrap; color: var(--text-main); }
+
     progress { -webkit-appearance: none; appearance: none; }
     progress::-webkit-progress-bar { background-color: var(--bg-main); border-radius: 4px; }
     progress::-webkit-progress-value { background-color: var(--accent); border-radius: 4px; transition: width 1s linear; }
@@ -240,24 +254,11 @@
         <div class="card">
           <h2>Biometría</h2>
           <div class="biometria-grid">
-            <div class="input-group-full">
-              <button id="btn-sexo" class="btn-toggle" onclick="toggleSexo()">Hombre</button>
-            </div>
-            <div class="input-group">
-              <label class="input-label">Peso (kg)</label>
-              <input type="number" id="peso" class="input-moderno" placeholder="0" oninput="syncPesoDesdeChoque()">
-            </div>
-            <div class="input-group">
-              <label class="input-label">Talla (cm)</label>
-              <input type="number" id="talla" class="input-moderno" placeholder="0" oninput="calcularMetricas()">
-            </div>
-            <div class="input-group">
-              <label class="input-label">Edad</label>
-              <input type="number" id="edad" class="input-moderno" placeholder="0">
-            </div>
-            <div class="input-group-full" style="margin-top: 4px;">
-              <button class="btn-toggle btn-danger" onclick="resetBiometria()">Borrar Datos</button>
-            </div>
+            <div class="input-group-full"><button id="btn-sexo" class="btn-toggle" onclick="toggleSexo()">Hombre</button></div>
+            <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" id="peso" class="input-moderno" placeholder="0" oninput="syncPesoDesdeChoque()"></div>
+            <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" id="talla" class="input-moderno" placeholder="0" oninput="calcularMetricas()"></div>
+            <div class="input-group"><label class="input-label">Edad</label><input type="number" id="edad" class="input-moderno" placeholder="0"></div>
+            <div class="input-group-full" style="margin-top: 4px;"><button class="btn-toggle btn-danger" onclick="resetBiometria()">Borrar Datos</button></div>
           </div>
           <div id="resultados-antropometricos" class="panel-resultados-mini">Esperando biometría...</div>
         </div>
@@ -289,52 +290,53 @@
     </section>
 
     <section id="rcp" class="view-section">
-      <div class="panel-izquierdo">
-        <div class="card" id="card-rcp" style="text-align: center; position: relative;">
-          <h2>Monitor de Reanimación</h2>
-          
-          <div style="display: flex; justify-content: center; gap: 15px; margin-top: 10px;">
+      <div class="card rcp-container">
+        
+        <div class="rcp-controls">
+          <div class="rcp-time-grid">
             <div>
               <div class="input-label">Tiempo Total</div>
-              <div id="reloj-total" style="font-size: 3rem; font-family: monospace; font-weight: bold; color: var(--text-main); line-height: 1;">00:00</div>
+              <div id="reloj-total" class="rcp-time-value" style="color: var(--text-main);">00:00</div>
+            </div>
+            <div id="ciclo-container" style="transition: all 0.3s ease; border-radius: 8px;">
+              <div class="input-label" id="label-ciclo">Ciclo Actual</div>
+              <div id="reloj-ciclo" class="rcp-time-value" style="color: var(--accent);">00:00</div>
+              <div style="display: flex; justify-content: center;"><progress id="progreso-ciclo" value="0" max="120" style="width: 80%; height: 6px; border-radius: 3px; margin-top: 6px;"></progress></div>
+              <button id="btn-check-pulso" class="btn-toggle" style="display: none; background-color: var(--warning); color: #000; font-size: 0.95rem; padding: 10px; animation: flashRed 1s infinite; border: none; margin-top: 5px; width: 90%; margin-left: auto; margin-right: auto;" onclick="registrarPulso()">⚠️ CONFIRMAR RITMO</button>
             </div>
           </div>
-          
-          <div id="ciclo-container" style="background: rgba(0,0,0,0.1); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 15px 0; transition: all 0.3s ease;">
-            <div class="input-label" id="label-ciclo">Ciclo Actual (2 min)</div>
-            <div id="reloj-ciclo" style="font-size: 3.5rem; font-family: monospace; color: var(--accent); font-weight: bold; margin: 5px 0; line-height: 1;">00:00</div>
-            <progress id="progreso-ciclo" value="0" max="120" style="width: 100%; height: 8px; border-radius: 4px;"></progress>
-            
-            <button id="btn-check-pulso" class="btn-toggle" style="display: none; margin-top: 10px; background-color: var(--warning); color: #000; font-size: 1.1rem; padding: 12px; animation: flashRed 1s infinite; border: none;" onclick="registrarPulso()">⚠️ CONFIRMAR RITMO / CAMBIO</button>
-          </div>
 
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
-            <button id="btn-rcp-start" class="btn-toggle" onclick="toggleRCP()" style="background-color: var(--accent); color: #fff; border: none; font-size: 1.1rem; padding: 12px;">INICIAR RCP</button>
-            <button id="btn-metronomo" class="btn-toggle" onclick="toggleMetronomo()" style="border-color: var(--accent); color: var(--accent); font-size: 1.1rem; padding: 12px;">🎵 METRÓNOMO</button>
+          <div class="rcp-btn-grid">
+            <button id="btn-rcp-start" class="btn-toggle" onclick="toggleRCP()" style="background-color: var(--accent); color: #fff; border: none; padding: 12px; font-size: 1.05rem;">INICIAR RCP</button>
+            <button id="btn-metronomo" class="btn-toggle" onclick="toggleMetronomo()" style="border-color: var(--accent); color: var(--accent); padding: 12px; font-size: 1.05rem;">🎵 METRÓNOMO</button>
           </div>
           
-          <button class="btn-toggle btn-danger" onclick="resetRCP()" style="width: 100%;">
-            REINICIAR MONITOR Y BITÁCORA
-          </button>
-        </div>
-      </div>
-
-      <div class="panel-derecho">
-        <div class="card">
-          <h2>Registro de Intervenciones</h2>
-          <div style="text-align: right; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;" id="timer-adrenalina-txt">Última dosis: --</div>
+          <div style="border-top: 1px dashed var(--border); margin: 12px 0;"></div>
           
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px;">
-            <button id="btn-adrenalina" class="btn-toggle" style="border-color: var(--danger); color: var(--danger); font-size: 1.1rem; padding: 12px;" onclick="registrarAdrenalina()">Adrenalina</button>
-            <button id="btn-descarga" class="btn-toggle" style="border-color: var(--warning); color: var(--warning); font-size: 1.1rem; padding: 12px;" onclick="registrarDescarga()">Descarga <span id="contador-descarga">(0)</span></button>
+          <div style="text-align: right; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px;" id="timer-adrenalina-txt">Última dosis: --</div>
+          
+          <div class="rcp-btn-grid">
+            <button id="btn-adrenalina" class="btn-toggle" style="border-color: var(--danger); color: var(--danger); padding: 12px; font-size: 1.05rem;" onclick="registrarAdrenalina()">Adrenalina</button>
+            <button id="btn-descarga" class="btn-toggle" style="border-color: var(--warning); color: var(--warning); padding: 12px; font-size: 1.05rem;" onclick="registrarDescarga()">Descarga <span id="contador-descarga">(0)</span></button>
             <button id="btn-amiodarona" class="btn-toggle" onclick="registrarAmiodarona()" style="padding: 12px;">Amiodarona <span id="dosis-amio"></span></button>
             <button id="btn-intubacion" class="btn-toggle" onclick="registrarIntubacion()" style="padding: 12px;">Intubación</button>
           </div>
 
-          <div id="log-eventos" class="panel-resultados-mini" style="max-height: 350px; overflow-y: auto; text-align: left;">
-            <p class="placeholder-text">Esperando inicio de reanimación...</p>
-          </div>
+          <div style="border-top: 1px dashed var(--border); margin: 12px 0;"></div>
+
+          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()" style="width: 100%; padding: 12px; font-size: 1.05rem; letter-spacing: 2px;">
+            TERMINAR RCP
+          </button>
+          
+          <button id="btn-reset-rcp" class="btn-toggle" onclick="resetRCP()" style="display: none; width: 100%; padding: 12px; font-size: 1.05rem; margin-top: 10px; border-color: var(--text-muted); color: var(--text-muted);">
+            NUEVO PACIENTE (REINICIAR)
+          </button>
         </div>
+
+        <div class="rcp-log-area" id="log-eventos">
+          <p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>
+        </div>
+
       </div>
     </section>
 
@@ -364,7 +366,7 @@
         <div class="card">
           <h2>Líquidos en Quemados</h2>
           <div class="input-group" style="margin-bottom: 16px;">
-            <label class="input-label">% Superficie Corporal Quemada (SCQ)</label>
+            <label class="input-label">% SCQ</label>
             <input type="number" id="scq" class="input-moderno" placeholder="Ej. 30" oninput="calcularQuemados()" style="font-size: 1.2rem; font-weight: bold;">
           </div>
           <div id="resultados-quemados"><p class="placeholder-text">Ingresa el porcentaje de SCQ y el peso en la pestaña Choque.</p></div>
@@ -373,11 +375,62 @@
     </section>
   </main>
 
+  <div id="custom-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); backdrop-filter: blur(3px); z-index: 9999; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.2s ease;">
+    <div style="background: var(--bg-panel); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 350px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); transform: scale(0.95); transition: transform 0.2s ease;" id="modal-box">
+      <h2 id="modal-title" style="margin-top: 0; border-bottom: none; padding-bottom: 0; font-size: 1.3rem;">Título</h2>
+      <p id="modal-msg" style="color: var(--text-muted); margin-bottom: 24px; font-size: 0.95rem; line-height: 1.5;">Mensaje</p>
+      <div style="display: flex; gap: 12px; justify-content: flex-end;">
+        <button class="btn-toggle" style="width: auto; padding: 10px 16px; border-color: var(--border); color: var(--text-main);" onclick="cerrarModal()">Cancelar</button>
+        <button id="modal-btn-confirm" class="btn-toggle" style="width: auto; padding: 10px 16px;">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
   <script>
+    /* =========================================
+       SISTEMA DE FEEDBACK HÁPTICO Y AUDIO (NUEVO)
+       ========================================= */
+    let audioCtx = null;
+    function initAudio() {
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function uiFeedback(vibeDuration = 15, freqStart = 600, freqEnd = 100, vol = 0.2) {
+      // 1. Haptic Feedback (Android only, iOS gracefully ignores)
+      if (navigator.vibrate) {
+        navigator.vibrate(vibeDuration);
+      }
+      
+      // 2. Audio Click Feedback
+      initAudio();
+      if (!audioCtx) return;
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.type = 'sine'; // Tono suave y redondo
+      osc.frequency.setValueAtTime(freqStart, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, audioCtx.currentTime + 0.05);
+      
+      gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+      
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.05);
+    }
+
     /* =========================================
        NAVEGACIÓN Y TEMAS
        ========================================= */
     function switchTab(tabId) {
+      uiFeedback(10, 800, 200, 0.1); // Clic ligero y agudo
       document.querySelectorAll('.view-section').forEach(section => { section.classList.remove('active'); });
       document.querySelectorAll('.nav-tab').forEach(tab => { tab.classList.remove('active'); });
       document.getElementById(tabId).classList.add('active');
@@ -388,6 +441,7 @@
     const themes = ['dark', 'blue', 'pink', 'cyber'];
     let currentThemeIndex = 0;
     function cycleTheme() {
+      uiFeedback(15, 500, 100, 0.15);
       document.body.classList.remove(`theme-${themes[currentThemeIndex]}`);
       currentThemeIndex = (currentThemeIndex + 1) % themes.length;
       const newTheme = themes[currentThemeIndex];
@@ -407,6 +461,7 @@
        ========================================= */
     let paciente = { sexo: 'M' };
     function toggleSexo() {
+      uiFeedback(15);
       const btn = document.getElementById('btn-sexo');
       if (paciente.sexo === 'M') { paciente.sexo = 'F'; btn.textContent = 'Mujer'; btn.style.color = '#E91E63'; } 
       else { paciente.sexo = 'M'; btn.textContent = 'Hombre'; btn.style.color = 'var(--text-main)'; }
@@ -415,6 +470,7 @@
     function syncPesoDesdeChoque() { document.getElementById('peso-pedia').value = document.getElementById('peso').value; calcularMetricas(); }
     function syncPesoDesdePedia() { document.getElementById('peso').value = document.getElementById('peso-pedia').value; calcularMetricas(); }
     function resetBiometria() {
+      uiFeedback(15);
       document.getElementById('peso').value = ''; document.getElementById('talla').value = ''; document.getElementById('edad').value = ''; document.getElementById('peso-pedia').value = '';
       paciente.sexo = 'M'; document.getElementById('btn-sexo').textContent = 'Hombre'; document.getElementById('btn-sexo').style.color = 'var(--text-main)';
       calcularMetricas();
@@ -474,9 +530,43 @@
     function calcularQuemados() { const peso = parseFloat(document.getElementById('peso').value); const scq = parseFloat(document.getElementById('scq').value); const panel = document.getElementById('resultados-quemados'); if(!peso || !scq || scq <= 0) return; const vol2 = 2 * peso * scq; const vol4 = 4 * peso * scq; panel.innerHTML = `<div class="calc-grid"><div class="calc-category"><h3>ATLS (2 ml/kg) - Térmicas</h3><div class="calc-item"><div class="calc-item-header"><span class="calc-item-name">Total 24h:</span> <span class="calc-item-sugerida">${vol2} cc</span></div></div></div></div>`; }
 
     /* =========================================
-       RELOJ RCP Y ALARMAS AUDIOVISUALES
+       SISTEMA DE MODAL CUSTOM
        ========================================= */
-    let audioCtx = null;
+    function mostrarModal(titulo, mensaje, textoBtn, claseBtn, accionConfirmar) {
+      uiFeedback(20); // Clic para mostrar alerta
+      const modal = document.getElementById('custom-modal');
+      const box = document.getElementById('modal-box');
+      document.getElementById('modal-title').textContent = titulo;
+      document.getElementById('modal-msg').textContent = mensaje;
+      
+      const btnConfirm = document.getElementById('modal-btn-confirm');
+      btnConfirm.textContent = textoBtn;
+      btnConfirm.className = `btn-toggle ${claseBtn}`;
+      
+      btnConfirm.onclick = () => {
+        uiFeedback(20); // Clic confirmar
+        accionConfirmar();
+        cerrarModal();
+      };
+
+      modal.style.display = 'flex';
+      void modal.offsetWidth;
+      modal.style.opacity = '1';
+      box.style.transform = 'scale(1)';
+    }
+
+    function cerrarModal() {
+      const modal = document.getElementById('custom-modal');
+      const box = document.getElementById('modal-box');
+      modal.style.opacity = '0';
+      box.style.transform = 'scale(0.95)';
+      setTimeout(() => { modal.style.display = 'none'; }, 200);
+    }
+
+    /* =========================================
+       RELOJ RCP Y BITÁCORA
+       ========================================= */
+    let wakeLock = null;
     let rcpInterval = null;
     let metroInterval = null;
     let totalSeconds = 0;
@@ -489,13 +579,17 @@
     let amioDoses = 0;
     let pulseCheckActive = false;
 
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
+    async function requestWakeLock() {
+      try {
+        if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen');
+      } catch (err) { console.error('Wake Lock falló:', err); }
+    }
+    function releaseWakeLock() {
+      if (wakeLock !== null) { wakeLock.release(); wakeLock = null; }
     }
 
-    function playBeep(freq, type, duration, vol) {
+    function playBeepCustom(freq, type, duration, vol) {
+      if (!audioCtx) initAudio();
       if (!audioCtx) return;
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
@@ -510,7 +604,7 @@
     }
 
     function toggleMetronomo() {
-      initAudio();
+      uiFeedback(15);
       const btn = document.getElementById('btn-metronomo');
       if (isMetroRunning) {
         clearInterval(metroInterval);
@@ -521,9 +615,7 @@
         isMetroRunning = true;
         btn.style.backgroundColor = 'var(--accent)';
         btn.style.color = '#fff';
-        metroInterval = setInterval(() => {
-          playBeep(1000, 'sine', 0.1, 1);
-        }, 545);
+        metroInterval = setInterval(() => { playBeepCustom(1000, 'sine', 0.1, 1); }, 545);
       }
     }
 
@@ -534,11 +626,12 @@
     }
 
     function toggleRCP() {
-      initAudio(); 
+      uiFeedback(30, 400, 50, 0.3); // Clonk pesado
       const btn = document.getElementById('btn-rcp-start');
       if (isRunning) {
         clearInterval(rcpInterval);
         isRunning = false;
+        releaseWakeLock();
         btn.textContent = 'CONTINUAR RCP';
         btn.style.backgroundColor = 'transparent';
         btn.style.border = '1px solid var(--accent)';
@@ -546,9 +639,10 @@
         registrarEvento('Pausa de Cronómetro', 'var(--text-muted)');
       } else {
         isRunning = true;
+        requestWakeLock();
         btn.textContent = 'PAUSAR RCP';
-        btn.style.backgroundColor = 'var(--danger)';
-        btn.style.color = '#fff';
+        btn.style.backgroundColor = 'var(--warning)';
+        btn.style.color = '#000';
         btn.style.border = 'none';
         if(totalSeconds === 0) registrarEvento('INICIO DE RCP', 'var(--accent)');
         rcpInterval = setInterval(tickRCP, 1000);
@@ -557,15 +651,11 @@
 
     function tickRCP() {
       totalSeconds++;
-      
       if (!pulseCheckActive) {
         cycleSeconds++;
         document.getElementById('reloj-ciclo').textContent = formatearTiempo(cycleSeconds);
         document.getElementById('progreso-ciclo').value = cycleSeconds;
-        
-        if (cycleSeconds >= 120) {
-          activarAlarmaPulso();
-        }
+        if (cycleSeconds >= 120) activarAlarmaPulso();
       }
 
       if (adrenalinaDada) {
@@ -577,11 +667,8 @@
           document.getElementById('timer-adrenalina-txt').style.fontWeight = 'bold';
         }
       } else {
-        if (totalSeconds >= 120) {
-           document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
-        }
+        if (totalSeconds >= 120) document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
       }
-
       document.getElementById('reloj-total').textContent = formatearTiempo(totalSeconds);
     }
 
@@ -592,12 +679,13 @@
       document.getElementById('progreso-ciclo').style.display = 'none';
       document.getElementById('btn-check-pulso').style.display = 'block';
       document.getElementById('label-ciclo').style.display = 'none';
-      
-      playBeep(400, 'square', 0.5, 2);
-      setTimeout(() => playBeep(600, 'square', 0.5, 2), 600);
+      playBeepCustom(400, 'square', 0.5, 2);
+      setTimeout(() => playBeepCustom(600, 'square', 0.5, 2), 600);
+      if(navigator.vibrate) navigator.vibrate([200, 100, 200]); // Patrón de alerta
     }
 
     function registrarPulso() {
+      uiFeedback(30, 400, 50, 0.3);
       pulseCheckActive = false;
       cycleSeconds = 0;
       document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
@@ -605,17 +693,15 @@
       document.getElementById('progreso-ciclo').style.display = 'block';
       document.getElementById('btn-check-pulso').style.display = 'none';
       document.getElementById('label-ciclo').style.display = 'block';
-      
       document.getElementById('reloj-ciclo').textContent = '00:00';
       document.getElementById('progreso-ciclo').value = 0;
-      
       registrarEvento('Ritmo Checado / Cambio Compresor', 'var(--warning)');
     }
 
     function registrarAdrenalina() {
       if (totalSeconds === 0 && !isRunning) return;
-      adrenalinaDada = true;
-      timeSinceAdrenalina = 0;
+      uiFeedback(30, 400, 50, 0.3);
+      adrenalinaDada = true; timeSinceAdrenalina = 0;
       document.getElementById('btn-adrenalina').classList.remove('btn-alert-flash');
       document.getElementById('timer-adrenalina-txt').textContent = `Última dosis: hace 00:00`;
       document.getElementById('timer-adrenalina-txt').style.color = 'var(--text-muted)';
@@ -625,10 +711,10 @@
 
     function registrarDescarga() {
       if (totalSeconds === 0 && !isRunning) return;
+      uiFeedback(30, 400, 50, 0.3);
       shockCount++;
       document.getElementById('contador-descarga').textContent = `(${shockCount})`;
-      registrarEvento(`Desfibrilación (Descarga ${shockCount})`, 'var(--warning)');
-      
+      registrarEvento(`Descarga ${shockCount}`, 'var(--warning)');
       if (shockCount === 3 || shockCount === 5) {
          document.getElementById('btn-amiodarona').classList.add('btn-alert-flash');
          if(shockCount === 3) document.getElementById('dosis-amio').textContent = " 300mg";
@@ -638,12 +724,12 @@
 
     function registrarAmiodarona() {
       if (totalSeconds === 0 && !isRunning) return;
+      uiFeedback(30, 400, 50, 0.3);
       amioDoses++;
       document.getElementById('btn-amiodarona').classList.remove('btn-alert-flash');
       let dosis = amioDoses === 1 ? '300mg' : '150mg';
       document.getElementById('dosis-amio').textContent = "";
       registrarEvento(`Amiodarona ${dosis}`, '#9C27B0');
-      
       if(amioDoses >= 2) {
         document.getElementById('btn-amiodarona').disabled = true;
         document.getElementById('btn-amiodarona').style.opacity = '0.5';
@@ -652,6 +738,7 @@
 
     function registrarIntubacion() {
       if (totalSeconds === 0 && !isRunning) return;
+      uiFeedback(30, 400, 50, 0.3);
       registrarEvento('Vía Aérea Avanzada', 'var(--accent)');
       const btn = document.getElementById('btn-intubacion');
       btn.disabled = true;
@@ -659,82 +746,147 @@
       btn.textContent = 'Intubado ✔';
     }
 
-    function resetRCP() {
-      if(confirm('¿Estás seguro de reiniciar el cronómetro y borrar la bitácora?')) {
-        clearInterval(rcpInterval);
-        clearInterval(metroInterval);
-        isRunning = false;
-        isMetroRunning = false;
-        totalSeconds = 0;
-        cycleSeconds = 0;
-        timeSinceAdrenalina = 0;
-        adrenalinaDada = false;
-        shockCount = 0;
-        amioDoses = 0;
-        pulseCheckActive = false;
-        
-        const btn = document.getElementById('btn-rcp-start');
-        btn.textContent = 'INICIAR RCP';
-        btn.style.backgroundColor = 'var(--accent)';
-        btn.style.color = '#fff';
-        btn.style.border = 'none';
-        
-        document.getElementById('btn-metronomo').style.backgroundColor = 'transparent';
-        document.getElementById('btn-metronomo').style.color = 'var(--accent)';
-        
-        document.getElementById('reloj-total').textContent = '00:00';
-        document.getElementById('reloj-ciclo').textContent = '00:00';
-        document.getElementById('progreso-ciclo').value = 0;
-        
-        document.getElementById('btn-adrenalina').classList.remove('btn-alert-flash');
-        document.getElementById('timer-adrenalina-txt').textContent = 'Última dosis: --';
-        document.getElementById('timer-adrenalina-txt').style.color = 'var(--text-muted)';
-        
-        document.getElementById('contador-descarga').textContent = '(0)';
-        
-        document.getElementById('btn-amiodarona').classList.remove('btn-alert-flash');
-        document.getElementById('btn-amiodarona').disabled = false;
-        document.getElementById('btn-amiodarona').style.opacity = '1';
-        document.getElementById('dosis-amio').textContent = '';
+    function terminarRCP() {
+      if (!isRunning && totalSeconds === 0) return;
+      mostrarModal(
+        'TERMINAR REANIMACIÓN',
+        '¿Estás seguro de TERMINAR la reanimación?',
+        'Terminar RCP',
+        'btn-danger',
+        ejecutarTerminarRCP
+      );
+    }
 
-        const btnIntubacion = document.getElementById('btn-intubacion');
-        btnIntubacion.disabled = false;
-        btnIntubacion.style.opacity = '1';
-        btnIntubacion.textContent = 'Intubación';
-        
-        document.getElementById('log-eventos').innerHTML = '<p class="placeholder-text">Esperando inicio de reanimación...</p>';
-        
-        document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
-        document.getElementById('reloj-ciclo').style.display = 'block';
-        document.getElementById('progreso-ciclo').style.display = 'block';
-        document.getElementById('btn-check-pulso').style.display = 'none';
-        document.getElementById('label-ciclo').style.display = 'block';
-      }
+    function ejecutarTerminarRCP() {
+      clearInterval(rcpInterval);
+      clearInterval(metroInterval);
+      isRunning = false;
+      isMetroRunning = false;
+      releaseWakeLock();
+      
+      document.getElementById('btn-metronomo').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo').style.color = 'var(--accent)';
+      
+      registrarEvento('FIN DE REANIMACIÓN', 'var(--danger)');
+      
+      const btnTerminar = document.getElementById('btn-terminar-rcp');
+      btnTerminar.textContent = '📋 COPIAR BITÁCORA';
+      btnTerminar.className = 'btn-toggle';
+      btnTerminar.style.backgroundColor = 'var(--accent)';
+      btnTerminar.style.color = '#fff';
+      btnTerminar.style.border = 'none';
+      btnTerminar.onclick = copiarBitacora;
+
+      document.getElementById('btn-reset-rcp').style.display = 'block';
+      
+      document.getElementById('btn-rcp-start').disabled = true;
+      document.getElementById('btn-adrenalina').disabled = true;
+      document.getElementById('btn-descarga').disabled = true;
+      document.getElementById('btn-amiodarona').disabled = true;
+      document.getElementById('btn-intubacion').disabled = true;
+    }
+
+    function copiarBitacora() {
+      uiFeedback(15);
+      const logPanel = document.getElementById('log-eventos');
+      const entries = logPanel.querySelectorAll('.log-entry');
+      let textoBitacora = "BITÁCORA DE REANIMACIÓN - Métrica Ex\n-----------------------------------\n";
+      
+      const arrayEntries = Array.from(entries).reverse();
+      arrayEntries.forEach(entry => {
+        const dt = entry.querySelector('.log-datetime').textContent;
+        const action = entry.querySelector('.log-action').textContent;
+        const timer = entry.querySelector('.log-timer').textContent;
+        textoBitacora += `${dt} | ${action.padEnd(30, ' ')} | ${timer}\n`;
+      });
+      
+      navigator.clipboard.writeText(textoBitacora).then(() => {
+        const btn = document.getElementById('btn-terminar-rcp');
+        const originalText = btn.textContent;
+        btn.textContent = '¡COPIADO CON ÉXITO!';
+        setTimeout(() => { btn.textContent = originalText; }, 2000);
+      }).catch(err => alert('Error al copiar: ' + err));
+    }
+
+    function resetRCP() {
+      mostrarModal(
+        'NUEVO PACIENTE',
+        '¿Reiniciar todo para un nuevo paciente? Se perderá la bitácora actual.',
+        'Reiniciar',
+        'btn-danger',
+        ejecutarResetRCP
+      );
+    }
+
+    function ejecutarResetRCP() {
+      totalSeconds = 0; cycleSeconds = 0; timeSinceAdrenalina = 0;
+      adrenalinaDada = false; shockCount = 0; amioDoses = 0; pulseCheckActive = false;
+      
+      const btnStart = document.getElementById('btn-rcp-start');
+      btnStart.disabled = false;
+      btnStart.textContent = 'INICIAR RCP';
+      btnStart.style.backgroundColor = 'var(--accent)';
+      btnStart.style.color = '#fff';
+      btnStart.style.border = 'none';
+      
+      const btnTerminar = document.getElementById('btn-terminar-rcp');
+      btnTerminar.textContent = 'TERMINAR RCP';
+      btnTerminar.className = 'btn-toggle btn-danger';
+      btnTerminar.style.backgroundColor = '';
+      btnTerminar.style.color = '';
+      btnTerminar.onclick = terminarRCP;
+      
+      document.getElementById('btn-reset-rcp').style.display = 'none';
+      document.getElementById('reloj-total').textContent = '00:00';
+      document.getElementById('reloj-ciclo').textContent = '00:00';
+      document.getElementById('progreso-ciclo').value = 0;
+      
+      document.getElementById('btn-adrenalina').disabled = false;
+      document.getElementById('btn-adrenalina').classList.remove('btn-alert-flash');
+      document.getElementById('timer-adrenalina-txt').textContent = 'Última dosis: --';
+      document.getElementById('timer-adrenalina-txt').style.color = 'var(--text-muted)';
+      
+      document.getElementById('btn-descarga').disabled = false;
+      document.getElementById('contador-descarga').textContent = '(0)';
+      
+      document.getElementById('btn-amiodarona').disabled = false;
+      document.getElementById('btn-amiodarona').classList.remove('btn-alert-flash');
+      document.getElementById('btn-amiodarona').style.opacity = '1';
+      document.getElementById('dosis-amio').textContent = '';
+
+      document.getElementById('btn-intubacion').disabled = false;
+      document.getElementById('btn-intubacion').style.opacity = '1';
+      document.getElementById('btn-intubacion').textContent = 'Intubación';
+      
+      document.getElementById('log-eventos').innerHTML = '<p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>';
+      document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
+      document.getElementById('reloj-ciclo').style.display = 'block';
+      document.getElementById('progreso-ciclo').style.display = 'block';
+      document.getElementById('btn-check-pulso').style.display = 'none';
+      document.getElementById('label-ciclo').style.display = 'block';
     }
 
     function registrarEvento(nombre, color) {
       const logPanel = document.getElementById('log-eventos');
-      if (logPanel.querySelector('.placeholder-text')) {
-        logPanel.innerHTML = '';
-      }
+      if (logPanel.querySelector('.placeholder-text')) logPanel.innerHTML = '';
       
       const now = new Date();
-      const horaReal = now.toLocaleTimeString('es-MX', { hour12: false });
+      const dia = now.getDate().toString().padStart(2, '0');
+      const mes = (now.getMonth() + 1).toString().padStart(2, '0');
+      const anio = now.getFullYear().toString().slice(-2);
+      const hora = now.getHours().toString().padStart(2, '0');
+      const min = now.getMinutes().toString().padStart(2, '0');
+      
+      const dtStr = `${dia}/${mes}/${anio} ${hora}:${min}`;
       const tiempoRcp = formatearTiempo(totalSeconds);
       
       const logItem = document.createElement('div');
-      logItem.style.display = 'flex';
-      logItem.style.justifyContent = 'space-between';
-      logItem.style.alignItems = 'center';
-      logItem.style.padding = '6px 0';
-      logItem.style.borderBottom = '1px solid rgba(128,128,128,0.2)';
+      logItem.className = 'log-entry';
       
       logItem.innerHTML = `
-        <div>
-          <span style="font-size: 0.75rem; color: var(--text-muted); margin-right: 8px;">${horaReal}</span>
-          <span style="color: ${color}; font-weight: bold;">${nombre}</span>
-        </div>
-        <span style="font-family: monospace; font-size: 0.9rem;">T: ${tiempoRcp}</span>
+        <span class="log-datetime">${dtStr}</span>
+        <span class="log-action" style="color: ${color};" title="${nombre}">${nombre}</span>
+        <span class="log-timer">T: ${tiempoRcp}</span>
       `;
       logPanel.prepend(logItem); 
     }
