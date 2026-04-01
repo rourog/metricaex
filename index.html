@@ -511,7 +511,8 @@
           <p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>
         </div>
       </div>
-    </section>
+<div class="firma-app"></div>
+</section>
 
     <section id="extra" class="view-section">
       <div class="panel-izquierdo">
@@ -610,7 +611,8 @@
           </div>
         </div>
       </div>
-    </section>
+<div class="firma-app"></div>
+</section>
   </main>
 
   <div id="custom-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.2s ease;">
@@ -625,6 +627,15 @@
   </div>
 
   <script>
+    /* =========================================
+       CONFIGURACIÓN DE LA APP (Firma y Versión)
+       ========================================= */
+    const APP_CONFIG = {
+      nombre: "MÉTRICA EX",
+      version: "v1.0.5", // ¡Aquí cambiarás la versión en el futuro!
+      autor: "ROUROG innovations"
+    };
+
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
        ========================================= */
@@ -1937,9 +1948,23 @@
           });
       });
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
+function renderizarFirma() {
+      const contenedores = document.querySelectorAll('.firma-app');
+      const htmlFirma = `
+        <div style="text-align: center; margin-top: 30px; padding-bottom: 20px; font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--text-muted); opacity: 0.6; letter-spacing: 1px;">
+          <p>${APP_CONFIG.nombre} ${APP_CONFIG.version}</p>
+          <p>by ${APP_CONFIG.autor}</p>
+        </div>
+      `;
+      
+      contenedores.forEach(contenedor => {
+        contenedor.innerHTML = htmlFirma;
+      });
+    }
+	
+document.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      renderizarFirma(); // <-- Agregamos esta línea
     });
   </script>
 </body>
