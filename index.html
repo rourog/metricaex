@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Métrica Ex - Soporte Crítico</title>
   
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#121212">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="./icon.png">
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Rajdhani:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -932,7 +938,7 @@
     let amioDoses = 0;
     let pulseCheckActive = false;
     let contadorDesfibrilable = 0;
-    let esperandoDescarga = false; /* ESTADO TÁCTICO: Bloquea el reloj de ciclo hasta el choque físico */
+    let esperandoDescarga = false;
 
     async function requestWakeLock() {
       try {
@@ -1042,12 +1048,10 @@
           document.getElementById('progreso-ciclo').value = cycleSeconds;
           if (cycleSeconds >= 120) activarAlarmaPulso();
         } else {
-          /* El reloj de ciclo entra en modo espera (parpadeo visual táctico) */
           document.getElementById('reloj-ciclo').textContent = totalSeconds % 2 === 0 ? '--:--' : '00:00';
         }
       }
 
-      /* Reloj independiente de Adrenalina (Cada 4 min) */
       if (adrenalinaDada) {
         timeSinceAdrenalina++;
         document.getElementById('timer-adrenalina-txt').textContent = `Última dosis: hace ${formatearTiempo(timeSinceAdrenalina)}`;
@@ -1057,7 +1061,6 @@
           document.getElementById('timer-adrenalina-txt').style.fontWeight = 'bold';
         }
       } else {
-        // Si no se ha dado adrenalina y ya pasaron 2 mins
         if (totalSeconds >= 120 && contadorDesfibrilable === 0) {
             document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
         }
@@ -1072,7 +1075,6 @@
       document.getElementById('progreso-ciclo').style.display = 'none';
       document.getElementById('label-ciclo').style.display = 'none';
       
-      // Mostrar menú táctico de decisión
       document.getElementById('decision-ritmo').style.display = 'flex';
       
       playBeepCustom(400, 'square', 0.5, 2);
@@ -1089,7 +1091,6 @@
       document.getElementById('progreso-ciclo').style.display = 'block';
       document.getElementById('label-ciclo').style.display = 'block';
       
-      // Ocultar menú táctico
       document.getElementById('decision-ritmo').style.display = 'none';
       
       document.getElementById('reloj-ciclo').textContent = '00:00';
@@ -1099,16 +1100,14 @@
 
     function ritmoDesfibrilable() {
       contadorDesfibrilable++;
-      esperandoDescarga = true; /* Bloqueamos el ciclo hasta confirmar choque */
+      esperandoDescarga = true; 
       reanudarCicloBasico(`Ritmo: FV/TVsp (Alerta Choque ${contadorDesfibrilable})`, 'var(--warning)');
       
-      // Configurar sugerencia de energía
       const energias = [150, 200, 200, 250, 270];
       let energia = energias[contadorDesfibrilable - 1] || 270;
       document.getElementById('btn-descarga').innerHTML = `⚡ ${energia}J <span id="contador-descarga">(${shockCount})</span>`;
       document.getElementById('btn-descarga').classList.add('btn-alert-flash');
 
-      // Configurar sugerencia de Amiodarona
       if (contadorDesfibrilable === 3 && amioDoses === 0) {
          document.getElementById('btn-amiodarona').classList.add('btn-alert-flash');
          document.getElementById('dosis-amio').textContent = " 300mg";
@@ -1121,7 +1120,6 @@
     function ritmoNoDesfibrilable() {
       reanudarCicloBasico('Ritmo: Asistolia/AESP', 'var(--accent)');
       
-      // En Asistolia, la Adrenalina es prioridad absoluta si no se ha dado
       if (!adrenalinaDada) {
         document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
       }
@@ -1142,7 +1140,6 @@
       if (totalSeconds === 0 && !isRunning) return;
       uiFeedback(30, 400, 50, 0.3);
       
-      /* Liberar el reloj del ciclo si estaba en espera por la desfibrilación */
       if (esperandoDescarga) {
         esperandoDescarga = false;
         cycleSeconds = 0; 
@@ -1343,6 +1340,19 @@
         <span class="log-timer">T: ${tiempoRcp}</span>
       `;
       logPanel.prepend(logItem); 
+    }
+
+    // Registro del Service Worker para funcionamiento Offline
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((registration) => {
+            console.log('ServiceWorker registrado con éxito: ', registration.scope);
+          })
+          .catch((err) => {
+            console.log('Fallo al registrar el ServiceWorker: ', err);
+          });
+      });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
