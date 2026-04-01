@@ -1509,14 +1509,35 @@ let valsHtml = '';
     let contadorDesfibrilable = 0;
     let esperandoDescarga = false;
 
+    /* --- MOTOR WAKE LOCK (MANTENER PANTALLA ENCENDIDA) --- */
     async function requestWakeLock() {
       try {
-        if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen');
-      } catch (err) { console.error('Wake Lock falló:', err); }
+        if ('wakeLock' in navigator) {
+          wakeLock = await navigator.wakeLock.request('screen');
+          console.log('Pantalla bloqueada (Wake Lock activo)');
+        }
+      } catch (err) { 
+        console.error('Wake Lock falló o fue denegado:', err); 
+      }
     }
+
     function releaseWakeLock() {
-      if (wakeLock !== null) { wakeLock.release(); wakeLock = null; }
+      if (wakeLock !== null) { 
+        wakeLock.release()
+          .then(() => {
+            wakeLock = null;
+            console.log('Pantalla liberada');
+          }); 
+      }
     }
+
+    /* EL PERRO GUARDIÁN: Si minimizas la app y regresas, re-engancha el bloqueo */
+    document.addEventListener('visibilitychange', async () => {
+      if (document.visibilityState === 'visible' && isRunning) {
+        await requestWakeLock();
+      }
+    });
+    /* ----------------------------------------------------- */
 
     function playBeepCustom(freq, type, duration, vol) {
       if (!audioCtx) initAudio();
