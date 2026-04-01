@@ -7,7 +7,7 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Rajdhani:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================
@@ -154,13 +154,14 @@
       100% { transform: skewX(0deg); }
     }
 
-    /* Fuentes de títulos (Rajdhani) */
+    /* Fuentes de títulos */
     .app-title, h2.static, .card-header h2, .calc-category h3, .rcp-time-value, .val-max, .nav-text {
       font-family: 'Rajdhani', sans-serif;
       text-transform: uppercase;
       font-weight: 600;
       letter-spacing: 0.5px;
     }
+    .rcp-time-value { font-family: 'Space Mono', monospace; }
 
     header {
       background-color: color-mix(in srgb, var(--bg-panel) 60%, transparent);
@@ -322,7 +323,7 @@
     .rcp-controls { flex-shrink: 0; padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 10px; }
     .rcp-log-area { flex-grow: 1; overflow-y: auto; padding-right: 5px; }
     .rcp-time-grid { display: grid; grid-template-columns: 1fr 1fr; text-align: center; margin-bottom: 12px; }
-    .rcp-time-value { font-size: 2.2rem; font-weight: 700; line-height: 1; margin-top: 5px; }
+    .rcp-time-value { font-size: 2.2rem; font-weight: 700; line-height: 1; margin-top: 5px; } 
     .rcp-btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
     .log-entry { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; border-bottom: 1px dashed rgba(128,128,128,0.2); font-size: 0.8rem; }
     .log-datetime { color: var(--text-muted); white-space: nowrap; margin-right: 6px; font-size: 0.7rem; }
@@ -332,7 +333,7 @@
     progress::-webkit-progress-bar { background-color: color-mix(in srgb, var(--bg-main) 50%, transparent); border-radius: 4px; }
     progress::-webkit-progress-value { background-color: var(--accent); border-radius: 4px; transition: width 1s linear; }
     
-    @keyframes flashRed { 0% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } 50% { background-color: rgba(244, 67, 54, 0.4); border-color: var(--danger); box-shadow: 0 0 20px var(--danger); } 100% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } }
+    @keyframes flashRed { 0% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } 50% { background-color: rgba(244, 67, 54, 0.4); border-color: var(--danger); box-shadow: 0 0 20px var(--danger); text-shadow: 0 0 10px #fff; } 100% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } }
     .btn-alert-flash { animation: flashRed 1s infinite; color: #fff !important; }
     @keyframes flashPulse { 0% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); } 50% { background-color: rgba(255, 193, 7, 0.4); border-color: var(--warning); box-shadow: 0 0 15px var(--warning); } 100% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); } }
     .pulse-alarm-active { animation: flashPulse 1s infinite; }
@@ -446,13 +447,20 @@
               <div class="input-label" id="label-ciclo">Ciclo Actual</div>
               <div id="reloj-ciclo" class="rcp-time-value" style="color: var(--accent);">00:00</div>
               <div style="display: flex; justify-content: center;"><progress id="progreso-ciclo" value="0" max="120" style="width: 80%; height: 6px; border-radius: 3px; margin-top: 6px;"></progress></div>
-              <button id="btn-check-pulso" class="btn-toggle" style="display: none; background-color: var(--warning); color: #000; font-size: 0.9rem; padding: 8px; animation: flashRed 1s infinite; border: none; margin-top: 5px; width: 90%; margin-left: auto; margin-right: auto;" onclick="registrarPulso()">⚠️ CONFIRMAR RITMO</button>
+              
+              <div id="decision-ritmo" style="display: none; width: 100%; gap: 8px; margin-top: 10px;">
+                <button class="btn-toggle" style="flex: 1; background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--accent); border-color: var(--accent); font-size: 0.75rem;" onclick="ritmoNoDesfibrilable()">No Desfibrilable<br>(Asis/AESP)</button>
+                <button class="btn-toggle" style="flex: 1; background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); border-color: var(--warning); font-size: 0.75rem;" onclick="ritmoDesfibrilable()">Desfibrilable<br>(FV/TVsp)</button>
+              </div>
             </div>
           </div>
 
           <div class="rcp-btn-grid">
             <button id="btn-rcp-start" class="btn-toggle" onclick="toggleRCP()" style="background-color: var(--accent); color: #fff; border: none;">INICIAR RCP</button>
-            <button id="btn-metronomo" class="btn-toggle" onclick="toggleMetronomo()" style="border-color: var(--accent); color: var(--accent); background: transparent;">🎵 METRÓNOMO</button>
+            <div style="display: flex; gap: 4px;">
+              <button id="btn-metronomo-toggle" class="btn-toggle" onclick="toggleMetronomo()" style="flex: 2; border-color: var(--accent); color: var(--accent); background: transparent;">🎵 OFF</button>
+              <button id="btn-metronomo-bpm" class="btn-toggle" onclick="cycleBPM()" style="flex: 1; border-color: var(--accent); color: var(--accent); background: transparent;">120</button>
+            </div>
           </div>
           
           <div style="border-top: 1px dashed var(--border); margin: 10px 0;"></div>
@@ -908,11 +916,12 @@
     }
 
     /* =========================================
-       RELOJ RCP Y BITÁCORA
+       RELOJ RCP Y BITÁCORA (MÁQUINA DE ESTADOS ACLS)
        ========================================= */
     let wakeLock = null;
     let rcpInterval = null;
     let metroInterval = null;
+    let currentBPM = 120;
     let totalSeconds = 0;
     let cycleSeconds = 0;
     let isRunning = false;
@@ -922,6 +931,8 @@
     let shockCount = 0;
     let amioDoses = 0;
     let pulseCheckActive = false;
+    let contadorDesfibrilable = 0;
+    let esperandoDescarga = false; /* ESTADO TÁCTICO: Bloquea el reloj de ciclo hasta el choque físico */
 
     async function requestWakeLock() {
       try {
@@ -947,19 +958,44 @@
       osc.stop(audioCtx.currentTime + duration);
     }
 
+    function cycleBPM() {
+      uiFeedback(15);
+      if (currentBPM === 120) currentBPM = 100;
+      else if (currentBPM === 100) currentBPM = 110;
+      else currentBPM = 120;
+      
+      document.getElementById('btn-metronomo-bpm').textContent = currentBPM;
+      
+      if (isMetroRunning) {
+        clearInterval(metroInterval);
+        const intervalMs = 60000 / currentBPM;
+        metroInterval = setInterval(() => { playBeepCustom(800, 'square', 0.05, 0.3); }, intervalMs);
+      }
+    }
+
     function toggleMetronomo() {
       uiFeedback(15);
-      const btn = document.getElementById('btn-metronomo');
+      const btnToggle = document.getElementById('btn-metronomo-toggle');
+      const btnBpm = document.getElementById('btn-metronomo-bpm');
       if (isMetroRunning) {
         clearInterval(metroInterval);
         isMetroRunning = false;
-        btn.style.backgroundColor = 'transparent';
-        btn.style.color = 'var(--accent)';
+        btnToggle.style.backgroundColor = 'transparent';
+        btnToggle.style.color = 'var(--accent)';
+        btnBpm.style.backgroundColor = 'transparent';
+        btnBpm.style.color = 'var(--accent)';
+        btnToggle.innerHTML = '🎵 OFF';
       } else {
         isMetroRunning = true;
-        btn.style.backgroundColor = 'var(--accent)';
-        btn.style.color = '#fff';
-        metroInterval = setInterval(() => { playBeepCustom(1000, 'sine', 0.1, 1); }, 545);
+        btnToggle.style.backgroundColor = 'var(--accent)';
+        btnToggle.style.color = '#fff';
+        btnBpm.style.backgroundColor = 'var(--accent)';
+        btnBpm.style.color = '#fff';
+        btnToggle.innerHTML = '🎵 ON';
+        
+        const intervalMs = 60000 / currentBPM;
+        playBeepCustom(800, 'square', 0.05, 0.3); 
+        metroInterval = setInterval(() => { playBeepCustom(800, 'square', 0.05, 0.3); }, intervalMs);
       }
     }
 
@@ -1000,12 +1036,18 @@
     function tickRCP() {
       totalSeconds++;
       if (!pulseCheckActive) {
-        cycleSeconds++;
-        document.getElementById('reloj-ciclo').textContent = formatearTiempo(cycleSeconds);
-        document.getElementById('progreso-ciclo').value = cycleSeconds;
-        if (cycleSeconds >= 120) activarAlarmaPulso();
+        if (!esperandoDescarga) {
+          cycleSeconds++;
+          document.getElementById('reloj-ciclo').textContent = formatearTiempo(cycleSeconds);
+          document.getElementById('progreso-ciclo').value = cycleSeconds;
+          if (cycleSeconds >= 120) activarAlarmaPulso();
+        } else {
+          /* El reloj de ciclo entra en modo espera (parpadeo visual táctico) */
+          document.getElementById('reloj-ciclo').textContent = totalSeconds % 2 === 0 ? '--:--' : '00:00';
+        }
       }
 
+      /* Reloj independiente de Adrenalina (Cada 4 min) */
       if (adrenalinaDada) {
         timeSinceAdrenalina++;
         document.getElementById('timer-adrenalina-txt').textContent = `Última dosis: hace ${formatearTiempo(timeSinceAdrenalina)}`;
@@ -1015,7 +1057,10 @@
           document.getElementById('timer-adrenalina-txt').style.fontWeight = 'bold';
         }
       } else {
-        if (totalSeconds >= 120) document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
+        // Si no se ha dado adrenalina y ya pasaron 2 mins
+        if (totalSeconds >= 120 && contadorDesfibrilable === 0) {
+            document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
+        }
       }
       document.getElementById('reloj-total').textContent = formatearTiempo(totalSeconds);
     }
@@ -1025,25 +1070,61 @@
       document.getElementById('ciclo-container').classList.add('pulse-alarm-active');
       document.getElementById('reloj-ciclo').style.display = 'none';
       document.getElementById('progreso-ciclo').style.display = 'none';
-      document.getElementById('btn-check-pulso').style.display = 'block';
       document.getElementById('label-ciclo').style.display = 'none';
+      
+      // Mostrar menú táctico de decisión
+      document.getElementById('decision-ritmo').style.display = 'flex';
+      
       playBeepCustom(400, 'square', 0.5, 2);
       setTimeout(() => playBeepCustom(600, 'square', 0.5, 2), 600);
       if(navigator.vibrate) navigator.vibrate([200, 100, 200]); 
     }
 
-    function registrarPulso() {
+    function reanudarCicloBasico(nombreRitmo, colorLog) {
       uiFeedback(30, 400, 50, 0.3);
       pulseCheckActive = false;
       cycleSeconds = 0;
       document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
       document.getElementById('reloj-ciclo').style.display = 'block';
       document.getElementById('progreso-ciclo').style.display = 'block';
-      document.getElementById('btn-check-pulso').style.display = 'none';
       document.getElementById('label-ciclo').style.display = 'block';
+      
+      // Ocultar menú táctico
+      document.getElementById('decision-ritmo').style.display = 'none';
+      
       document.getElementById('reloj-ciclo').textContent = '00:00';
       document.getElementById('progreso-ciclo').value = 0;
-      registrarEvento('Ritmo Checado / Cambio Compresor', 'var(--warning)');
+      registrarEvento(nombreRitmo, colorLog);
+    }
+
+    function ritmoDesfibrilable() {
+      contadorDesfibrilable++;
+      esperandoDescarga = true; /* Bloqueamos el ciclo hasta confirmar choque */
+      reanudarCicloBasico(`Ritmo: FV/TVsp (Alerta Choque ${contadorDesfibrilable})`, 'var(--warning)');
+      
+      // Configurar sugerencia de energía
+      const energias = [150, 200, 200, 250, 270];
+      let energia = energias[contadorDesfibrilable - 1] || 270;
+      document.getElementById('btn-descarga').innerHTML = `⚡ ${energia}J <span id="contador-descarga">(${shockCount})</span>`;
+      document.getElementById('btn-descarga').classList.add('btn-alert-flash');
+
+      // Configurar sugerencia de Amiodarona
+      if (contadorDesfibrilable === 3 && amioDoses === 0) {
+         document.getElementById('btn-amiodarona').classList.add('btn-alert-flash');
+         document.getElementById('dosis-amio').textContent = " 300mg";
+      } else if (contadorDesfibrilable === 5 && amioDoses === 1) {
+         document.getElementById('btn-amiodarona').classList.add('btn-alert-flash');
+         document.getElementById('dosis-amio').textContent = " 150mg";
+      }
+    }
+
+    function ritmoNoDesfibrilable() {
+      reanudarCicloBasico('Ritmo: Asistolia/AESP', 'var(--accent)');
+      
+      // En Asistolia, la Adrenalina es prioridad absoluta si no se ha dado
+      if (!adrenalinaDada) {
+        document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
+      }
     }
 
     function registrarAdrenalina() {
@@ -1060,14 +1141,24 @@
     function registrarDescarga() {
       if (totalSeconds === 0 && !isRunning) return;
       uiFeedback(30, 400, 50, 0.3);
-      shockCount++;
-      document.getElementById('contador-descarga').textContent = `(${shockCount})`;
-      registrarEvento(`Descarga ${shockCount}`, 'var(--warning)');
-      if (shockCount === 3 || shockCount === 5) {
-         document.getElementById('btn-amiodarona').classList.add('btn-alert-flash');
-         if(shockCount === 3) document.getElementById('dosis-amio').textContent = " 300mg";
-         if(shockCount === 5) document.getElementById('dosis-amio').textContent = " 150mg";
+      
+      /* Liberar el reloj del ciclo si estaba en espera por la desfibrilación */
+      if (esperandoDescarga) {
+        esperandoDescarga = false;
+        cycleSeconds = 0; 
+        document.getElementById('reloj-ciclo').textContent = '00:00';
+        document.getElementById('progreso-ciclo').value = 0;
       }
+
+      shockCount++;
+      const energias = [150, 200, 200, 250, 270];
+      let energia = energias[contadorDesfibrilable - 1] || 270;
+      
+      document.getElementById('contador-descarga').textContent = `(${shockCount})`;
+      document.getElementById('btn-descarga').classList.remove('btn-alert-flash');
+      document.getElementById('btn-descarga').innerHTML = `Descarga <span id="contador-descarga">(${shockCount})</span>`;
+      
+      registrarEvento(`Choque Entregado (${energia}J)`, 'var(--warning)');
     }
 
     function registrarAmiodarona() {
@@ -1106,6 +1197,7 @@
     }
 
     function ejecutarTerminarRCP() {
+      esperandoDescarga = false;
       document.body.classList.remove('emergencia-activa');
       clearInterval(rcpInterval);
       clearInterval(metroInterval);
@@ -1113,8 +1205,11 @@
       isMetroRunning = false;
       releaseWakeLock();
       
-      document.getElementById('btn-metronomo').style.backgroundColor = 'transparent';
-      document.getElementById('btn-metronomo').style.color = 'var(--accent)';
+      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-toggle').style.color = 'var(--accent)';
+      document.getElementById('btn-metronomo-toggle').innerHTML = '🎵 OFF';
+      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-bpm').style.color = 'var(--accent)';
       
       registrarEvento('FIN DE REANIMACIÓN', 'var(--danger)');
       
@@ -1169,8 +1264,9 @@
 
     function ejecutarResetRCP() {
       document.body.classList.remove('emergencia-activa');
-      totalSeconds = 0; cycleSeconds = 0; timeSinceAdrenalina = 0;
-      adrenalinaDada = false; shockCount = 0; amioDoses = 0; pulseCheckActive = false;
+      totalSeconds = 0; cycleSeconds = 0; timeSinceAdrenalina = 0; currentBPM = 120;
+      adrenalinaDada = false; shockCount = 0; amioDoses = 0; pulseCheckActive = false; 
+      contadorDesfibrilable = 0; esperandoDescarga = false;
       
       const btnStart = document.getElementById('btn-rcp-start');
       btnStart.disabled = false;
@@ -1197,7 +1293,8 @@
       document.getElementById('timer-adrenalina-txt').style.color = 'var(--text-muted)';
       
       document.getElementById('btn-descarga').disabled = false;
-      document.getElementById('contador-descarga').textContent = '(0)';
+      document.getElementById('btn-descarga').innerHTML = 'Descarga <span id="contador-descarga">(0)</span>';
+      document.getElementById('btn-descarga').classList.remove('btn-alert-flash');
       
       document.getElementById('btn-amiodarona').disabled = false;
       document.getElementById('btn-amiodarona').classList.remove('btn-alert-flash');
@@ -1208,11 +1305,18 @@
       document.getElementById('btn-intubacion').style.opacity = '1';
       document.getElementById('btn-intubacion').textContent = 'Intubación';
       
+      document.getElementById('btn-metronomo-bpm').textContent = currentBPM;
+      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-toggle').style.color = 'var(--accent)';
+      document.getElementById('btn-metronomo-toggle').innerHTML = '🎵 OFF';
+      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-bpm').style.color = 'var(--accent)';
+      
       document.getElementById('log-eventos').innerHTML = '<p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>';
       document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
       document.getElementById('reloj-ciclo').style.display = 'block';
       document.getElementById('progreso-ciclo').style.display = 'block';
-      document.getElementById('btn-check-pulso').style.display = 'none';
+      document.getElementById('decision-ritmo').style.display = 'none';
       document.getElementById('label-ciclo').style.display = 'block';
     }
 
