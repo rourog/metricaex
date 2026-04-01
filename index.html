@@ -6,85 +6,117 @@
   <title>Métrica Ex - Soporte Crítico</title>
   
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#121212">
+  <meta name="theme-color" content="#F7F9FA">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="apple-touch-icon" href="./icon.png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Rajdhani:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Rajdhani:wght@500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 
-  <style>
-    /* =========================================
+<style>
+/* =========================================
        TEMAS DE INTERFAZ Y COLORES DE RANGO
        ========================================= */
-    :root {
-      --bg-main: #121212;
-      --bg-panel: #1E1E1E;
-      --accent: #4CAF50;
-      --text-main: #E0E0E0;
-      --text-muted: #9E9E9E;
-      --border: #333333;
-      --danger: #F44336;
-      --warning: #FFC107;
-      --shadow: 0 2px 8px rgba(0,0,0,0.2);
-      
-      --val-min: #A5D6A7; 
-      --val-max: #4CAF50;
+    
+    /* 1. TEMA HÍBRIDO PRINCIPAL (Hexágonos) */
+    :root, body.theme-light {
+      --bg-main: #161618; 
+      --bg-panel: rgba(252, 252, 252, 0.95); 
+      --accent: #CC0000; 
+      --text-main: #111111; 
+      --text-muted: #666666; 
+      --border: rgba(0, 0, 0, 0.12); 
+      --danger: #FF0000;
+      --warning: #F57C00;
+      --shadow: 0 10px 30px rgba(0,0,0,0.4); 
+      --val-min: #666666; 
+      --val-max: #CC0000;
+
+      /* PATRÓN: Hexágonos Tácticos (Blanco muy tenue sobre fondo oscuro) */
+      --bg-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='none' stroke='rgba(255, 255, 255, 0.04)' stroke-width='1'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.31zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
 
+    /* 2. TEMA AZUL (Diamantes ♦) */
     body.theme-blue {
       --bg-main: #E5EDF1;
-      --bg-panel: #FFFFFF;
+      --bg-panel: rgba(255, 255, 255, 0.8);
       --accent: #0277BD;
       --text-main: #1A1A1A;
-      --text-muted: #666666;
-      --border: #B6E1E7;
+      --text-muted: #555555;
+      --border: rgba(2, 119, 189, 0.2);
       --danger: #D32F2F;
       --warning: #F57C00;
-      --shadow: 0 2px 8px rgba(0,0,0,0.05);
+      --shadow: 0 4px 15px rgba(2, 119, 189, 0.08);
       --val-min: #64B5F6;
       --val-max: #0277BD;
-    }
+      /* PATRÓN: Diamantes (Esquema matriz 60x60) */
+      --bg-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M15 5 L25 15 L15 25 L5 15 Z' fill='rgba(2, 119, 189, 0.08)'/%3E%3Cpath d='M45 35 L55 45 L45 55 L35 45 Z' fill='rgba(2, 119, 189, 0.05)'/%3E%3Ccircle cx='45' cy='15' r='3' fill='rgba(2, 119, 189, 0.04)'/%3E%3Ccircle cx='15' cy='45' r='4' fill='rgba(2, 119, 189, 0.03)'/%3E%3C/svg%3E");
+    } /* ← CORRECCIÓN: Llave de cierre restaurada */
 
+    /* 3. TEMA ROSA (Corazones ♥) */
     body.theme-pink {
-      --bg-main: #FCE4EC;
-      --bg-panel: #FFFFFF;
+      --bg-main: #FFF0F5;
+      --bg-panel: rgba(255, 255, 255, 0.85);
       --accent: #E91E63;
-      --text-main: #212121;
-      --text-muted: #757575;
-      --border: #F8BBD0;
+      --text-main: #2A1B20;
+      --text-muted: #7A5562;
+      --border: rgba(233, 30, 99, 0.2);
       --danger: #D32F2F;
       --warning: #F57C00;
-      --shadow: 0 2px 8px rgba(233, 30, 99, 0.1);
+      --shadow: 0 4px 15px rgba(233, 30, 99, 0.08);
       --val-min: #F48FB1;
       --val-max: #C2185B;
-    }
+      /* PATRÓN: Corazones (Esquema matriz 60x60) */
+      --bg-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cpath d='M15 10c-4-6-12-4-10 3 2 6 10 12 10 12s8-6 10-12c2-7-6-9-10-3z' fill='rgba(233, 30, 99, 0.08)'/%3E%3Cpath d='M45 40c-4-6-12-4-10 3 2 6 10 12 10 12s8-6 10-12c2-7-6-9-10-3z' fill='rgba(233, 30, 99, 0.05)'/%3E%3Ccircle cx='45' cy='15' r='3' fill='rgba(233, 30, 99, 0.04)'/%3E%3Ccircle cx='15' cy='45' r='4' fill='rgba(233, 30, 99, 0.03)'/%3E%3C/svg%3E");
+    } /* ← CORRECCIÓN: Llave de cierre restaurada */
 
+    /* 4. TEMA CYBER VERDE (Tréboles ♣) */
     body.theme-cyber {
-      --bg-main: #050000;
-      --bg-panel: #110000;
-      --accent: #FF003C;
-      --text-main: #FFF0F3;
-      --text-muted: #8A0021;
-      --border: #FF003C;
+      --bg-main: #020A02;
+      --bg-panel: rgba(5, 20, 5, 0.8);
+      --accent: #00FF41; 
+      --text-main: #E0FFE0;
+      --text-muted: #4A8C4A;
+      --border: rgba(0, 255, 65, 0.3);
+      --danger: #FF003C; 
       --warning: #FFD600;
-      --shadow: 0 0 10px rgba(255, 0, 60, 0.15), inset 0 0 5px rgba(255, 0, 60, 0.05);
-      --val-min: #FF8A80;
-      --val-max: #FF003C;
-    }
+      --shadow: 0 0 15px rgba(0, 255, 65, 0.15), inset 0 0 5px rgba(0, 255, 65, 0.05);
+      --val-min: #69F0AE;
+      --val-max: #00FF41;
+      /* PATRÓN: Tréboles (Esquema matriz 60x60) */
+      --bg-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='rgba(0, 255, 65, 0.08)'%3E%3Ccircle cx='15' cy='9' r='3.5'/%3E%3Ccircle cx='11' cy='14' r='3.5'/%3E%3Ccircle cx='19' cy='14' r='3.5'/%3E%3Cpath d='M15 14 L12 22 L18 22 Z'/%3E%3C/g%3E%3Cg fill='rgba(0, 255, 65, 0.05)'%3E%3Ccircle cx='45' cy='39' r='3.5'/%3E%3Ccircle cx='41' cy='44' r='3.5'/%3E%3Ccircle cx='49' cy='44' r='3.5'/%3E%3Cpath d='M45 44 L42 52 L48 52 Z'/%3E%3C/g%3E%3Ccircle cx='45' cy='15' r='3' fill='rgba(0, 255, 65, 0.04)'/%3E%3Ccircle cx='15' cy='45' r='4' fill='rgba(0, 255, 65, 0.03)'/%3E%3C/svg%3E");
+    } /* ← CORRECCIÓN: Llave de cierre restaurada */
+
+    /* 5. TEMA ROJO OSCURO (Picas ♠) */
+    body.theme-dark-red {
+      --bg-main: #140505;
+      --bg-panel: rgba(33, 10, 10, 0.85); 
+      --accent: #E53935;
+      --text-main: #FFEBEE;
+      --text-muted: #B78D8D;
+      --border: rgba(229, 57, 53, 0.3);
+      --danger: #FF1744;
+      --warning: #FFB300;
+      --shadow: 0 4px 15px rgba(0,0,0,0.4);
+      --val-min: #EF9A9A;
+      --val-max: #E53935;
+      /* PATRÓN: Picas (Esquema matriz 60x60) */
+      --bg-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='rgba(229, 57, 53, 0.08)'%3E%3Cpath d='M15 6 C 15 6, 6 15, 6 19 C 6 23, 13 23, 15 18 C 17 23, 24 23, 24 19 C 24 15, 15 6, 15 6 Z M15 18 L12 25 L18 25 Z'/%3E%3C/g%3E%3Cg fill='rgba(229, 57, 53, 0.05)'%3E%3Cpath d='M45 36 C 45 36, 36 45, 36 49 C 36 53, 43 53, 45 48 C 47 53, 54 53, 54 49 C 54 45, 45 36, 45 36 Z M45 48 L42 55 L48 55 Z'/%3E%3C/g%3E%3Ccircle cx='45' cy='15' r='3' fill='rgba(229, 57, 53, 0.04)'/%3E%3Ccircle cx='15' cy='45' r='4' fill='rgba(229, 57, 53, 0.03)'/%3E%3C/svg%3E");
+    } /* ← CORRECCIÓN: Llave de cierre restaurada */
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     /* =========================================
-       ESTRUCTURA GENERAL Y PATRÓN HEXAGONAL
+       ESTRUCTURA GENERAL Y PATRÓN DINÁMICO
        ========================================= */
     body {
       font-family: 'Fira Code', monospace;
       background-color: var(--bg-main);
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='49' viewBox='0 0 28 49'%3E%3Cg fill-rule='evenodd'%3E%3Cg id='hexagons' fill='none' stroke='rgba(150, 150, 150, 0.12)' stroke-width='1'%3E%3Cpath d='M13.99 9.25l13 7.5v15l-13 7.5L1 31.75v-15l12.99-7.5zM3 17.9v12.7l10.99 6.34 11-6.35V17.9l-11-6.34L3 17.9zM0 15l12.98-7.5V0h-2v6.35L0 12.69v2.3zm0 18.5L12.98 41v8h-2v-6.85L0 35.81v-2.31zM15 0v7.5L27.99 15H28v-2.31h-.01L17 6.35V0h-2zm0 49v-8l12.99-7.5H28v2.31h-.01L17 42.15V49h-2z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background-image: var(--bg-pattern);
       background-attachment: fixed;
+      background-repeat: repeat;
       color: var(--text-main);
       line-height: 1.5;
       display: flex;
@@ -95,7 +127,32 @@
     }
 
     /* =========================================
-       ESTÉTICA AURA (LUMINESCENT UI)
+       OVERRIDES DEL TEMA HÍBRIDO PRINCIPAL
+       ========================================= */
+    body.theme-light header,
+    body.theme-light .nav-bar {
+      background-color: rgba(12, 12, 14, 0.9) !important; 
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    body.theme-light .app-title { color: #FFFFFF !important; }
+
+    body.theme-light .theme-btn {
+      color: #FFFFFF !important;
+      border-color: rgba(255, 255, 255, 0.2) !important;
+      background-color: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    body.theme-light .nav-tab { color: #888888 !important; }
+    body.theme-light .nav-tab.active { color: var(--accent) !important; }
+
+    body.theme-light .aura-orb { opacity: 0.35; filter: blur(80px); }
+    body.theme-light .aura-orb-1 { background: #CC0000; }
+    body.theme-light .aura-orb-2 { background: #440000; } 
+
+
+    /* =========================================
+       ESTÉTICA AURA (ACELERADA POR GPU)
        ========================================= */
     .aura-bg {
       position: fixed;
@@ -109,37 +166,28 @@
       position: absolute;
       border-radius: 50%;
       filter: blur(90px);
-      opacity: 0.35;
+      opacity: 0.25; 
       animation: flotarAura 15s infinite alternate ease-in-out;
       transition: background-color 1s ease, transform 1s ease;
+      will-change: transform, background-color;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
 
-    .aura-orb-1 {
-      width: 40vw; height: 40vw;
-      min-width: 300px; min-height: 300px;
-      background: var(--accent);
-      top: -10%; left: -10%;
-    }
-
-    .aura-orb-2 {
-      width: 50vw; height: 50vw;
-      min-width: 350px; min-height: 350px;
-      background: color-mix(in srgb, var(--accent) 50%, transparent);
-      bottom: -15%; right: -10%;
-      animation-delay: -5s;
-    }
+    .aura-orb-1 { width: 40vw; height: 40vw; min-width: 300px; min-height: 300px; background: var(--accent); top: -10%; left: -10%; }
+    .aura-orb-2 { width: 50vw; height: 50vw; min-width: 350px; min-height: 350px; background: var(--warning); bottom: -15%; right: -10%; animation-delay: -5s; }
 
     @keyframes flotarAura {
-      0% { transform: translate(0, 0) scale(1); opacity: 0.25; }
-      50% { transform: translate(10vw, 5vh) scale(1.2); opacity: 0.45; }
-      100% { transform: translate(-5vw, 10vh) scale(0.9); opacity: 0.25; }
+      0% { transform: translate(0, 0) scale(1); opacity: 0.15; }
+      50% { transform: translate(10vw, 5vh) scale(1.2); opacity: 0.30; }
+      100% { transform: translate(-5vw, 10vh) scale(0.9); opacity: 0.15; }
     }
 
     body.emergencia-activa .aura-orb-1, 
     body.emergencia-activa .aura-orb-2 {
-      background: var(--danger);
+      background: var(--danger) !important;
       animation: pulsoEmergencia 2s infinite alternate ease-in-out;
-      opacity: 0.5;
+      opacity: 0.5 !important;
     }
 
     @keyframes pulsoEmergencia {
@@ -148,20 +196,19 @@
     }
 
     /* =========================================
-       EFECTO GLITCH OCASIONAL PARA TÍTULOS
+       EFECTO GLITCH TÁCTICO ESPORÁDICO
        ========================================= */
     @keyframes sutilGlitch {
-      0%, 96% { transform: skewX(0deg); text-shadow: none; opacity: 1; }
-      96.5% { transform: skewX(8deg); text-shadow: 2px 0 var(--accent), -2px 0 var(--danger); opacity: 0.8; }
-      97% { transform: skewX(-5deg); text-shadow: -2px 0 var(--warning), 2px 0 var(--accent); opacity: 0.9; }
-      97.5% { transform: skewX(2deg); text-shadow: none; opacity: 1; }
-      98% { transform: translateX(1px); opacity: 0.8; }
-      98.5% { transform: translateX(-1px); opacity: 1; }
-      100% { transform: skewX(0deg); }
+      0%, 93% { transform: skewX(0deg); text-shadow: none; opacity: 1; filter: none; }
+      93.5% { transform: skewX(6deg); text-shadow: 3px 0 var(--accent), -3px 0 var(--danger); opacity: 0.8; filter: contrast(120%); }
+      94.5% { transform: skewX(-5deg); text-shadow: -3px 0 var(--warning), 3px 0 var(--accent); opacity: 0.9; filter: contrast(110%); }
+      95.5% { transform: skewX(2deg); text-shadow: none; opacity: 1; filter: none; }
+      96.5% { transform: translateX(2px); text-shadow: 1px 0 var(--danger); opacity: 0.8; }
+      97.5% { transform: translateX(-2px) skewX(-2deg); text-shadow: none; opacity: 1; }
+      100% { transform: skewX(0deg); text-shadow: none; opacity: 1; filter: none; }
     }
 
-    /* Fuentes de títulos */
-    .app-title, h2.static, .card-header h2, .calc-category h3, .rcp-time-value, .val-max, .nav-text {
+    .app-title, h2.static, .card-header h2, .calc-category h3, .rcp-time-value, .nav-text {
       font-family: 'Rajdhani', sans-serif;
       text-transform: uppercase;
       font-weight: 600;
@@ -170,38 +217,24 @@
     .rcp-time-value { font-family: 'Space Mono', monospace; }
 
     header {
-      background-color: color-mix(in srgb, var(--bg-panel) 60%, transparent);
+      background-color: var(--bg-panel);
       backdrop-filter: blur(15px);
       -webkit-backdrop-filter: blur(15px);
-      border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+      border-bottom: 1px solid var(--border);
       flex-shrink: 0;
       transition: background-color 0.3s ease, border-color 0.3s ease;
       z-index: 1000;
+      transform: translateZ(0); 
     }
 
     .header-top { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; }
     
-    .app-title { 
-      font-size: 1.3rem;
-      font-weight: 700; 
-      color: var(--text-main); 
-      display: flex; 
-      align-items: center; 
-      animation: sutilGlitch 8s infinite linear;
-    }
+    .app-title { font-size: 1.3rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; animation: sutilGlitch 15s infinite linear; }
     
-    .theme-btn {
-      background: none; border: 1px solid var(--border); color: var(--text-main); cursor: pointer;
-      border-radius: 8px; padding: 6px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center;
-    }
+    .theme-btn { background: none; border: 1px solid var(--border); color: var(--text-main); cursor: pointer; border-radius: 8px; padding: 6px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; }
     .theme-btn:active { transform: scale(0.9); }
 
-    main { 
-      flex: 1; 
-      overflow-y: auto; 
-      padding: 12px; 
-      display: block; 
-    }
+    main { flex: 1; overflow-y: auto; padding: 12px; display: block; }
     
     .view-section { display: none; }
     .view-section.active { display: block; padding-bottom: 120px; }
@@ -211,29 +244,16 @@
        NAVEGACIÓN GLASSMORPHISM
        ========================================= */
     .nav-bar {
-      position: fixed; 
-      bottom: 0; 
-      left: 0; 
-      width: 100%; 
-      display: flex; 
-      justify-content: space-around; 
-      align-items: center;
-      padding: 8px 0; 
-      padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); 
-      background-color: color-mix(in srgb, var(--bg-panel) 70%, transparent);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
-      box-shadow: 0 -8px 20px rgba(0,0,0,0.1);
+      position: fixed; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-around; align-items: center;
+      padding: 8px 0; padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)); 
+      background-color: var(--bg-panel);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-top: 1px solid var(--border); box-shadow: 0 -8px 20px rgba(0,0,0,0.05);
       transition: background-color 0.3s ease, border-color 0.3s ease;
-      z-index: 1000;
+      z-index: 1000; transform: translateZ(0); 
     }
 
-    .nav-tab {
-      display: flex; flex-direction: column; align-items: center; justify-content: center; background: transparent;
-      border: none; color: var(--text-muted); cursor: pointer; width: 25%; padding: 6px;
-      transition: transform 0.1s ease, color 0.2s ease; -webkit-tap-highlight-color: transparent;
-    }
+    .nav-tab { display: flex; flex-direction: column; align-items: center; justify-content: center; background: transparent; border: none; color: var(--text-muted); cursor: pointer; width: 25%; padding: 6px; transition: transform 0.1s ease, color 0.2s ease; -webkit-tap-highlight-color: transparent; }
     .nav-tab.active { color: var(--accent); }
     .nav-tab:active { transform: scale(0.90); }
     .nav-text { font-size: 0.8rem; margin-top: 4px; }
@@ -242,17 +262,9 @@
        MODAL GLASSMORPHISM
        ========================================= */
     .glass-modal-box {
-      background-color: color-mix(in srgb, var(--bg-panel) 60%, transparent);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid color-mix(in srgb, var(--text-main) 15%, transparent);
-      border-radius: 16px;
-      width: 100%; 
-      max-width: 320px; 
-      padding: 24px; 
-      box-shadow: 0 10px 40px rgba(0,0,0,0.3), inset 0 0 10px rgba(255,255,255,0.05);
-      transform: scale(0.95); 
-      transition: transform 0.2s ease;
+      background-color: var(--bg-panel); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+      border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 320px; padding: 24px; 
+      box-shadow: var(--shadow); transform: scale(0.95); transition: transform 0.2s ease;
     }
 
     /* =========================================
@@ -266,7 +278,7 @@
       .panel-derecho { margin-top: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; align-items: start; }
       .view-section.active#pediatria { display: block; max-width: 800px; margin: 0 auto; }
       .card { margin-bottom: 0 !important; }
-      .nav-bar { position: static; max-width: 1200px; margin: 0 auto; justify-content: space-between; padding: 0 24px; box-shadow: none; border-top: none; background-color: transparent; border-bottom: 1px solid var(--border); backdrop-filter: none; -webkit-backdrop-filter: none;}
+      .nav-bar { position: static; max-width: 1200px; margin: 0 auto; justify-content: space-between; padding: 0 24px; box-shadow: none; border-top: none; background-color: transparent; border-bottom: 1px solid var(--border); backdrop-filter: none; -webkit-backdrop-filter: none; transform: none;}
       .nav-tab { flex: 1; max-width: 200px; flex-direction: row; padding: 12px 0; gap: 8px; border: 1px solid transparent; border-bottom: none; border-radius: 8px 8px 0 0; opacity: 0.6; }
       .nav-tab.active { background-color: var(--bg-main); border-color: var(--border); opacity: 1; position: relative; bottom: -1px; }
       .nav-text { margin-top: 0; font-size: 0.9rem; }
@@ -276,52 +288,57 @@
        CONTROLES Y TARJETAS CRISTAL
        ========================================= */
     .card { 
-      background-color: color-mix(in srgb, var(--bg-panel) 50%, transparent);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid color-mix(in srgb, var(--text-main) 10%, transparent);
-      border-radius: 12px; 
-      padding: 16px; 
-      margin-bottom: 12px; 
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1), inset 0 0 5px rgba(255,255,255,0.02);
-      transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; 
-      min-width: 0; 
+      background-color: var(--bg-panel); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; 
+      box-shadow: var(--shadow); transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; 
+      min-width: 0; will-change: transform; transform: translateZ(0);
     }
     
     .card-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 8px; user-select: none; -webkit-tap-highlight-color: transparent; }
-    .card-header h2 { font-size: 1rem; margin-bottom: 0; color: var(--accent); border-bottom: none; padding-bottom: 0; animation: sutilGlitch 6s infinite linear; animation-delay: 2s; margin-right: 8px; line-height: 1.2; }
+    .card-header h2 { font-size: 1rem; margin-bottom: 0; color: var(--accent); border-bottom: none; padding-bottom: 0; animation: sutilGlitch 12s infinite linear; animation-delay: 2s; margin-right: 8px; line-height: 1.2; }
     .collapse-icon { transition: transform 0.2s ease; color: var(--text-muted); flex-shrink: 0; }
     .collapsed .collapse-icon { transform: rotate(180deg); }
     .card-body { display: block; animation: fadeIn 0.2s ease; }
     .collapsed + .card-body { display: none; }
     
-    h2.static { font-size: 1rem; margin-bottom: 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; animation: sutilGlitch 6s infinite linear; animation-delay: 3s; line-height: 1.2; }
+    h2.static { font-size: 1rem; margin-bottom: 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; animation: sutilGlitch 12s infinite linear; animation-delay: 5s; line-height: 1.2; }
     .placeholder-text { color: var(--text-muted); font-style: italic; font-size: 0.85rem; }
     
     .input-group { display: flex; flex-direction: column; }
     .input-label { font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; text-align: center; }
-    .input-moderno { font-family: 'Fira Code', monospace; background-color: color-mix(in srgb, var(--bg-main) 70%, transparent); border: 1px solid var(--border); color: var(--text-main); padding: 6px; border-radius: 6px; font-size: 1rem; text-align: center; transition: border-color 0.2s ease; width: 100%; }
-    .input-moderno:focus { outline: none; border-color: var(--accent); }
-    .btn-toggle { font-family: 'Fira Code', monospace; background-color: color-mix(in srgb, var(--bg-main) 70%, transparent); border: 1px solid var(--border); color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; cursor: pointer; transition: all 0.1s ease; width: 100%; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: center; align-items: center; text-align: center; gap: 4px; }
-    .btn-toggle:active { transform: scale(0.96); }
-    .btn-danger { color: var(--danger); border-color: rgba(244, 67, 54, 0.4); }
-    .btn-danger:active { background-color: rgba(244, 67, 54, 0.1); }
     
-    .panel-resultados-mini { background: rgba(0, 0, 0, 0.1); border: 1px solid var(--border); padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; line-height: 1.5; width: 100%; }
+    .input-moderno { 
+      font-family: 'Fira Code', monospace; background-color: rgba(128, 128, 128, 0.08); border: 1px solid var(--border); 
+      color: var(--text-main); padding: 6px; border-radius: 6px; font-size: 1rem; text-align: center; 
+      transition: border-color 0.2s ease, box-shadow 0.2s ease; width: 100%; 
+    }
+    .input-moderno:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 5px rgba(204,0,0,0.2); }
+    
+    .btn-toggle { 
+      font-family: 'Fira Code', monospace; background-color: rgba(128, 128, 128, 0.08); border: 1px solid var(--border); 
+      color: var(--text-main); padding: 8px; border-radius: 6px; font-size: 0.9rem; font-weight: bold; 
+      cursor: pointer; transition: all 0.1s ease; width: 100%; text-transform: uppercase; letter-spacing: 0.5px; 
+      display: flex; justify-content: center; align-items: center; text-align: center; gap: 4px; 
+    }
+    .btn-toggle:active { transform: scale(0.96); }
+    .btn-danger { color: var(--danger); border-color: rgba(255, 0, 0, 0.4); }
+    .btn-danger:active { background-color: rgba(255, 0, 0, 0.1); }
+    
+    .panel-resultados-mini { background: rgba(128, 128, 128, 0.05); border: 1px solid var(--border); padding: 10px 12px; border-radius: 6px; font-size: 0.85rem; line-height: 1.5; width: 100%; }
 
     /* =========================================
        ESTILOS CALCULADORAS
        ========================================= */
     .calc-grid { display: flex; flex-direction: column; gap: 8px; }
-    .calc-category { background: rgba(0, 0, 0, 0.05); border-left: 2px solid var(--accent); padding: 6px 10px; border-radius: 0 6px 6px 0; margin-bottom: 4px; }
+    .calc-category { background: rgba(128, 128, 128, 0.05); border-left: 2px solid var(--accent); padding: 6px 10px; border-radius: 0 6px 6px 0; margin-bottom: 4px; }
     .calc-category h3 { font-size: 0.85rem; color: var(--text-muted); margin-top: 0; margin-bottom: 4px; }
     
-    .val-min { font-family: 'Fira Code', monospace; color: var(--val-min); font-weight: normal; font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
-    .val-max { color: var(--val-max); font-weight: 700; font-size: 1rem; white-space: nowrap; flex-shrink: 0; }
+    .val-min { font-family: 'Fira Code', monospace; color: var(--val-min); font-weight: 700; font-size: 1rem; white-space: nowrap; flex-shrink: 0; }
+    .val-max { font-family: 'Fira Code', monospace; color: var(--val-max); font-weight: 700; font-size: 1rem; white-space: nowrap; flex-shrink: 0; }
 
     .pedia-peso-bar { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 12px; }
     .pedia-peso-bar input { width: 100px; font-size: 1.1rem; font-weight: bold; }
-
+    
     /* =========================================
        LAYOUT RCP Y BITÁCORA
        ========================================= */
@@ -336,17 +353,16 @@
     .log-action { font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-grow: 1; margin-right: 6px; }
     .log-timer { font-family: 'Fira Code', monospace; white-space: nowrap; color: var(--text-main); font-size: 0.8rem; }
     progress { -webkit-appearance: none; appearance: none; }
-    progress::-webkit-progress-bar { background-color: color-mix(in srgb, var(--bg-main) 50%, transparent); border-radius: 4px; }
+    progress::-webkit-progress-bar { background-color: rgba(128, 128, 128, 0.1); border-radius: 4px; }
     progress::-webkit-progress-value { background-color: var(--accent); border-radius: 4px; transition: width 1s linear; }
     
-    @keyframes flashRed { 0% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } 50% { background-color: rgba(244, 67, 54, 0.4); border-color: var(--danger); box-shadow: 0 0 20px var(--danger); text-shadow: 0 0 10px #fff; } 100% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } }
-    .btn-alert-flash { animation: flashRed 1s infinite; color: #fff !important; }
-    @keyframes flashPulse { 0% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); } 50% { background-color: rgba(255, 193, 7, 0.4); border-color: var(--warning); box-shadow: 0 0 15px var(--warning); } 100% { background-color: rgba(255, 193, 7, 0.1); border-color: var(--warning); } }
+    @keyframes flashRed { 0% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } 50% { background-color: rgba(255, 0, 0, 0.2); border-color: var(--danger); box-shadow: 0 0 20px var(--danger); text-shadow: 0 0 10px #fff; } 100% { background-color: var(--bg-main); border-color: var(--danger); box-shadow: 0 0 10px var(--danger); } }
+    .btn-alert-flash { animation: flashRed 1s infinite; color: #fff !important; background-color: var(--danger) !important; }
+    @keyframes flashPulse { 0% { background-color: rgba(245, 124, 0, 0.05); border-color: var(--warning); } 50% { background-color: rgba(245, 124, 0, 0.2); border-color: var(--warning); box-shadow: 0 0 15px var(--warning); } 100% { background-color: rgba(245, 124, 0, 0.05); border-color: var(--warning); } }
     .pulse-alarm-active { animation: flashPulse 1s infinite; }
-  </style>
+</style>
 </head>
-<body class="theme-dark">
-
+<body class="theme-light">
   <div class="aura-bg">
     <div class="aura-orb aura-orb-1"></div>
     <div class="aura-orb aura-orb-2"></div>
@@ -396,9 +412,9 @@
             </button>
           </div>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px;">
-            <div class="input-group"><label class="input-label">Edad</label><input type="number" id="edad" class="input-moderno" placeholder="0" oninput="calcularMetricas()"></div>
-            <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" id="peso" class="input-moderno" placeholder="0" oninput="syncPesoDesdeChoque()"></div>
-            <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" id="talla" class="input-moderno" placeholder="0" oninput="calcularMetricas()"></div>
+            <div class="input-group"><label class="input-label">Edad</label><input type="number" id="edad" class="input-moderno" placeholder="0" oninput="syncBiometria('choque')"></div>
+            <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" id="peso" class="input-moderno" placeholder="0" oninput="syncBiometria('choque')"></div>
+            <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" id="talla" class="input-moderno" placeholder="0" oninput="syncBiometria('choque')"></div>
           </div>
           <div id="resultados-antropometricos" class="panel-resultados-mini">Esperando biometría...</div>
         </div>
@@ -434,7 +450,7 @@
     <section id="pediatria" class="view-section">
       <div class="card pedia-peso-bar">
         <label class="input-label" style="font-size: 0.9rem; margin-bottom: 0;">Peso paciente (kg):</label>
-        <input type="number" id="peso-pedia" class="input-moderno" placeholder="0" oninput="syncPesoDesdePedia()">
+        <input type="number" id="peso-pedia" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')">
       </div>
       <div id="resultados-pediatria">
         <div class="card"><p class="placeholder-text" style="text-align: center;">Ingresa el peso del niño para desplegar el recetario de dosis y presentaciones.</p></div>
@@ -500,29 +516,98 @@
     <section id="extra" class="view-section">
       <div class="panel-izquierdo">
         <div class="card">
-          <h2 class="static">Índice de Choque (Trauma)</h2>
-          <div class="input-grid">
-            <div class="input-group"><label class="input-label">FC (Lpm)</label><input type="number" id="fc-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
-            <div class="input-group"><label class="input-label">PAS (mmHg)</label><input type="number" id="pas-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
+          <h2 class="static">Biometría</h2>
+          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
+            <button id="btn-sexo-extra" class="btn-toggle" onclick="toggleSexo()" style="flex: 2;">Hombre</button>
+            <button class="btn-toggle btn-danger" onclick="resetBiometria()" style="flex: 1; font-size: 0.8rem;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 2px;"><rect width="256" height="256" fill="none"/><line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
+              Borrar
+            </button>
           </div>
-          <div id="resultados-indice-choque" class="panel-resultados-mini" style="margin-top: 10px; border: none; background: transparent;">
-            <p class="placeholder-text" style="text-align: center; margin: 0;">Ingresa FC y PAS.</p>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 4px;">
+            <div class="input-group"><label class="input-label">Edad</label><input type="number" id="edad-extra" class="input-moderno" placeholder="0" oninput="syncBiometria('extra')"></div>
+            <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" id="peso-extra" class="input-moderno" placeholder="0" oninput="syncBiometria('extra')"></div>
+            <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" id="talla-extra" class="input-moderno" placeholder="0" oninput="syncBiometria('extra')"></div>
           </div>
         </div>
+
         <div class="card">
-          <h2 class="static">Ventilación (ARDSnet)</h2>
-          <div id="resultados-ventilacion"><p class="placeholder-text">Requiere talla del paciente en pestaña principal.</p></div>
+          <div class="card-header collapsed" onclick="toggleCard(this)">
+            <h2>Índice de Choque (Trauma)</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+          </div>
+          <div class="card-body">
+            <div class="input-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <div class="input-group"><label class="input-label">FC (Lpm)</label><input type="number" id="fc-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
+              <div class="input-group"><label class="input-label">PAS (mmHg)</label><input type="number" id="pas-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
+            </div>
+            <div id="resultados-indice-choque" class="panel-resultados-mini" style="margin-top: 10px; border: none; background: transparent; padding: 0;">
+              <p class="placeholder-text" style="text-align: center; margin: 0;">Ingresa FC y PAS.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header collapsed" onclick="toggleCard(this)">
+            <h2>Ventilación (ARDSnet)</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+          </div>
+          <div class="card-body">
+            <div id="resultados-ventilacion"><p class="placeholder-text">Requiere talla del paciente en pestaña principal.</p></div>
+          </div>
         </div>
       </div>
       
       <div class="panel-derecho">
         <div class="card">
-          <h2 class="static">Líquidos en Quemados</h2>
-          <div class="input-group" style="margin-bottom: 12px;">
-            <label class="input-label">% SCQ</label>
-            <input type="number" id="scq" class="input-moderno" placeholder="Ej. 30" oninput="calcularQuemados()" style="font-size: 1.1rem; font-weight: bold;">
+          <div class="card-header collapsed" onclick="toggleCard(this)">
+            <h2>Sodio y Agua Libre</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
           </div>
-          <div id="resultados-quemados"><p class="placeholder-text">Ingresa el porcentaje de SCQ y el peso en la pestaña Choque.</p></div>
+          <div class="card-body">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+              <div class="input-group"><label class="input-label">Na+ medido</label><input type="number" id="na-medido" class="input-moderno" placeholder="128" oninput="calcularMetabolico()"></div>
+              <div class="input-group"><label class="input-label">Glucosa</label><input type="number" id="glucosa" class="input-moderno" placeholder="600" oninput="calcularMetabolico()"></div>
+            </div>
+            <div id="resultados-sodio" class="panel-resultados-mini" style="background: transparent; border: none; padding:0;">
+              <p class="placeholder-text" style="text-align: center; margin: 0;">Ingresa Na+ y Glucosa (o Na+ > 145 y Peso).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header collapsed" onclick="toggleCard(this)">
+            <h2>Brecha Aniónica (Anion Gap)</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+          </div>
+          <div class="card-body">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px;">
+              <div class="input-group"><label class="input-label">Na+</label><input type="number" id="ag-na" class="input-moderno" placeholder="140" oninput="calcularMetabolico()"></div>
+              <div class="input-group"><label class="input-label">Cl-</label><input type="number" id="ag-cl" class="input-moderno" placeholder="104" oninput="calcularMetabolico()"></div>
+              <div class="input-group"><label class="input-label">HCO3</label><input type="number" id="ag-hco3" class="input-moderno" placeholder="24" oninput="calcularMetabolico()"></div>
+            </div>
+            <div class="input-group" style="margin-bottom: 4px; width: 50%;">
+              <label class="input-label">Albúmina (Opcional)</label>
+              <input type="number" id="ag-alb" class="input-moderno" placeholder="4.0" oninput="calcularMetabolico()">
+            </div>
+            <div id="resultados-ag" class="panel-resultados-mini" style="background: transparent; border: none; padding:0;">
+              <p class="placeholder-text" style="text-align: center; margin: 0;">Ingresa electrolitos.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header collapsed" onclick="toggleCard(this)">
+            <h2>Líquidos en Quemados</h2>
+            <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
+          </div>
+          <div class="card-body">
+            <div class="input-group" style="margin-bottom: 12px;">
+              <label class="input-label">% SCQ</label>
+              <input type="number" id="scq" class="input-moderno" placeholder="Ej. 30" oninput="calcularQuemados()" style="font-size: 1.1rem; font-weight: bold;">
+            </div>
+            <div id="resultados-quemados"><p class="placeholder-text">Ingresa el porcentaje de SCQ y el peso.</p></div>
+          </div>
         </div>
       </div>
     </section>
@@ -604,21 +689,26 @@
       }
     }
 
-    const themes = ['dark', 'blue', 'pink', 'cyber'];
+    /* =========================================
+       NAVEGACIÓN CON VIEW TRANSITIONS Y TEMAS
+       ========================================= */
+    const themes = ['light', 'blue', 'pink', 'cyber', 'dark-red'];
     let currentThemeIndex = 0;
+    
     function cycleTheme() {
       uiFeedback(15, 500, 100, 0.15);
-      document.body.classList.remove(`theme-${themes[currentThemeIndex]}`);
+      document.body.className = ''; 
       currentThemeIndex = (currentThemeIndex + 1) % themes.length;
       const newTheme = themes[currentThemeIndex];
       document.body.classList.add(`theme-${newTheme}`);
-      localStorage.setItem('dosify_theme', newTheme);
+      localStorage.setItem('metrica_ex_theme', newTheme);
     }
+    
     function initTheme() {
-      const savedTheme = localStorage.getItem('dosify_theme') || 'dark';
+      const savedTheme = localStorage.getItem('metrica_ex_theme') || 'light';
       const index = themes.indexOf(savedTheme);
       if (index !== -1) { currentThemeIndex = index; }
-      document.body.className = '';
+      document.body.className = ''; 
       document.body.classList.add(`theme-${themes[currentThemeIndex]}`);
     }
 
@@ -626,19 +716,59 @@
        LÓGICA CLÍNICA: PARÁMETROS Y SINCRONIZACIÓN
        ========================================= */
     let paciente = { sexo: 'M' };
+
     function toggleSexo() {
       uiFeedback(15);
       const btn = document.getElementById('btn-sexo');
-      if (paciente.sexo === 'M') { paciente.sexo = 'F'; btn.textContent = 'Mujer'; btn.style.color = '#E91E63'; } 
-      else { paciente.sexo = 'M'; btn.textContent = 'Hombre'; btn.style.color = 'var(--text-main)'; }
+      const btnExtra = document.getElementById('btn-sexo-extra');
+      
+      if (paciente.sexo === 'M') { 
+        paciente.sexo = 'F'; 
+        btn.textContent = 'Mujer'; btn.style.color = '#E91E63'; 
+        btnExtra.textContent = 'Mujer'; btnExtra.style.color = '#E91E63'; 
+      } else { 
+        paciente.sexo = 'M'; 
+        btn.textContent = 'Hombre'; btn.style.color = 'var(--text-main)'; 
+        btnExtra.textContent = 'Hombre'; btnExtra.style.color = 'var(--text-main)'; 
+      }
       calcularMetricas();
     }
-    function syncPesoDesdeChoque() { document.getElementById('peso-pedia').value = document.getElementById('peso').value; calcularMetricas(); }
-    function syncPesoDesdePedia() { document.getElementById('peso').value = document.getElementById('peso-pedia').value; calcularMetricas(); }
+
+    function syncBiometria(origen) {
+      let p, t, e;
+      if (origen === 'choque') {
+        p = document.getElementById('peso').value;
+        t = document.getElementById('talla').value;
+        e = document.getElementById('edad').value;
+        document.getElementById('peso-pedia').value = p;
+        document.getElementById('peso-extra').value = p;
+        document.getElementById('talla-extra').value = t;
+        document.getElementById('edad-extra').value = e;
+      } else if (origen === 'pedia') {
+        p = document.getElementById('peso-pedia').value;
+        document.getElementById('peso').value = p;
+        document.getElementById('peso-extra').value = p;
+      } else if (origen === 'extra') {
+        p = document.getElementById('peso-extra').value;
+        t = document.getElementById('talla-extra').value;
+        e = document.getElementById('edad-extra').value;
+        document.getElementById('peso').value = p;
+        document.getElementById('peso-pedia').value = p;
+        document.getElementById('talla').value = t;
+        document.getElementById('edad').value = e;
+      }
+      calcularMetricas();
+    }
+
     function resetBiometria() {
       uiFeedback(15);
-      document.getElementById('peso').value = ''; document.getElementById('talla').value = ''; document.getElementById('edad').value = ''; document.getElementById('peso-pedia').value = '';
-      paciente.sexo = 'M'; document.getElementById('btn-sexo').textContent = 'Hombre'; document.getElementById('btn-sexo').style.color = 'var(--text-main)';
+      document.getElementById('peso').value = ''; document.getElementById('talla').value = ''; document.getElementById('edad').value = ''; 
+      document.getElementById('peso-pedia').value = '';
+      document.getElementById('peso-extra').value = ''; document.getElementById('talla-extra').value = ''; document.getElementById('edad-extra').value = '';
+      
+      paciente.sexo = 'M'; 
+      document.getElementById('btn-sexo').textContent = 'Hombre'; document.getElementById('btn-sexo').style.color = 'var(--text-main)';
+      document.getElementById('btn-sexo-extra').textContent = 'Hombre'; document.getElementById('btn-sexo-extra').style.color = 'var(--text-main)';
       calcularMetricas();
     }
 
@@ -697,7 +827,7 @@
         document.getElementById('resultados-sir').innerHTML = '<p class="placeholder-text">Ingresa el peso para calcular dosis.</p>';
         document.getElementById('resultados-infusiones').innerHTML = '<p class="placeholder-text">Ingresa el peso para calcular velocidad.</p>';
         document.getElementById('resultados-pediatria').innerHTML = '<div class="card"><p class="placeholder-text" style="text-align: center;">Ingresa el peso del niño para desplegar el recetario.</p></div>';
-        document.getElementById('resultados-quemados').innerHTML = '<p class="placeholder-text">Ingresa el porcentaje de SCQ y el peso en la pestaña Choque.</p>';
+        document.getElementById('resultados-quemados').innerHTML = '<p class="placeholder-text">Ingresa el porcentaje de SCQ y el peso.</p>';
       }
 
       if (tallaInput > 0) {
@@ -706,35 +836,439 @@
         document.getElementById('resultados-accesos').innerHTML = '<p class="placeholder-text">Ingresa la talla para calcular CVC.</p>';
         document.getElementById('resultados-ventilacion').innerHTML = '<p class="placeholder-text">Requiere talla del paciente en pestaña principal.</p>';
       }
+
+      calcularMetabolico();
     }
 
     /* =========================================
+       CALCULADORAS METABÓLICAS (EXTRA)
+       ========================================= */
+    function calcularMetabolico() {
+      const na = parseFloat(document.getElementById('na-medido').value);
+      const glu = parseFloat(document.getElementById('glucosa').value);
+      const peso = parseFloat(document.getElementById('peso').value);
+      const edad = parseFloat(document.getElementById('edad').value) || 40;
+      
+      const panelSodio = document.getElementById('resultados-sodio');
+      let htmlSodio = '';
+      
+      if (na > 0 && glu > 100) {
+          const naCorr = na + 0.016 * (glu - 100);
+          htmlSodio += `
+          <div class="calc-item" style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+              <span style="font-weight: 600; color: var(--text-main);">Na+ Corregido:</span>
+              <span class="val-max" style="color: var(--accent);">${naCorr.toFixed(1)} mEq/L</span>
+          </div>`;
+      }
+
+      if (na > 145 && peso > 0) {
+          let factor = 0.6; 
+          if (paciente.sexo === 'M') { factor = edad > 65 ? 0.5 : 0.6; } 
+          else { factor = edad > 65 ? 0.4 : 0.5; }
+          const act = peso * factor;
+          const deficit = act * ((na / 140) - 1);
+          
+          htmlSodio += `
+          <div class="calc-item" style="display: flex; justify-content: space-between; padding: 6px 0;">
+              <span style="font-weight: 600; color: var(--text-main);">Déficit H2O:</span>
+              <span class="val-max" style="color: var(--danger);">${deficit.toFixed(1)} L</span>
+          </div>`;
+      }
+      
+      if (htmlSodio === '') { htmlSodio = '<p class="placeholder-text" style="text-align: center; margin: 0;">Ingresa Na+ y Glucosa (o Na+ > 145 y Peso).</p>'; }
+      panelSodio.innerHTML = `<div class="calc-grid" style="margin-top: 8px;">${htmlSodio}</div>`;
+
+      const agNa = parseFloat(document.getElementById('ag-na').value);
+      const agCl = parseFloat(document.getElementById('ag-cl').value);
+      const agHco3 = parseFloat(document.getElementById('ag-hco3').value);
+      const agAlb = parseFloat(document.getElementById('ag-alb').value);
+      
+      const panelAG = document.getElementById('resultados-ag');
+      
+      if (agNa > 0 && agCl > 0 && agHco3 > 0) {
+          let ag = agNa - (agCl + agHco3);
+          let htmlAG = '';
+          let colorAG = (ag >= 8 && ag <= 12) ? 'var(--accent)' : 'var(--danger)';
+          
+          htmlAG += `
+          <div class="calc-item" style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border);">
+              <span style="font-weight: 600; color: var(--text-main);">Anion Gap:</span>
+              <span class="val-max" style="color: ${colorAG};">${ag.toFixed(1)}</span>
+          </div>`;
+          
+          if (agAlb > 0) {
+              const agCorr = ag + 2.5 * (4.5 - agAlb);
+              let colorAGCorr = (agCorr >= 8 && agCorr <= 12) ? 'var(--accent)' : 'var(--danger)';
+              htmlAG += `
+              <div class="calc-item" style="display: flex; justify-content: space-between; padding: 6px 0;">
+                  <span style="font-weight: 600; color: var(--text-main);">AG Corregido:</span>
+                  <span class="val-max" style="color: ${colorAGCorr};">${agCorr.toFixed(1)}</span>
+              </div>`;
+          }
+          panelAG.innerHTML = `<div class="calc-grid" style="margin-top: 8px;">${htmlAG}</div>`;
+      } else {
+          panelAG.innerHTML = '<p class="placeholder-text" style="text-align: center; margin: 0;">Ingresa electrolitos completos.</p>';
+      }
+    }
+
+/* =========================================
        BASE DE DATOS PEDIÁTRICA Y CALCULADORAS
        ========================================= */
     const dbPediatria = [
-      { grupo: "Analgésicos y Antipiréticos", farmacos: [
-          { nombre: "Paracetamol", dosisTxt: "10-15 mg/kg", minD: 10, maxD: 15, presentaciones: [{ desc: "Gotas 100mg/1ml", mg: 100, ml: 1 }, { desc: "Jarabe 160mg/5ml", mg: 160, ml: 5 }, { desc: "Jarabe 320mg/5ml", mg: 320, ml: 5 }] }, 
-          { nombre: "Ibuprofeno", dosisTxt: "5-10 mg/kg", minD: 5, maxD: 10, presentaciones: [{ desc: "Susp 100mg/5ml", mg: 100, ml: 5 }, { desc: "Susp 200mg/5ml", mg: 200, ml: 5 }] }, 
-          { nombre: "Metamizol Sódico", dosisTxt: "10-17 mg/kg", minD: 10, maxD: 17, presentaciones: [{ desc: "Jarabe 250mg/5ml", mg: 250, ml: 5 }, { desc: "Gotas 500mg/1ml", mg: 500, ml: 1 }] }, 
-          { nombre: "Ketorolaco (IV/IM)", dosisTxt: "0.5 mg/kg", minD: 0.5, maxD: 0.5, presentaciones: [{ desc: "Amp 30mg/1ml", mg: 30, ml: 1 }] }
-        ] 
+      {
+        grupo: "Analgésicos y Antipiréticos",
+        farmacos: [
+          {
+            nombre: "Paracetamol",
+            tipo: "mgkg",
+            dosisTxt: "10-15 mg/kg c/4-6h",
+            minD: 10,
+            maxD: 15,
+            presentaciones: [
+              { desc: "Gotas 100 mg/1 mL", mg: 100, ml: 1 },
+              { desc: "Jarabe 160 mg/5 mL", mg: 160, ml: 5 },
+              { desc: "Jarabe 320 mg/5 mL", mg: 320, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Ibuprofeno",
+            tipo: "mgkg",
+            dosisTxt: "5-10 mg/kg c/6-8h",
+            alertaTxt: "Contraindicado en lesión renal, deshidratación grave, sangrado activo o sospecha de dengue.",
+            minD: 5,
+            maxD: 10,
+            presentaciones: [
+              { desc: "Susp 100 mg/5 mL", mg: 100, ml: 5 },
+              { desc: "Susp 200 mg/5 mL", mg: 200, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Metamizol Sódico",
+            tipo: "mgkg",
+            dosisTxt: "10-15 mg/kg c/6-8h",
+            alertaTxt: "Riesgo de agranulocitosis e hipotensión severa. Evitar infusión rápida.",
+            minD: 10,
+            maxD: 15,
+            presentaciones: [
+              { desc: "Jarabe 250 mg/5 mL", mg: 250, ml: 5 },
+              { desc: "Gotas 500 mg/1 mL", mg: 500, ml: 1 }
+            ]
+          },
+          {
+            nombre: "Naproxeno",
+            tipo: "mgkg",
+            dosisTxt: "5 mg/kg c/12h",
+            alertaTxt: "Contraindicado en lesión renal, deshidratación grave o sospecha de dengue.",
+            minD: 5,
+            maxD: 5,
+            presentaciones: [
+              { desc: "Susp 125 mg/5 mL", mg: 125, ml: 5 }
+            ]
+          }
+        ]
       },
-      { grupo: "Vía Aérea y Esteroides", farmacos: [
-          { nombre: "Dexametasona", dosisTxt: "0.6 mg/kg", minD: 0.6, maxD: 0.6, presentaciones: [{ desc: "Amp 8mg/2ml", mg: 4, ml: 1 }] }, 
-          { nombre: "Prednisolona", dosisTxt: "1-2 mg/kg", minD: 1, maxD: 2, presentaciones: [{ desc: "Sol 15mg/5ml", mg: 15, ml: 5 }] }, 
-          { nombre: "Salbutamol (Neb)", dosisTxt: "0.15 mg/kg", minD: 0.15, maxD: 0.15, presentaciones: [{ desc: "Sol 5mg/1ml", mg: 5, ml: 1 }] }
-        ] 
+      {
+        grupo: "Antihistamínicos",
+        farmacos: [
+          {
+            nombre: "Loratadina",
+            tipo: "fijo",
+            dosisTxt: "5-10 mg c/24h",
+            minD: 5,
+            maxD: 10,
+            presentaciones: [
+              { desc: "Jarabe 5 mg/5 mL", mg: 5, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Desloratadina",
+            tipo: "fijo",
+            dosisTxt: "1-5 mg c/24h",
+            minD: 1,
+            maxD: 5,
+            presentaciones: [
+              { desc: "Sol 0.5 mg/1 mL", mg: 0.5, ml: 1 }
+            ]
+          },
+          {
+            nombre: "Levocetirizina",
+            tipo: "fijo",
+            dosisTxt: "1.25-5 mg c/24h",
+            minD: 1.25,
+            maxD: 5,
+            presentaciones: [
+              { desc: "Sol 2.5 mg/5 mL", mg: 2.5, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Fexofenadina",
+            tipo: "fijo",
+            dosisTxt: "30-60 mg c/12h",
+            minD: 30,
+            maxD: 60,
+            presentaciones: [
+              { desc: "Susp 30 mg/5 mL", mg: 30, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Difenhidramina",
+            tipo: "fijo",
+            dosisTxt: "12.5-25 mg c/4-6h",
+            alertaTxt: "Riesgo de efectos anticolinérgicos y reacción paradójica en lactantes.",
+            minD: 12.5,
+            maxD: 25,
+            presentaciones: [
+              { desc: "Jarabe 12.5 mg/5 mL", mg: 12.5, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Clorfenamina",
+            tipo: "fijo",
+            dosisTxt: "1-2 mg c/4-6h",
+            minD: 1,
+            maxD: 2,
+            presentaciones: [
+              { desc: "Jarabe 2 mg/5 mL", mg: 2, ml: 5 },
+              { desc: "Amp 10 mg/1 mL", mg: 10, ml: 1 }
+            ]
+          }
+        ]
       },
-      { grupo: "Antibióticos", farmacos: [
-          { nombre: "Amoxicilina", dosisTxt: "20 mg/kg c/8h", minD: 20, maxD: 20, presentaciones: [{ desc: "Susp 250mg/5ml", mg: 250, ml: 5 }, { desc: "Susp 500mg/5ml", mg: 500, ml: 5 }] }, 
-          { nombre: "Amox / Ác. Clav", dosisTxt: "15 mg/kg c/8h", minD: 15, maxD: 15, presentaciones: [{ desc: "Susp 250mg/5ml", mg: 250, ml: 5 }, { desc: "Susp 400mg/5ml", mg: 400, ml: 5 }] }, 
-          { nombre: "Ceftriaxona (IV/IM)", dosisTxt: "50-75 mg/kg/día", minD: 50, maxD: 75, presentaciones: [{ desc: "Vial 1g dil 10ml", mg: 100, ml: 1 }] }
-        ] 
+      {
+        grupo: "Gastrointestinal",
+        farmacos: [
+          {
+            nombre: "Ondansetrón",
+            tipo: "mgkg",
+            dosisTxt: "0.15 mg/kg",
+            alertaTxt: "Riesgo de prolongación del intervalo QT.",
+            minD: 0.15,
+            maxD: 0.15,
+            presentaciones: [
+              { desc: "Amp 4 mg/2 mL", mg: 2, ml: 1 },
+              { desc: "Amp 8 mg/4 mL", mg: 2, ml: 1 }
+            ]
+          },
+          {
+            nombre: "Metoclopramida",
+            tipo: "mgkg",
+            dosisTxt: "0.1 mg/kg c/6-8h",
+            alertaTxt: "Alto riesgo de síntomas extrapiramidales. Contraindicado en menores de 1 año.",
+            minD: 0.1,
+            maxD: 0.1,
+            presentaciones: [
+              { desc: "Amp 10 mg/2 mL", mg: 10, ml: 2 }
+            ]
+          },
+          {
+            nombre: "Dimenhidrinato (VO)",
+            tipo: "mgkg",
+            dosisTxt: "1.25 mg/kg c/6h",
+            minD: 1.25,
+            maxD: 1.25,
+            presentaciones: [
+              { desc: "Jarabe 12.5 mg/5 mL", mg: 12.5, ml: 5 }
+            ]
+          }
+        ]
       },
-      { grupo: "Gastrointestinal", farmacos: [
-          { nombre: "Ondansetrón", dosisTxt: "0.15 mg/kg", minD: 0.15, maxD: 0.15, presentaciones: [{ desc: "Amp 4mg/2ml", mg: 2, ml: 1 }, { desc: "Amp 8mg/4ml", mg: 2, ml: 1 }] }, 
-          { nombre: "Metoclopramida", dosisTxt: "0.1 mg/kg", minD: 0.1, maxD: 0.1, presentaciones: [{ desc: "Amp 10mg/2ml", mg: 10, ml: 2 }] }
-        ] 
+      {
+        grupo: "Respiratorio",
+        farmacos: [
+          {
+            nombre: "Salbutamol (Neb)",
+            tipo: "mgkg",
+            dosisTxt: "0.15 mg/kg",
+            alertaTxt: "Dosis mínima clínica recomendada: 2.5 mg. Dosis máxima: 5 mg.",
+            minD: 0.15,
+            maxD: 0.15,
+            presentaciones: [
+              { desc: "Sol 5 mg/1 mL", mg: 5, ml: 1 }
+            ]
+          },
+          {
+            nombre: "Salbutamol / Ipratropio (Neb)",
+            tipo: "fijo",
+            dosisTxt: "1 ampolleta por nebulización",
+            minD: 1,
+            maxD: 1,
+            presentaciones: [
+              { desc: "Amp 2.5mg salb + 0.5mg ipra / 2.5mL", mg: 1, ml: 1 }
+            ]
+          },
+          {
+            nombre: "Budesonida (Neb)",
+            tipo: "fijo",
+            dosisTxt: "0.25-1 mg/dosis",
+            alertaTxt: "Antiinflamatorio de mantenimiento; sin efecto broncodilatador de rescate agudo.",
+            minD: 0.25,
+            maxD: 1,
+            presentaciones: [
+              { desc: "Respules 0.25 mg/2 mL", mg: 0.25, ml: 2 },
+              { desc: "Respules 0.5 mg/2 mL", mg: 0.5, ml: 2 }
+            ]
+          }
+        ]
+      },
+      {
+        grupo: "Antibióticos",
+        farmacos: [
+          {
+            nombre: "Amoxicilina",
+            tipo: "mgkg",
+            dosisTxt: "80-90 mg/kg/día",
+            minD: 80,
+            maxD: 90,
+            presentaciones: [
+              { desc: "Susp 250 mg/5 mL", mg: 250, ml: 5 },
+              { desc: "Susp 500 mg/5 mL", mg: 500, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Ampicilina (IV)",
+            tipo: "mgkg",
+            dosisTxt: "100-200 mg/kg/día",
+            minD: 100,
+            maxD: 200,
+            presentaciones: [
+              { desc: "Vial 500 mg", mg: 500, ml: 5 },
+              { desc: "Vial 1 g", mg: 1000, ml: 10 }
+            ]
+          },
+          {
+            nombre: "Amoxicilina / Ác. clavulánico",
+            tipo: "mgkg",
+            dosisTxt: "25-90 mg/kg/día",
+            alertaTxt: "Cálculo basado en amoxicilina. Vigilar toxicidad gastrointestinal por carga de clavulanato.",
+            minD: 25,
+            maxD: 90,
+            presentaciones: [
+              { desc: "Susp 250/62.5 mg/5 mL", mg: 250, ml: 5 },
+              { desc: "Susp 400/57 mg/5 mL", mg: 400, ml: 5 },
+              { desc: "Susp 600/42.9 mg/5 mL", mg: 600, ml: 5 }
+            ]
+          },
+          {
+            nombre: "TMP / SMX",
+            tipo: "mgkg",
+            dosisTxt: "8-12 mg/kg/día",
+            alertaTxt: "Cálculo de dosis basado exclusivamente en el componente de Trimetoprima.",
+            minD: 8,
+            maxD: 12,
+            presentaciones: [
+              { desc: "Susp 40 mg TMP / 200 mg SMX / 5 mL", mg: 40, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Azitromicina",
+            tipo: "mgkg",
+            dosisTxt: "10 mg/kg/día",
+            alertaTxt: "Riesgo de prolongación del intervalo QT.",
+            minD: 10,
+            maxD: 10,
+            presentaciones: [
+              { desc: "Susp 200 mg/5 mL", mg: 200, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Claritromicina",
+            tipo: "mgkg",
+            dosisTxt: "15 mg/kg/día",
+            alertaTxt: "Inhibidor del citocromo P450. Alto riesgo de interacciones farmacológicas.",
+            minD: 15,
+            maxD: 15,
+            presentaciones: [
+              { desc: "Susp 125 mg/5 mL", mg: 125, ml: 5 },
+              { desc: "Susp 250 mg/5 mL", mg: 250, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Eritromicina",
+            tipo: "mgkg",
+            dosisTxt: "30-50 mg/kg/día",
+            minD: 30,
+            maxD: 50,
+            presentaciones: [
+              { desc: "Susp 200 mg/5 mL", mg: 200, ml: 5 },
+              { desc: "Susp 400 mg/5 mL", mg: 400, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Cefalexina",
+            tipo: "mgkg",
+            dosisTxt: "25-50 mg/kg/día",
+            minD: 25,
+            maxD: 50,
+            presentaciones: [
+              { desc: "Susp 250 mg/5 mL", mg: 250, ml: 5 }
+            ]
+          },
+          {
+            nombre: "Ceftriaxona (IV/IM)",
+            tipo: "mgkg",
+            dosisTxt: "50-75 mg/kg/día",
+            alertaTxt: "Contraindicada la administración simultánea con soluciones cálcicas (p. ej. Hartmann), especialmente en neonatos.",
+            minD: 50,
+            maxD: 75,
+            presentaciones: [
+              { desc: "Vial 1 g reconstituido ~100 mg/mL", mg: 100, ml: 1 }
+            ]
+          }
+        ]
+      },
+      {
+        grupo: "Esteroides Sistémicos",
+        farmacos: [
+          {
+            nombre: "Dexametasona",
+            tipo: "mgkg",
+            dosisTxt: "0.15-0.6 mg/kg",
+            alertaTxt: "Dosis estándar para laringotraqueítis (Crup). Ajustar posología en otros escenarios clínicos.",
+            minD: 0.15,
+            maxD: 0.6,
+            presentaciones: [
+              { desc: "Amp 8 mg/2 mL (4mg/1mL)", mg: 4, ml: 1 }
+            ]
+          },
+          {
+            nombre: "Hidrocortisona (IV)",
+            tipo: "mgkg",
+            dosisTxt: "2-4 mg/kg/dosis",
+            alertaTxt: "Indicada en anafilaxia o crisis suprarrenal. La dilución asume 2 mL de agua inyectable.",
+            minD: 2,
+            maxD: 4,
+            presentaciones: [
+              { desc: "Vial 100 mg liofilizado (50mg/1mL)", mg: 50, ml: 1 }
+            ]
+          },
+          {
+            nombre: "Prednisolona (VO)",
+            tipo: "mgkg",
+            dosisTxt: "1-2 mg/kg/día",
+            alertaTxt: "Dosis máxima recomendada: 40 mg/día.",
+            minD: 1,
+            maxD: 2,
+            presentaciones: [
+              { desc: "Sol 15 mg/5 mL", mg: 15, ml: 5 }
+            ]
+          }
+        ]
+      },
+      {
+        grupo: "Tos y Resfriado",
+        farmacos: [
+          {
+            nombre: "Dextrometorfano",
+            tipo: "fijo",
+            dosisTxt: "15 mg c/6h",
+            alertaTxt: "Contraindicado en menores de 6 años.",
+            minD: 15,
+            maxD: 15,
+            presentaciones: [
+              { desc: "Jarabe 15 mg/10 mL", mg: 15, ml: 10 }
+            ]
+          }
+        ]
       }
     ];
 
@@ -745,18 +1279,35 @@
       dbPediatria.forEach(grupo => { 
         let farmacosHtml = ''; 
         grupo.farmacos.forEach(farmaco => { 
+          
+          let alertaHtml = '';
+          if (farmaco.alertaTxt) {
+            alertaHtml = `
+              <div style="background-color: rgba(255, 193, 7, 0.1); border-left: 2px solid var(--warning); padding: 6px 10px; margin: 4px 0 8px 0; font-size: 0.75rem; color: var(--text-main); border-radius: 0 4px 4px 0; line-height: 1.3;">
+                ${farmaco.alertaTxt}
+              </div>`;
+          }
+
           let presentacionesHtml = ''; 
           farmaco.presentaciones.forEach(pres => { 
-            const minMg = farmaco.minD * peso;
-            const maxMg = farmaco.maxD * peso;
-            const minMl = ((minMg * pres.ml) / pres.mg).toFixed(1);
-            const maxMl = ((maxMg * pres.ml) / pres.mg).toFixed(1);
+            
+            let minMl, maxMl;
+            
+            if (farmaco.tipo === "fijo") {
+              minMl = ((farmaco.minD * pres.ml) / pres.mg).toFixed(1);
+              maxMl = ((farmaco.maxD * pres.ml) / pres.mg).toFixed(1);
+            } else {
+              const minMg = farmaco.minD * peso;
+              const maxMg = farmaco.maxD * peso;
+              minMl = ((minMg * pres.ml) / pres.mg).toFixed(1);
+              maxMl = ((maxMg * pres.ml) / pres.mg).toFixed(1);
+            }
 
             let valsHtml = '';
             if (minMl === maxMl) {
-              valsHtml = `<span class="val-max">${maxMl} ml</span>`;
+              valsHtml = `<span class="val-max">${maxMl} cc</span>`;
             } else {
-              valsHtml = `<span class="val-min">${minMl} ml</span> <span style="color:var(--text-muted); font-size:0.8rem; margin:0 2px;">-</span> <span class="val-max">${maxMl} ml</span>`;
+              valsHtml = `<span class="val-min">${minMl} cc</span> <span style="color:var(--text-muted); margin:0 2px;">-</span> <span class="val-max">${maxMl} cc</span>`;
             }
 
             presentacionesHtml += `
@@ -768,10 +1319,11 @@
           
           farmacosHtml += `
             <div class="calc-item" style="padding: 8px 0; border-bottom: 1px solid var(--border);">
-              <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 4px; flex-wrap: nowrap; overflow: hidden;">
+              <div style="display: flex; align-items: baseline; gap: 6px; margin-bottom: 2px; flex-wrap: nowrap; overflow: hidden;">
                 <span style="font-size: 1rem; color: var(--accent); font-weight: bold; white-space: nowrap;">${farmaco.nombre}</span>
                 <span style="font-size: 0.75rem; color: var(--text-muted); white-space: nowrap;">(${farmaco.dosisTxt})</span>
               </div>
+              ${alertaHtml}
               <div style="display: flex; flex-direction: column;">
                 ${presentacionesHtml}
               </div>
@@ -780,7 +1332,7 @@
         htmlOutput += `<div class="calc-category" style="margin-bottom: 8px;"><h3>${grupo.grupo}</h3>${farmacosHtml}</div>`; 
       }); 
       
-      panelPedia.innerHTML = htmlOutput; 
+      panelPedia.innerHTML = `<div class="card">${htmlOutput}</div>`; 
     }
 
     function calcularSIR(pesoReal, pesoIdeal) { 
@@ -921,18 +1473,24 @@
       setTimeout(() => { modal.style.display = 'none'; }, 200);
     }
 
-    /* =========================================
-       RELOJ RCP Y BITÁCORA (MÁQUINA DE ESTADOS ACLS)
+/* =========================================
+       RELOJ RCP Y BITÁCORA (TIEMPO ABSOLUTO)
        ========================================= */
     let wakeLock = null;
     let rcpInterval = null;
     let metroInterval = null;
     let currentBPM = 120;
+    
+    let startTime = 0;
+    let cycleStartTime = 0;
+    let adreStartTime = 0;
+    
     let totalSeconds = 0;
     let cycleSeconds = 0;
+    let timeSinceAdrenalina = 0;
+    
     let isRunning = false;
     let isMetroRunning = false;
-    let timeSinceAdrenalina = 0;
     let adrenalinaDada = false;
     let shockCount = 0;
     let amioDoses = 0;
@@ -986,9 +1544,9 @@
       if (isMetroRunning) {
         clearInterval(metroInterval);
         isMetroRunning = false;
-        btnToggle.style.backgroundColor = 'transparent';
+        btnToggle.style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
         btnToggle.style.color = 'var(--accent)';
-        btnBpm.style.backgroundColor = 'transparent';
+        btnBpm.style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
         btnBpm.style.color = 'var(--accent)';
         btnToggle.innerHTML = '🎵 OFF';
       } else {
@@ -1032,20 +1590,33 @@
         btn.style.backgroundColor = 'var(--warning)';
         btn.style.color = '#000';
         btn.style.border = 'none';
-        if(totalSeconds === 0) registrarEvento('INICIO DE RCP', 'var(--accent)');
+        
+        const now = Date.now();
+        if(totalSeconds === 0) {
+            registrarEvento('INICIO DE RCP', 'var(--accent)');
+            startTime = now;
+            cycleStartTime = now;
+        } else {
+            startTime = now - (totalSeconds * 1000);
+            cycleStartTime = now - (cycleSeconds * 1000);
+            if (adrenalinaDada) adreStartTime = now - (timeSinceAdrenalina * 1000);
+        }
+        
         rcpInterval = setInterval(tickRCP, 1000);
-
         document.body.classList.add('emergencia-activa');
       }
     }
 
     function tickRCP() {
-      totalSeconds++;
+      const now = Date.now();
+      totalSeconds = Math.floor((now - startTime) / 1000);
+
       if (!pulseCheckActive) {
         if (!esperandoDescarga) {
-          cycleSeconds++;
+          cycleSeconds = Math.floor((now - cycleStartTime) / 1000);
           document.getElementById('reloj-ciclo').textContent = formatearTiempo(cycleSeconds);
           document.getElementById('progreso-ciclo').value = cycleSeconds;
+          
           if (cycleSeconds >= 120) activarAlarmaPulso();
         } else {
           document.getElementById('reloj-ciclo').textContent = totalSeconds % 2 === 0 ? '--:--' : '00:00';
@@ -1053,7 +1624,7 @@
       }
 
       if (adrenalinaDada) {
-        timeSinceAdrenalina++;
+        timeSinceAdrenalina = Math.floor((now - adreStartTime) / 1000);
         document.getElementById('timer-adrenalina-txt').textContent = `Última dosis: hace ${formatearTiempo(timeSinceAdrenalina)}`;
         if (timeSinceAdrenalina >= 240) {
           document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
@@ -1085,7 +1656,10 @@
     function reanudarCicloBasico(nombreRitmo, colorLog) {
       uiFeedback(30, 400, 50, 0.3);
       pulseCheckActive = false;
+      
+      cycleStartTime = Date.now();
       cycleSeconds = 0;
+      
       document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
       document.getElementById('reloj-ciclo').style.display = 'block';
       document.getElementById('progreso-ciclo').style.display = 'block';
@@ -1128,7 +1702,11 @@
     function registrarAdrenalina() {
       if (totalSeconds === 0 && !isRunning) return;
       uiFeedback(30, 400, 50, 0.3);
-      adrenalinaDada = true; timeSinceAdrenalina = 0;
+      
+      adrenalinaDada = true; 
+      adreStartTime = Date.now(); 
+      timeSinceAdrenalina = 0;
+      
       document.getElementById('btn-adrenalina').classList.remove('btn-alert-flash');
       document.getElementById('timer-adrenalina-txt').textContent = `Última dosis: hace 00:00`;
       document.getElementById('timer-adrenalina-txt').style.color = 'var(--text-muted)';
@@ -1142,6 +1720,7 @@
       
       if (esperandoDescarga) {
         esperandoDescarga = false;
+        cycleStartTime = Date.now(); 
         cycleSeconds = 0; 
         document.getElementById('reloj-ciclo').textContent = '00:00';
         document.getElementById('progreso-ciclo').value = 0;
@@ -1184,12 +1763,13 @@
 
     function terminarRCP() {
       if (!isRunning && totalSeconds === 0) return;
+      // Usamos nuestro sistema de modal custom para confirmar
       mostrarModal(
         'TERMINAR REANIMACIÓN',
         '¿Estás seguro de TERMINAR la reanimación?',
         'Terminar RCP',
         'btn-danger',
-        ejecutarTerminarRCP
+        ejecutarTerminarRCP // Esta es la función que se llamará si el usuario confirma
       );
     }
 
@@ -1202,10 +1782,10 @@
       isMetroRunning = false;
       releaseWakeLock();
       
-      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
       document.getElementById('btn-metronomo-toggle').style.color = 'var(--accent)';
       document.getElementById('btn-metronomo-toggle').innerHTML = '🎵 OFF';
-      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
       document.getElementById('btn-metronomo-bpm').style.color = 'var(--accent)';
       
       registrarEvento('FIN DE REANIMACIÓN', 'var(--danger)');
@@ -1216,7 +1796,7 @@
       btnTerminar.style.backgroundColor = 'var(--accent)';
       btnTerminar.style.color = '#fff';
       btnTerminar.style.border = 'none';
-      btnTerminar.onclick = copiarBitacora;
+      btnTerminar.onclick = copiarBitacora; // Cambiamos la función del botón al terminar
 
       document.getElementById('btn-reset-rcp').style.display = 'block';
       
@@ -1261,7 +1841,10 @@
 
     function ejecutarResetRCP() {
       document.body.classList.remove('emergencia-activa');
+      
       totalSeconds = 0; cycleSeconds = 0; timeSinceAdrenalina = 0; currentBPM = 120;
+      startTime = 0; cycleStartTime = 0; adreStartTime = 0;
+      
       adrenalinaDada = false; shockCount = 0; amioDoses = 0; pulseCheckActive = false; 
       contadorDesfibrilable = 0; esperandoDescarga = false;
       
@@ -1277,7 +1860,7 @@
       btnTerminar.className = 'btn-toggle btn-danger';
       btnTerminar.style.backgroundColor = '';
       btnTerminar.style.color = '';
-      btnTerminar.onclick = terminarRCP;
+      btnTerminar.onclick = terminarRCP; // Restauramos la función original
       
       document.getElementById('btn-reset-rcp').style.display = 'none';
       document.getElementById('reloj-total').textContent = '00:00';
@@ -1303,10 +1886,10 @@
       document.getElementById('btn-intubacion').textContent = 'Intubación';
       
       document.getElementById('btn-metronomo-bpm').textContent = currentBPM;
-      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
       document.getElementById('btn-metronomo-toggle').style.color = 'var(--accent)';
       document.getElementById('btn-metronomo-toggle').innerHTML = '🎵 OFF';
-      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'transparent';
+      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
       document.getElementById('btn-metronomo-bpm').style.color = 'var(--accent)';
       
       document.getElementById('log-eventos').innerHTML = '<p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>';
