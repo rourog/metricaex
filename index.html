@@ -1314,11 +1314,11 @@
               maxMl = ((maxMg * pres.ml) / pres.mg).toFixed(1);
             }
 
-            let valsHtml = '';
+let valsHtml = '';
             if (minMl === maxMl) {
-              valsHtml = `<span class="val-max">${maxMl} cc</span>`;
+              valsHtml = `<span class="val-max">${maxMl} ml</span>`;
             } else {
-              valsHtml = `<span class="val-min">${minMl} cc</span> <span style="color:var(--text-muted); margin:0 2px;">-</span> <span class="val-max">${maxMl} cc</span>`;
+              valsHtml = `<span class="val-min">${minMl} ml</span> <span style="color:var(--text-muted); margin:0 2px;">-</span> <span class="val-max">${maxMl} ml</span>`;
             }
 
             presentacionesHtml += `
