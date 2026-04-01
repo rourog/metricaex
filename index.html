@@ -822,18 +822,19 @@ function estimarP50(origen) {
 
       const a = parseFloat(document.getElementById(aId).value) || 0;
       const m = parseFloat(document.getElementById(mId).value) || 0;
+      
       const edadTotalMeses = (a * 12) + m;
+      const edadDecimal = a + (m / 12); // CORRECCIÓN: Edad fraccionaria exacta
       
       if (edadTotalMeses <= 0) return;
       
-      // LÍMITE PEDIÁTRICO ESTRICTO (< 15 Años)
       if (edadTotalMeses >= 180) { 
         mostrarModal(
           'LÍMITE PEDIÁTRICO', 
           'La estimación de percentiles y P50 está validada únicamente para pacientes menores de 15 años.', 
           'Entendido', 
           'btn-danger', 
-          () => {} // No hace nada, solo cierra el modal
+          () => {} 
         );
         return;
       }
@@ -844,12 +845,13 @@ function estimarP50(origen) {
       if (edadTotalMeses < 12) {
         pesoP50 = (edadTotalMeses + 9) / 2;
         tallaP50 = 50 + (edadTotalMeses * 2);
-      } else if (a >= 1 && a <= 5) {
-        pesoP50 = (a * 2) + 8;
-        tallaP50 = (a * 6) + 77;
+      } else if (edadDecimal >= 1 && edadDecimal <= 5) {
+        // CORRECCIÓN: Ahora multiplica por edadDecimal, no por años enteros
+        pesoP50 = (edadDecimal * 2) + 8;
+        tallaP50 = (edadDecimal * 6) + 77;
       } else {
-        pesoP50 = (a * 3) + 7;
-        tallaP50 = (a * 6) + 77;
+        pesoP50 = (edadDecimal * 3) + 7;
+        tallaP50 = (edadDecimal * 6) + 77;
       }
       
       let pId = origen === 'pedia' ? 'pedia-peso' : 'peso-extra';
@@ -1377,9 +1379,10 @@ function renderPediatria(peso) {
       const a = parseFloat(document.getElementById('edad').value) || 0;
       const mElem = document.getElementById('pedia-meses');
       const m = mElem ? (parseFloat(mElem.value) || 0) : 0;
+      
       const edadTotalMeses = (a * 12) + m;
+      const edadDecimal = a + (m / 12); // CORRECCIÓN: Edad fraccionaria exacta
 
-      // 1. Calcular Datos Antropométricos Pediátricos y Z-Scores
       let bsa = 0;
       let basal = 0;
       let estadoNutricional = '—';
@@ -1393,7 +1396,6 @@ function renderPediatria(peso) {
         if (talla > 0) bsa = Math.sqrt((peso * talla) / 3600);
       }
 
-      // FILTRO DE SEGURIDAD: Solo calcula percentiles si la edad es < 15 años
       const mostrarPercentiles = (edadTotalMeses > 0 && edadTotalMeses < 180 && peso > 0);
 
       if (mostrarPercentiles) {
@@ -1401,15 +1403,15 @@ function renderPediatria(peso) {
         if (edadTotalMeses < 12) {
           pesoP50 = (edadTotalMeses + 9) / 2;
           tallaP50 = 50 + (edadTotalMeses * 2);
-        } else if (a >= 1 && a <= 5) {
-          pesoP50 = (a * 2) + 8;
-          tallaP50 = (a * 6) + 77;
+        } else if (edadDecimal >= 1 && edadDecimal <= 5) {
+          // CORRECCIÓN: Ahora usa edadDecimal en la matemática P50
+          pesoP50 = (edadDecimal * 2) + 8;
+          tallaP50 = (edadDecimal * 6) + 77;
         } else {
-          pesoP50 = (a * 3) + 7;
-          tallaP50 = (a * 6) + 77;
+          pesoP50 = (edadDecimal * 3) + 7;
+          tallaP50 = (edadDecimal * 6) + 77;
         }
 
-        // Z-Score de Peso (Asumiendo ~12% de Variación)
         if (pesoP50 > 0) {
           const sdPeso = pesoP50 * 0.12; 
           const zPeso = (peso - pesoP50) / sdPeso;
@@ -1421,7 +1423,6 @@ function renderPediatria(peso) {
           else estadoNutricional = `<span style="color: var(--danger); font-weight: bold;">Obesidad (> P97)</span>`;
         }
 
-        // Z-Score de Talla (Asumiendo ~4% de Variación)
         if (talla > 0 && tallaP50 > 0) {
             const sdTalla = tallaP50 * 0.04; 
             const zTalla = (talla - tallaP50) / sdTalla;
@@ -1432,7 +1433,6 @@ function renderPediatria(peso) {
         }
       }
 
-      // Mostrar el panel Antropométrico Pediátrico
       if (peso > 0) {
           pediaAntropo.style.display = 'block';
           pediaAntropo.innerHTML = `
@@ -1460,7 +1460,6 @@ function renderPediatria(peso) {
           `;
       }
 
-      // 2. Renderizar lista de fármacos
       let htmlOutput = ''; 
       dbPediatria.forEach(grupo => { 
         let farmacosHtml = ''; 
