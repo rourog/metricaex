@@ -420,19 +420,18 @@
       <div class="panel-izquierdo">
         <div class="card">
           <h2 class="static">Biometría</h2>
-          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-            <button id="btn-sexo" class="btn-toggle" onclick="toggleSexo()" style="flex: 2;">Hombre</button>
-            <button class="btn-toggle btn-danger" onclick="resetBiometria()" style="flex: 1; font-size: 0.8rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 2px;"><rect width="256" height="256" fill="none"/><line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-              Borrar
-            </button>
+          <div style="margin-bottom: 12px;">
+            <button id="btn-sexo" class="btn-toggle" onclick="toggleSexo()" style="width: 100%;">Hombre</button>
           </div>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px;">
-            <div class="input-group"><label class="input-label">Edad</label><input type="number" inputmode="decimal" id="edad" class="input-moderno" placeholder="0" oninput="syncBiometria('choque')"></div>
+            <div class="input-group"><label class="input-label">Años</label><input type="number" inputmode="decimal" id="edad" class="input-moderno" placeholder="0" oninput="syncBiometria('choque')"></div>
             <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" inputmode="decimal" id="peso" class="input-moderno" placeholder="0" oninput="syncBiometria('choque')"></div>
             <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" inputmode="decimal" id="talla" class="input-moderno" placeholder="0" oninput="syncBiometria('choque')"></div>
           </div>
           <div id="resultados-antropometricos" class="panel-resultados-mini">Esperando biometría...</div>
+          <button class="btn-toggle btn-danger" onclick="resetBiometria()" style="margin-top: 10px; font-size: 0.8rem; width: 100%;">
+            BORRAR DATOS
+          </button>
         </div>
       </div>
       
@@ -464,32 +463,28 @@
     </section>
 
     <section id="pediatria" class="view-section">
-      <div class="card">
-        <h2 class="static">Biometría Pediátrica</h2>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;">
-          <div class="input-group"><label class="input-label">Años</label><input type="number" inputmode="decimal" id="pedia-anos" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
-          <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" inputmode="decimal" id="pedia-peso" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
-          <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" inputmode="decimal" id="pedia-talla" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; align-items: end;">
-          <div class="input-group"><label class="input-label">Meses</label><input type="number" inputmode="decimal" id="pedia-meses" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
-          
-          <button class="btn-toggle" style="border-color: var(--warning); color: var(--warning); height: 34px; font-size: 0.75rem; padding: 0 4px;" onclick="estimarP50('pedia')">
-            ⚡ EST. P50
-          </button>
-          
-          <button class="btn-toggle btn-danger" style="height: 34px; font-size: 0.75rem; padding: 0 4px;" onclick="resetBiometria()">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 2px;"><rect width="256" height="256" fill="none"/><line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-            BORRAR
-          </button>
-        </div>
-        
-        <div id="pedia-antropo-res" class="panel-resultados-mini" style="border-color: var(--accent); background: rgba(128,128,128,0.05); display: none;">
+      <div class="panel-izquierdo">
+        <div class="card">
+          <h2 class="static">Biometría Pediátrica</h2>
+          <div style="margin-bottom: 12px;">
+            <button id="btn-sexo-pedia" class="btn-toggle" onclick="toggleSexo()" style="width: 100%;">Hombre</button>
           </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;">
+            <div class="input-group"><label class="input-label">Años</label><input type="number" inputmode="decimal" id="pedia-anos" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
+            <div class="input-group"><label class="input-label">Peso (kg)</label><input type="number" inputmode="decimal" id="pedia-peso" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
+            <div class="input-group"><label class="input-label">Talla (cm)</label><input type="number" inputmode="decimal" id="pedia-talla" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; align-items: end;">
+            <div class="input-group"><label class="input-label">Meses</label><input type="number" inputmode="decimal" id="pedia-meses" class="input-moderno" placeholder="0" oninput="syncBiometria('pedia')"></div>
+            <button class="btn-toggle" style="border-color: var(--warning); color: var(--warning); height: 34px; font-size: 0.75rem;" onclick="estimarP50('pedia')">⚡ EST. P50</button>
+            <button class="btn-toggle btn-danger" style="height: 34px; font-size: 0.75rem;" onclick="resetBiometria()">BORRAR</button>
+          </div>
+          <div id="pedia-antropo-res" class="panel-resultados-mini" style="border-color: var(--accent); background: rgba(128,128,128,0.05); display: none;"></div>
+        </div>
       </div>
 
-      <div id="resultados-pediatria">
-        <div class="card"><p class="placeholder-text" style="text-align: center;">Ingresa el peso del niño para desplegar el recetario de dosis y presentaciones.</p></div>
+      <div class="panel-derecho" id="resultados-pediatria">
+        <div class="card"><p class="placeholder-text" style="text-align: center;">Ingresa el peso del niño para desplegar el recetario de dosis.</p></div>
       </div>
     </section>
 
@@ -505,14 +500,12 @@
               <div class="input-label" id="label-ciclo">Ciclo Actual</div>
               <div id="reloj-ciclo" class="rcp-time-value" style="color: var(--accent);">00:00</div>
               <div style="display: flex; justify-content: center;"><progress id="progreso-ciclo" value="0" max="120" style="width: 80%; height: 6px; border-radius: 3px; margin-top: 6px;"></progress></div>
-              
               <div id="decision-ritmo" style="display: none; width: 100%; gap: 8px; margin-top: 10px;">
                 <button class="btn-toggle" style="flex: 1; background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--accent); border-color: var(--accent); font-size: 0.75rem;" onclick="ritmoNoDesfibrilable()">No Desfibrilable<br>(Asis/AESP)</button>
                 <button class="btn-toggle" style="flex: 1; background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); border-color: var(--warning); font-size: 0.75rem;" onclick="ritmoDesfibrilable()">Desfibrilable<br>(FV/TVsp)</button>
               </div>
             </div>
           </div>
-
           <div class="rcp-btn-grid">
             <button id="btn-rcp-start" class="btn-toggle" onclick="toggleRCP()" style="background-color: var(--accent); color: #fff; border: none;">INICIAR RCP</button>
             <div style="display: flex; gap: 4px;">
@@ -520,29 +513,18 @@
               <button id="btn-metronomo-bpm" class="btn-toggle" onclick="cycleBPM()" style="flex: 1; border-color: var(--accent); color: var(--accent); background: transparent;">120</button>
             </div>
           </div>
-          
           <div style="border-top: 1px dashed var(--border); margin: 10px 0;"></div>
-          
           <div style="text-align: right; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px;" id="timer-adrenalina-txt">Última dosis: --</div>
-          
           <div class="rcp-btn-grid">
             <button id="btn-adrenalina" class="btn-toggle" style="border-color: var(--danger); color: var(--danger); background: transparent;" onclick="registrarAdrenalina()">Adrenalina</button>
             <button id="btn-descarga" class="btn-toggle" style="border-color: var(--warning); color: var(--warning); background: transparent;" onclick="registrarDescarga()">Descarga <span id="contador-descarga">(0)</span></button>
             <button id="btn-amiodarona" class="btn-toggle" onclick="registrarAmiodarona()" style="background: transparent;">Amiodarona <span id="dosis-amio"></span></button>
             <button id="btn-intubacion" class="btn-toggle" onclick="registrarIntubacion()" style="background: transparent;">Intubación</button>
           </div>
-
           <div style="border-top: 1px dashed var(--border); margin: 10px 0;"></div>
-
-          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()" style="width: 100%; letter-spacing: 2px;">
-            TERMINAR RCP
-          </button>
-          
-          <button id="btn-reset-rcp" class="btn-toggle" onclick="resetRCP()" style="display: none; width: 100%; margin-top: 8px; border-color: var(--text-muted); color: var(--text-muted); background: transparent;">
-            NUEVO PACIENTE
-          </button>
+          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()" style="width: 100%; letter-spacing: 2px;">TERMINAR RCP</button>
+          <button id="btn-reset-rcp" class="btn-toggle" onclick="resetRCP()" style="display: none; width: 100%; margin-top: 8px; border-color: var(--text-muted); color: var(--text-muted); background: transparent;">NUEVO PACIENTE</button>
         </div>
-
         <div class="rcp-log-area" id="log-eventos">
           <p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>
         </div>
@@ -553,12 +535,8 @@
       <div class="panel-izquierdo">
         <div class="card">
           <h2 class="static">Biometría</h2>
-          <div style="display: flex; gap: 8px; margin-bottom: 10px;">
-            <button id="btn-sexo-extra" class="btn-toggle" onclick="toggleSexo()" style="flex: 2;">Hombre</button>
-            <button class="btn-toggle btn-danger" onclick="resetBiometria()" style="flex: 1; font-size: 0.8rem;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 2px;"><rect width="256" height="256" fill="none"/><line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-              Borrar
-            </button>
+          <div style="margin-bottom: 12px;">
+            <button id="btn-sexo-extra" class="btn-toggle" onclick="toggleSexo()" style="width: 100%;">Hombre</button>
           </div>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 8px;">
             <div class="input-group"><label class="input-label">Años</label><input type="number" inputmode="decimal" id="edad-extra" class="input-moderno" placeholder="0" oninput="syncBiometria('extra')"></div>
@@ -567,21 +545,20 @@
           </div>
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; align-items: end;">
             <div class="input-group"><label class="input-label">Meses</label><input type="number" inputmode="decimal" id="edad-meses-extra" class="input-moderno" placeholder="0" oninput="syncBiometria('extra')"></div>
-            <button class="btn-toggle" style="border-color: var(--warning); color: var(--warning); height: 34px; font-size: 0.75rem; padding: 0 4px;" onclick="estimarP50('extra')">⚡ EST. P50</button>
-            <button class="btn-toggle btn-danger" style="height: 34px; font-size: 0.75rem; padding: 0 4px;" onclick="resetBiometria()">
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 256 256" style="vertical-align: middle; margin-right: 2px;"><rect width="256" height="256" fill="none"/><line x1="216" y1="56" x2="40" y2="56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="104" x2="104" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="152" y1="104" x2="152" y2="168" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M200,56V208a8,8,0,0,1-8,8H64a8,8,0,0,1-8-8V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><path d="M168,56V40a16,16,0,0,0-16-16H104A16,16,0,0,0,88,40V56" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
-              BORRAR
-            </button>
+            <button class="btn-toggle" style="border-color: var(--warning); color: var(--warning); height: 34px; font-size: 0.75rem;" onclick="estimarP50('extra')">⚡ EST. P50</button>
+            <button class="btn-toggle btn-danger" style="height: 34px; font-size: 0.75rem;" onclick="resetBiometria()">BORRAR</button>
           </div>
         </div>
-
+      </div>
+      
+      <div class="panel-derecho">
         <div class="card">
-          <div class="card-header collapsed" onclick="toggleCard(this)">
+          <div class="card-header" onclick="toggleCard(this)">
             <h2>Índice de Choque (Trauma)</h2>
             <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
           </div>
           <div class="card-body">
-            <div class="input-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
               <div class="input-group"><label class="input-label">FC (Lpm)</label><input type="number" inputmode="decimal" id="fc-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
               <div class="input-group"><label class="input-label">PAS (mmHg)</label><input type="number" inputmode="decimal" id="pas-choque" class="input-moderno" placeholder="0" oninput="calcularIndiceChoque()"></div>
             </div>
@@ -592,7 +569,7 @@
         </div>
 
         <div class="card">
-          <div class="card-header collapsed" onclick="toggleCard(this)">
+          <div class="card-header" onclick="toggleCard(this)">
             <h2>Ventilación (ARDSnet)</h2>
             <svg class="collapse-icon" width="18" height="18" viewBox="0 0 256 256"><path d="M213.66,101.66l-80,80a8,8,0,0,1-11.32,0l-80-80A8,8,0,0,1,53.66,90.34L128,164.69l74.34-74.35a8,8,0,0,1,11.32,11.32Z" fill="currentColor"/></svg>
           </div>
@@ -600,9 +577,7 @@
             <div id="resultados-ventilacion"><p class="placeholder-text">Requiere talla del paciente.</p></div>
           </div>
         </div>
-      </div>
-      
-      <div class="panel-derecho">
+
         <div class="card">
           <div class="card-header collapsed" onclick="toggleCard(this)">
             <h2>Sodio y Agua Libre</h2>
@@ -655,10 +630,11 @@
         </div>
       </div>
     </section>
-	<div class="rourog-branding">
-      Métrica EX v1.0.0<br>
-      <span style="font-size: 0.55rem; opacity: 0.7;"> by</span><br>
-      <span class="brand-name">ROUROG Innovations<span class="accent-dot">.</span></span>
+    
+    <div class="rourog-branding">
+      Métrica EX <span id="app-version">v1.0.5</span><br>
+      <span style="font-size: 0.55rem; opacity: 0.7;">Developed by</span><br>
+      <span class="brand-name">ROUROG INNOVATIONS<span class="accent-dot">.</span></span>
     </div>
   </main>
 
@@ -674,6 +650,11 @@
   </div>
 
   <script>
+  /* =========================================
+       CONFIGURACIÓN GLOBAL Y VERSIÓN
+       ========================================= */
+    const APP_VERSION = "1.0.5";
+    const APP_NAME = "Métrica EX";
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
        ========================================= */
@@ -2229,8 +2210,11 @@ function renderPediatria(peso) {
       });
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
       initTheme();
+      // Inyectar versión automáticamente al cargar
+      const versionElem = document.getElementById('app-version');
+      if (versionElem) versionElem.textContent = `v${APP_VERSION}`;
     });
   </script>
 </body>
