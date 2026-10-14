@@ -86,3 +86,48 @@ test('bitácora colorea tiempos según evento y no agrega título ni cuadrito',(
 
 test('descarga compacta junto a vía aérea y grande debajo de no desfibrilable',()=>{assert.match(html,/id="btn-no-desfibrilable"[\s\S]*?id="btn-descarga-grande"[\s\S]*?id="btn-adrenalina"[\s\S]*?id="btn-amiodarona"[\s\S]*?id="btn-intubacion"[\s\S]*?id="btn-descarga"/);const e=setup();begin(e);assert.equal(e.get('decision-ritmo').hidden,true);e.advance(120000);e.run('tickRCP()');assert.equal(e.get('decision-ritmo').hidden,false);e.run('adjustEnergy(1)');assert.match(e.get('btn-descarga').innerHTML,/250 J/);assert.match(e.get('btn-descarga-grande').textContent,/250 J/);e.run('accionDescarga()');assert.equal(e.get('decision-ritmo').hidden,true);assert.equal(e.run('shockCountRCP()'),1)});
 test('ambos controles de energía comparten límites',()=>{const e=setup();begin(e);for(let i=0;i<15;i++)e.run('adjustEnergy(1)');for(const id of ['energy-plus','energy-plus-grande'])assert.equal(e.get(id).disabled,true);for(let i=0;i<15;i++)e.run('adjustEnergy(-1)');for(const id of ['energy-minus','energy-minus-grande'])assert.equal(e.get(id).disabled,true)});
+
+test('RCP reproduce metrónomo y alertas con ganancia normalizada máxima',()=>{
+  const e=setup();begin(e);
+  assert.equal(e.run('RCP_AUDIO_VOLUME'),1);
+  assert.match(code,/gain\.gain\.setValueAtTime\(RCP_AUDIO_VOLUME,at\)/);
+  assert.match(code,/playBeepCustom\(340,'sine',\.22,Math\.max\(now,nextVentAt\)\)/);
+});
+
+test('los relojes ocupan ambas columnas y la música no modifica el flujo',()=>{
+  assert.match(html,/#rcp \.rcp-time-grid \{[^}]*padding: 44px 0 4px/);
+  assert.match(html,/\.rcp-sound-controls \{ position: absolute;/);
+  assert.match(html,/#rcp \.rcp-time-value \{[^}]*3\.1rem/);
+});
+
+test('descarga compacta neutra y controles de energía en una sola pieza',()=>{
+  assert.match(html,/#rcp \.rcp-energy-compact \{[^}]*gap: 0|#rcp \.rcp-energy-compact \{[^}]*grid-template-columns: 44px/);
+  assert.match(html,/#rcp \.rcp-energy-compact \.btn-toggle \{ background: transparent; color: var\(--text-main\); \}/);
+  assert.match(html,/\.rcp-energy-row \{[^}]*gap: 0;[^}]*border-radius: 10px; overflow: hidden;/);
+});
+
+test('deslizar lateralmente ajusta joules sin registrar descarga ni interceptar el scroll vertical',()=>{
+  const e=setup();begin(e);const center=e.get('btn-descarga');
+  center.dispatch('pointerdown',{pointerId:7,pointerType:'touch',clientX:100,clientY:30});
+  center.dispatch('pointerup',{pointerId:7,pointerType:'touch',clientX:140,clientY:32});
+  assert.equal(e.state().energy,250);
+  assert.equal(e.run('shockCountRCP()'),0);
+  let blocked=false;
+  center.dispatch('click',{preventDefault(){},stopImmediatePropagation(){blocked=true}});
+  assert.equal(blocked,true);
+  center.dispatch('pointerdown',{pointerId:8,pointerType:'touch',clientX:110,clientY:30});
+  center.dispatch('pointerup',{pointerId:8,pointerType:'touch',clientX:70,clientY:28});
+  assert.equal(e.state().energy,200);
+  center.dispatch('pointerdown',{pointerId:9,pointerType:'touch',clientX:100,clientY:30});
+  center.dispatch('pointerup',{pointerId:9,pointerType:'touch',clientX:110,clientY:100});
+  assert.equal(e.state().energy,200);
+});
+
+test('la descarga grande también admite deslizamiento de energía sin choque',()=>{
+  const e=setup();begin(e);const center=e.get('btn-descarga-grande');
+  center.dispatch('pointerdown',{pointerId:1,pointerType:'touch',clientX:150,clientY:30});
+  center.dispatch('pointerup',{pointerId:1,pointerType:'touch',clientX:115,clientY:30});
+  assert.equal(e.state().energy,150);
+  assert.match(e.get('btn-descarga').innerHTML,/150 J/);
+  assert.equal(e.run('shockCountRCP()'),0);
+});
