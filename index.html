@@ -381,8 +381,8 @@
 #rcp { max-width: 620px; margin: 0 auto; --pacing-size: clamp(1.5rem,6vw,1.8rem); --cpr-red: #a31b32; --cpr-red-bg: #fbd0d7; --cpr-blue: #154f91; --cpr-blue-bg: #c9e2ff; --cpr-yellow: #573b00; --cpr-yellow-bg: #ffdc62; --cpr-green: #276747; --cpr-green-bg: rgba(52,139,96,.10); }
 body.theme-cyber #rcp, body.theme-dark-red #rcp { --cpr-red: #ffd1d9; --cpr-red-bg: #6f1e30; --cpr-blue: #d7eaff; --cpr-blue-bg: #164574; --cpr-yellow: #fff0b9; --cpr-yellow-bg: #705200; --cpr-green: #a4d9bf; --cpr-green-bg: rgba(62,156,113,.16); }
 #rcp .rcp-container { height: auto; max-height: none; gap: 8px; padding: 14px; position: relative; }
-#rcp .rcp-time-grid { margin: 0; gap: 12px; padding-right: 44px; }
-#rcp .rcp-time-value { font-size: clamp(2rem, 7vw, 2.8rem); font-variant-numeric: tabular-nums; }
+#rcp .rcp-time-grid { margin: 0; gap: 12px; padding: 44px 0 4px; }
+#rcp .rcp-time-value { font-size: clamp(2.3rem, 8vw, 3.1rem); font-variant-numeric: tabular-nums; }
 #reloj-ciclo { color: var(--accent); }
 #rcp .btn-toggle { min-height: 48px; font-size: .92rem; letter-spacing: 0; }
 #rcp .rcp-primary { background: var(--accent); color: #fff; min-height: 60px; font-size: 1.1rem; }
@@ -402,8 +402,9 @@ body.theme-cyber #rcp #btn-no-desfibrilable, body.theme-dark-red #rcp #btn-no-de
 body.theme-cyber #rcp .rcp-pacing.evaluation, body.theme-dark-red #rcp .rcp-pacing.evaluation { background: #353d45; color: #dde3e8; border-color: #687380; }
 #rcp .rcp-rhythm-btn { display: flex; flex-direction: column; min-height: 58px; font-size: 1rem; }
 #rcp small { display: block; font-size: .76rem; font-weight: normal; text-transform: none; line-height: 1.3; }
-.rcp-energy-row { display: grid; grid-template-columns: 48px minmax(0,1fr) 48px; gap: 6px; align-items: stretch; }
-#rcp .rcp-energy-row .btn-toggle { min-height: 58px; background: var(--cpr-yellow-bg); color: var(--cpr-yellow); border: 1px solid #bd922e; }
+.rcp-energy-row { display: grid; grid-template-columns: 48px minmax(0,1fr) 48px; gap: 0; align-items: stretch; border: 1px solid #bd922e; border-radius: 10px; overflow: hidden; }
+#rcp .rcp-energy-row .btn-toggle { min-height: 58px; background: var(--cpr-yellow-bg); color: var(--cpr-yellow); border: 0; border-radius: 0; margin: 0; }
+#rcp .rcp-energy-row .btn-toggle + .btn-toggle { border-left: 1px solid rgba(87,59,0,.25); }
 #rcp .rcp-energy-step { font-size: 1.5rem; }
 #rcp .rcp-shock-btn { font-size: 1rem; gap: 5px; }
 #rcp .rcp-energy-step:disabled { opacity: .45; }
@@ -461,7 +462,10 @@ body.theme-cyber #rcp .rcp-log-amio, body.theme-dark-red #rcp .rcp-log-amio { co
 body.theme-cyber #rcp .rcp-log-rhythm, body.theme-dark-red #rcp .rcp-log-rhythm { color: #90c7c3; }
 
 
-#rcp .rcp-energy-compact { grid-template-columns: 32px minmax(0,1fr) 32px; gap: 2px; min-width: 0; }
+#rcp .rcp-energy-compact { grid-template-columns: 44px minmax(0,1fr) 44px; min-width: 0; border: 1px solid var(--border); border-radius: 9px; background: rgba(128,128,128,.05); }
+#rcp .rcp-energy-compact .btn-toggle { background: transparent; color: var(--text-main); }
+#rcp .rcp-energy-compact .btn-toggle + .btn-toggle { border-left: 1px solid var(--border); }
+#rcp .rcp-energy-compact .rcp-shock-btn { background: rgba(128,128,128,.08); touch-action: pan-y; cursor: ew-resize; }
 #rcp .rcp-energy-compact .btn-toggle { padding: 4px 2px; min-width: 0; }
 #rcp .rcp-energy-compact .rcp-shock-btn { flex-direction: column; gap: 1px; font-size: 1.1rem; }
 #rcp .rcp-energy-compact .rcp-shock-btn small { font-size: .82rem; font-weight: bold; white-space: nowrap; }
@@ -613,7 +617,7 @@ body.theme-cyber #rcp .rcp-log-rhythm, body.theme-dark-red #rcp .rcp-log-rhythm 
             <button id="btn-intubacion" class="btn-toggle rcp-event-btn rcp-airway-btn" onclick="registrarIntubacion()">VÍA AÉREA</button>
             <div class="rcp-energy-row rcp-energy-compact">
               <button id="energy-minus" class="btn-toggle rcp-energy-step" aria-label="Disminuir energía" onclick="adjustEnergy(-1)">−</button>
-              <button id="btn-descarga" class="btn-toggle rcp-shock-btn" onclick="accionDescarga()" aria-label="Registrar descarga administrada de 200 joules"><span aria-hidden="true">⚡</span><small>200 J</small></button>
+              <button id="btn-descarga" class="btn-toggle rcp-shock-btn" onclick="accionDescarga()" aria-label="Registrar descarga administrada de 200 joules" aria-description="Desliza a izquierda o derecha para ajustar la energía en joules" title="Toca para registrar descarga · Desliza ↔ para ajustar J"><span aria-hidden="true">⚡</span><small>200 J</small></button>
               <button id="energy-plus" class="btn-toggle rcp-energy-step" aria-label="Aumentar energía" onclick="adjustEnergy(1)">+</button>
             </div>
           </div>
@@ -768,7 +772,7 @@ body.theme-cyber #rcp .rcp-log-rhythm, body.theme-dark-red #rcp .rcp-log-rhythm 
   /* =========================================
        CONFIGURACIÓN GLOBAL Y VERSIÓN
        ========================================= */
-    const APP_VERSION = "1.1.2";
+    const APP_VERSION = "1.1.3";
     const APP_NAME = "Métrica EX";
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
@@ -1853,6 +1857,7 @@ function renderPediatria(peso) {
     const RCP_STORAGE = 'metrica_ex_rcp_v1';
     const RCP_PREVIEW = false;
     const energySteps = [50, 70, 100, 120, 150, 200, 250, 300, 360];
+     const RCP_AUDIO_VOLUME = 1.0; // Ganancia máxima normalizada de Web Audio; el volumen físico depende del dispositivo.
     const clockEpoch = Date.now();
     const clockMono = performance.now();
     let simulationOffset = 0;
@@ -1977,6 +1982,35 @@ function renderPediatria(peso) {
       rcp.energy = energySteps[Math.max(0, Math.min(energySteps.length-1,index+direction))];
       persistRCP(); renderRCP();
     }
+    // Deslizamiento horizontal sobre el centro: ajusta J sin registrar una descarga.
+    function enableEnergySwipe(id) {
+      const button = $rcp(id);
+      let start = null, suppressClick = false;
+      button.addEventListener('pointerdown', event => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        suppressClick = false;
+        start = { x: event.clientX, y: event.clientY, pointerId: event.pointerId };
+        try { button.setPointerCapture?.(event.pointerId); } catch (_) {}
+      });
+      button.addEventListener('pointerup', event => {
+        if (!start || (start.pointerId !== undefined && event.pointerId !== start.pointerId)) return;
+        const dx = event.clientX - start.x, dy = event.clientY - start.y;
+        start = null;
+        if (Math.abs(dx) >= 30 && Math.abs(dx) > Math.abs(dy)) {
+          suppressClick = true;
+          adjustEnergy(dx > 0 ? 1 : -1);
+        }
+      });
+      button.addEventListener('pointercancel', () => { start = null; });
+      button.addEventListener('click', event => {
+        if (!suppressClick) return;
+        suppressClick = false;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+      }, true);
+    }
+    enableEnergySwipe('btn-descarga');
+    enableEnergySwipe('btn-descarga-grande');
     function registrarAdrenalina() {
       if (!liveRCP() || doseAlreadyPressed('epi')) return;
       addRCPEvent('epi', 'Adrenalina administrada · 1 mg IV/IO', { doseMg: 1 });
@@ -2203,13 +2237,13 @@ function renderPediatria(peso) {
         panel.append(row);
       }
     }
-    function playBeepCustom(freq, type, duration, volume, scheduledAt) {
+    function playBeepCustom(freq, type, duration, scheduledAt) {
       if (!audioCtx || audioCtx.state !== 'running') return;
       try {
         const at = scheduledAt ?? audioCtx.currentTime;
         const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
         osc.type = type; osc.frequency.value = freq; osc.connect(gain); gain.connect(audioCtx.destination);
-        gain.gain.setValueAtTime(volume,at); gain.gain.exponentialRampToValueAtTime(.001,at+duration);
+        gain.gain.setValueAtTime(RCP_AUDIO_VOLUME,at); gain.gain.exponentialRampToValueAtTime(.001,at+duration);
         activeSounds.add(osc);
         osc.onended = () => { activeSounds.delete(osc); osc.disconnect(); gain.disconnect(); };
         osc.start(at); osc.stop(at+duration);
@@ -2225,8 +2259,8 @@ function renderPediatria(peso) {
         initAudio();
         if (audioCtx?.state === 'running') {
           const at = audioCtx.currentTime;
-          playBeepCustom(kind === 'cycle' ? 440 : 620,'sine',.16,.25,at);
-          playBeepCustom(kind === 'cycle' ? 660 : 880,'sine',.16,.25,at+.23);
+          playBeepCustom(kind === 'cycle' ? 440 : 620,'sine',.16,at);
+          playBeepCustom(kind === 'cycle' ? 660 : 880,'sine',.16,at+.23);
         }
       }
       try { navigator.vibrate?.([120,80,120]); } catch (_) {}
@@ -2266,12 +2300,12 @@ function renderPediatria(peso) {
         }
         while (nextSoundAt < now+.12) {
           const slot = soundSlot(nextSoundIndex,airway,bpm);
-          playBeepCustom(slot.kind === 'compression' ? 850 : 340,'sine',slot.kind === 'compression' ? .045 : .22,slot.kind === 'compression' ? .22 : .3,Math.max(now,nextSoundAt));
+          playBeepCustom(slot.kind === 'compression' ? 850 : 340,'sine',slot.kind === 'compression' ? .045 : .22,Math.max(now,nextSoundAt));
           nextSoundIndex++;
           nextSoundAt = anchor+soundSlot(nextSoundIndex,airway,bpm).at;
         }
         if (airway && nextVentAt < now+.12) {
-          playBeepCustom(340,'sine',.22,.3,Math.max(now,nextVentAt)); nextVentAt+=6;
+          playBeepCustom(340,'sine',.22,Math.max(now,nextVentAt)); nextVentAt+=6;
         }
       };
       schedule(); audioScheduler = setInterval(schedule,25);
