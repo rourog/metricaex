@@ -378,8 +378,8 @@
     .pulse-alarm-active { animation: flashPulse 1s infinite; }
 /* RCP compacta: rojo compresión, azul ventilación, amarillo descarga. */
 [hidden] { display: none !important; }
-#rcp { max-width: 620px; margin: 0 auto; --cpr-red: #a73848; --cpr-red-bg: rgba(183,63,81,.10); --cpr-blue: #245f91; --cpr-blue-bg: rgba(46,115,167,.11); --cpr-yellow: #61480c; --cpr-yellow-bg: #fff1bd; --cpr-green: #276747; --cpr-green-bg: rgba(52,139,96,.10); }
-body.theme-cyber #rcp, body.theme-dark-red #rcp { --cpr-red: #f0a0ab; --cpr-red-bg: rgba(220,94,113,.16); --cpr-blue: #a5cdec; --cpr-blue-bg: rgba(85,153,207,.16); --cpr-yellow: #ffe39a; --cpr-yellow-bg: rgba(219,175,59,.18); --cpr-green: #a4d9bf; --cpr-green-bg: rgba(62,156,113,.16); }
+#rcp { max-width: 620px; margin: 0 auto; --pacing-size: clamp(1.5rem,6vw,1.8rem); --cpr-red: #a31b32; --cpr-red-bg: #fbd0d7; --cpr-blue: #154f91; --cpr-blue-bg: #c9e2ff; --cpr-yellow: #573b00; --cpr-yellow-bg: #ffdc62; --cpr-green: #276747; --cpr-green-bg: rgba(52,139,96,.10); }
+body.theme-cyber #rcp, body.theme-dark-red #rcp { --cpr-red: #ffd1d9; --cpr-red-bg: #6f1e30; --cpr-blue: #d7eaff; --cpr-blue-bg: #164574; --cpr-yellow: #fff0b9; --cpr-yellow-bg: #705200; --cpr-green: #a4d9bf; --cpr-green-bg: rgba(62,156,113,.16); }
 #rcp .rcp-container { height: auto; max-height: none; gap: 8px; padding: 14px; }
 #rcp .rcp-time-grid { margin: 0; gap: 12px; }
 #rcp .rcp-time-value { font-size: clamp(2rem, 7vw, 2.8rem); font-variant-numeric: tabular-nums; }
@@ -394,9 +394,9 @@ body.theme-cyber #rcp, body.theme-dark-red #rcp { --cpr-red: #f0a0ab; --cpr-red-
 #rcp .rcp-pacing.ventilation { background: var(--cpr-blue-bg); color: var(--cpr-blue); border: 1px solid var(--cpr-blue); }
 #rcp .rcp-pacing.evaluation { background: var(--cpr-yellow-bg); color: var(--cpr-yellow); border: 1px solid #bd922e; font-size: 1.08rem; }
 .rcp-pacing-icon { width: 30px; height: 30px; flex-shrink: 0; }
-.rcp-pacing-count { font-size: 1.8rem; font-variant-numeric: tabular-nums; line-height: 1; }
-.rcp-vent-cue { display: flex; align-items: center; gap: 5px; padding-left: 12px; border-left: 1px solid currentColor; font-size: .82rem; }
-.rcp-vent-cue svg { width: 20px; height: 20px; }
+.rcp-pacing-count { font-size: var(--pacing-size); white-space: nowrap; font-variant-numeric: tabular-nums; line-height: 1; }
+.rcp-vent-cue { display: flex; align-items: center; gap: 5px; padding-left: 12px; border-left: 1px solid currentColor; font-size: var(--pacing-size); white-space: nowrap; line-height: 1; }
+.rcp-vent-cue svg { width: 30px; height: 30px; }
 .rcp-rhythm-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
 #rcp .rcp-rhythm-btn { display: flex; flex-direction: column; min-height: 58px; font-size: 1rem; }
 #rcp small { display: block; font-size: .76rem; font-weight: normal; text-transform: none; line-height: 1.3; }
@@ -432,6 +432,16 @@ body.rcp-focus .aura-orb { animation: none !important; opacity: .12 !important; 
 body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !important; }
 @media (max-width: 400px) { #rcp .rcp-container { padding: 12px; } #rcp .rcp-event-btn { font-size: .82rem; } #rcp .rcp-shock-btn { font-size: .84rem; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+#rcp .rcp-airway-btn { grid-column: 1 / -1; }
+#rcp .log-entry.live-editable { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: pan-y; cursor: pointer; }
+#rcp .log-entry.live-editable:focus-visible { outline: 2px solid var(--accent); }
+.rcp-outcome-overlay { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; padding: 20px; background: rgba(0,0,0,.55); z-index: 10000; }
+.rcp-outcome-box { display: flex; flex-direction: column; gap: 12px; transform: none; }
+.rcp-outcome-box h2 { font-size: 1.2rem; margin: 0 0 4px; }
+.rcp-outcome-box .btn-toggle { min-height: 54px; }
+.rcp-outcome-rosc { background: #c3efd8; color: #155a37; border-color: #21794d; }
+.rcp-outcome-death { background: #fbd0d7; color: #922037; border-color: #ac2942; }
 
 </style>
 </head>
@@ -554,6 +564,7 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
         </div>
         <progress id="progreso-ciclo" value="0" max="120" aria-label="Progreso del ciclo de dos minutos"></progress>
         <button id="btn-rcp-start" class="btn-toggle rcp-primary rcp-pacing" onclick="toggleRCP()">INICIAR RCP</button>
+        <button id="btn-new-rcp" class="btn-toggle rcp-primary" onclick="nuevaReanimacionRCP()" hidden>NUEVA REANIMACIÓN</button>
         <button id="btn-restore-rcp" class="btn-toggle" onclick="recuperarRCP()" hidden>RECUPERAR SESIÓN</button>
         <div id="rcp-live-controls" hidden>
           <div id="decision-ritmo" class="rcp-rhythm-stack" hidden>
@@ -568,15 +579,13 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
           <div class="rcp-btn-grid">
             <button id="btn-adrenalina" class="btn-toggle rcp-event-btn" onclick="registrarAdrenalina()">ADRENALINA <small>1 mg</small></button>
             <button id="btn-amiodarona" class="btn-toggle rcp-event-btn" onclick="registrarAmiodarona()">AMIODARONA <small>300 mg</small></button>
-            <button id="btn-intubacion" class="btn-toggle rcp-event-btn" onclick="registrarIntubacion()">VÍA AÉREA</button>
-            <button id="btn-rosc" class="btn-toggle rcp-event-btn rcp-rosc-btn" onclick="confirmarRCE()">RCE</button>
+            <button id="btn-intubacion" class="btn-toggle rcp-event-btn rcp-airway-btn" onclick="registrarIntubacion()">VÍA AÉREA</button>
           </div>
           <div class="rcp-audio-row">
             <button id="btn-metronomo-toggle" class="btn-toggle" onclick="toggleMetronomo()">SONIDO ON</button>
             <button id="btn-metronomo-bpm" class="btn-toggle" onclick="cycleBPM()">120 /min</button>
             <span id="rcp-device-status" class="rcp-device-status" aria-label="Estado de pantalla"></span>
           </div>
-          <button id="btn-undo-rcp" class="btn-toggle rcp-undo" onclick="deshacerEvento()" hidden>↶ DESHACER</button>
           <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()">TERMINAR RCP</button>
         </div>
         <div id="rcp-ended-controls" hidden>
@@ -596,6 +605,14 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
         <div id="rcp-notice" role="status" class="rcp-caption"></div>
       </div>
     </section>
+    <div id="rcp-outcome-modal" class="rcp-outcome-overlay" role="dialog" aria-modal="true" aria-labelledby="rcp-outcome-title" hidden>
+      <div class="glass-modal-box rcp-outcome-box">
+        <h2 id="rcp-outcome-title">TERMINAR RCP</h2>
+        <button id="rcp-outcome-rosc" class="btn-toggle rcp-outcome-rosc" onclick="seleccionarResultadoRCP('rosc')">RCE</button>
+        <button id="rcp-outcome-death" class="btn-toggle rcp-outcome-death" onclick="seleccionarResultadoRCP('death')">DEFUNCIÓN</button>
+        <button id="rcp-outcome-cancel" class="btn-toggle" onclick="cerrarResultadoRCP()">CANCELAR</button>
+      </div>
+    </div>
 
     <section id="extra" class="view-section">
       <div class="panel-izquierdo">
@@ -719,7 +736,7 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
   /* =========================================
        CONFIGURACIÓN GLOBAL Y VERSIÓN
        ========================================= */
-    const APP_VERSION = "1.1.0-rcp-preview.2";
+    const APP_VERSION = "1.1.0-rcp-preview.3";
     const APP_NAME = "Métrica EX";
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
@@ -1950,36 +1967,53 @@ function renderPediatria(peso) {
         addRCPEvent('airway', 'Vía aérea avanzada confirmada'); finishActionRCP(true);
       });
     }
-    function confirmarRCE() {
-      if (!liveRCP()) return;
-      mostrarModal('RCE · PULSO PRESENTE', '¿Pulso presente?', 'Confirmar RCE', '', () => endRCP('rosc'));
-    }
     function terminarRCP() {
       if (!liveRCP()) return;
-      mostrarModal('TERMINAR REANIMACIÓN', '¿Terminar RCP?', 'Terminar', 'btn-danger', () => endRCP('finished'));
+      $rcp('rcp-outcome-modal').hidden = false;
+      $rcp('rcp-outcome-rosc').focus();
     }
+    function cerrarResultadoRCP() {
+      $rcp('rcp-outcome-modal').hidden = true;
+      if (liveRCP()) $rcp('btn-terminar-rcp').focus();
+    }
+    function seleccionarResultadoRCP(status) {
+      if (!liveRCP() || !['rosc','death'].includes(status)) return;
+      cerrarResultadoRCP(); endRCP(status);
+    }
+    document.addEventListener('keydown', event => {
+      if ($rcp('rcp-outcome-modal').hidden) return;
+      if (event.key === 'Escape') { event.preventDefault(); cerrarResultadoRCP(); }
+      if (event.key === 'Tab') {
+        event.preventDefault();
+        const buttons = ['rcp-outcome-rosc','rcp-outcome-death','rcp-outcome-cancel'].map($rcp);
+        const index = buttons.indexOf(document.activeElement);
+        buttons[(index+(event.shiftKey?2:1)+3)%3].focus();
+      }
+    });
     function endRCP(status) {
       if (!liveRCP()) return;
-      addRCPEvent('end', status === 'rosc' ? 'RCE CONFIRMADO' : 'FIN DE REANIMACIÓN');
+      addRCPEvent('end',status === 'rosc' ? 'RCE CONFIRMADO' : status === 'death' ? 'FIN DE RCP · DEFUNCIÓN REGISTRADA' : 'FIN DE REANIMACIÓN');
       rcp.endAt = rcpNow(); rcp.status = status;
       clearInterval(rcpInterval); rcpInterval = null; stopRCPAudio(); cancelSoundsRCP(); releaseWakeLock();
       document.body.classList.remove('rcp-focus'); finishActionRCP();
     }
-    function deshacerEvento() {
+    function solicitarBorradoRCP(id) {
       if (!liveRCP()) return;
-      const event = actualEvents().filter(e => !['start', 'end'].includes(e.kind)).at(-1);
-      if (!event) return;
-      event.deleted = true;
-      Object.assign(rcp, event.before);
-      noticeRCP(`Deshecho: ${event.label}`);
-      finishActionRCP(true); tickRCP();
+      const event = rcp.events.find(e=>e.id===id);
+      if (!event || event.deleted || ['start','end'].includes(event.kind)) return;
+      mostrarModal('BORRAR EVENTO',event.label,'Borrar','btn-danger',()=> {
+        if (!liveRCP() || event.deleted) return;
+        eliminarEvento(id);
+      });
     }
     function eliminarEvento(id) {
-      if (liveRCP() || rcp.status === 'idle') return;
-      const event = rcp.events.find(e => e.id === id);
+      if (rcp.status === 'idle') return;
+      const event = rcp.events.find(e=>e.id===id);
       if (!event || ['start','end'].includes(event.kind)) return;
+      const oldAirway = hasAirway();
       event.deleted = !event.deleted;
-      finishActionRCP();
+      finishActionRCP(liveRCP() && oldAirway!==hasAirway());
+      if (liveRCP()) tickRCP();
       if (!$rcp('rcp-export').hidden) $rcp('rcp-export').value = summaryRCP();
     }
     function summaryRCP() {
@@ -2009,6 +2043,12 @@ function renderPediatria(peso) {
       savedRcp = null; epiAlertedId = null; simulationOffset = 0;
       document.body.classList.remove('rcp-focus');
       $rcp('rcp-export').hidden = true; noticeRCP(''); finishActionRCP();
+    }
+    function nuevaReanimacionRCP() {
+      if (rcp.status !== 'idle' || !savedRcp) return;
+      try { localStorage.setItem(RCP_STORAGE+'_previous',JSON.stringify(savedRcp)); } catch (_) {}
+      savedRcp = null; simulationOffset = 0; rcp = freshRCP();
+      noticeRCP(''); toggleRCP();
     }
     function recuperarRCP() {
       if (!savedRcp || rcp.status !== 'idle') return;
@@ -2040,7 +2080,7 @@ function renderPediatria(peso) {
       return `<svg class="rcp-pacing-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
     }
     function renderRCP() {
-      const now = rcpNow(), live = liveRCP(), ended = ['finished','rosc'].includes(rcp.status);
+      const now = rcpNow(), live = liveRCP(), ended = ['finished','rosc','death'].includes(rcp.status);
       const evaluation = live && ['evaluation','shock'].includes(rcp.phase);
       const cycleSeconds = rcp.cycleAt === null ? 0 : Math.max(0,((rcp.endAt??now)-rcp.cycleAt)/1000);
       $rcp('reloj-total').textContent = formatearTiempo(elapsedRCP(now));
@@ -2056,7 +2096,7 @@ function renderPediatria(peso) {
       } else if (live) {
         const pacing = pacingRCP(now); phase = pacing.phase; voicePhase = phase;
         if (hasAirway()) {
-          content = `${pacingIcon('heart')}<span class="rcp-pacing-count">${rcp.bpm}<small>/min</small></span><span class="rcp-vent-cue">${pacingIcon('lungs')}${pacing.ventSeconds}s</span>`;
+          content = `${pacingIcon('heart')}<span class="rcp-pacing-count">${rcp.bpm}/min</span><span class="rcp-vent-cue">${pacingIcon('lungs')}${pacing.ventSeconds}s</span>`;
           accessible = `Compresiones continuas a ${rcp.bpm} por minuto. Ventilar en ${pacing.ventSeconds} segundos`;
         } else {
           const vent = phase === 'ventilation';
@@ -2068,6 +2108,7 @@ function renderPediatria(peso) {
       if (main.innerHTML !== content) main.innerHTML = content;
       main.setAttribute('aria-label',accessible);
       $rcp('btn-restore-rcp').hidden = !savedRcp;
+      $rcp('btn-new-rcp').hidden = !savedRcp;
       $rcp('rcp-live-controls').hidden = !live;
       $rcp('rcp-ended-controls').hidden = !ended;
       $rcp('decision-ritmo').hidden = !evaluation;
@@ -2089,8 +2130,7 @@ function renderPediatria(peso) {
       $rcp('btn-intubacion').textContent = hasAirway() ? 'VÍA AÉREA ✔' : 'VÍA AÉREA';
       $rcp('btn-metronomo-toggle').textContent = rcp.sound ? (audioCtx && audioCtx.state==='running'?'SONIDO ON':'ACTIVAR SONIDO') : 'SONIDO OFF';
       $rcp('btn-metronomo-bpm').textContent = `${rcp.bpm} /min`;
-      $rcp('btn-undo-rcp').hidden = !actualEvents().some(e=>!['start','end'].includes(e.kind));
-      $rcp('rcp-end-summary').textContent = `${rcp.status==='rosc'?'RCE':'Finalizada'} · ${shockCountRCP()} descargas · ${actualEvents('epi').length} adrenalina`;
+      $rcp('rcp-end-summary').textContent = `${rcp.status==='rosc'?'RCE':rcp.status==='death'?'Defunción':'Finalizada'} · ${shockCountRCP()} descargas · ${actualEvents('epi').length} adrenalina`;
     }
     function renderRCPLog() {
       const panel = $rcp('log-eventos'); panel.replaceChildren();
@@ -2102,6 +2142,25 @@ function renderPediatria(peso) {
         const time = document.createElement('span'); time.className = 'log-timer'; time.textContent = `+${formatearTiempo(e.elapsed)}`;
         const action = document.createElement('span'); action.className = 'log-action'; action.textContent = e.label;
         row.append(time,action);
+        if (liveRCP() && !['start','end'].includes(e.kind)) {
+          row.classList.add('live-editable');
+          row.setAttribute('tabindex','0');
+          row.setAttribute('title','Mantener pulsado para borrar');
+          row.setAttribute('aria-label',`${e.label}. Mantener pulsado o presionar Enter para borrar.`);
+          let hold = null, origin = null;
+          const cancelHold = () => { if (hold!==null) clearTimeout(hold); hold=null; origin=null; };
+          row.addEventListener('pointerdown',pointer => {
+            if (pointer.button!==0 || (pointer.isPrimary===false)) return;
+            cancelHold(); origin={x:pointer.clientX,y:pointer.clientY};
+            hold=setTimeout(()=> { hold=null; solicitarBorradoRCP(e.id); },700);
+          });
+          row.addEventListener('pointermove',pointer => {
+            if (origin && Math.hypot(pointer.clientX-origin.x,pointer.clientY-origin.y)>12) cancelHold();
+          });
+          for (const type of ['pointerup','pointercancel','pointerleave']) row.addEventListener(type,cancelHold);
+          row.addEventListener('contextmenu',pointer=>{pointer.preventDefault();cancelHold();solicitarBorradoRCP(e.id);});
+          row.addEventListener('keydown',key=>{if(['Enter','Delete'].includes(key.key)){key.preventDefault();solicitarBorradoRCP(e.id);}});
+        }
         if (!liveRCP() && rcp.status !== 'idle' && !['start','end'].includes(e.kind)) {
           const btn = document.createElement('button'); btn.className = 'log-delete'; btn.textContent = e.deleted ? 'Restaurar' : 'Eliminar';
           btn.setAttribute('aria-label', `${e.deleted ? 'Restaurar' : 'Eliminar'} ${e.label}`);
@@ -2225,7 +2284,7 @@ function renderPediatria(peso) {
     function initRCP() {
       try {
         const saved = JSON.parse(localStorage.getItem(RCP_STORAGE) || 'null');
-        if (saved?.version === 2 && ['active','rosc','finished'].includes(saved.status) && Array.isArray(saved.events) && Number.isFinite(saved.startAt)) {
+        if (saved?.version === 2 && ['active','rosc','finished','death'].includes(saved.status) && Array.isArray(saved.events) && Number.isFinite(saved.startAt)) {
           savedRcp = saved;
           // Un laboratorio adelantado se recupera en su propio reloj virtual.
           const lastAt = Math.max(saved.startAt,...saved.events.map(e=>e.at), saved.endAt || 0);
