@@ -10,7 +10,7 @@ Esta rama es de evaluación. No fusionar ni desplegar en GitHub Pages antes de l
 - Evaluación automática de ritmo por ciclos, controles apilados, energía ajustable y registro de descarga administrada.
 - Primera adrenalina según ritmo/choques; repetición pendiente a tres minutos de la última dosis y aviso de intervalo mayor de cinco minutos.
 - Amiodarona pendiente tras tres descargas reales en FV/TVsp; segunda dosis de 150 mg a valorar por el líder si persiste. Lidocaína aparece como alternativa; esta prueba no incorpora su calculadora.
-- RCE, cierre de sesión, Deshacer y eliminación/restauración de registros al terminar.
+- RCE, cierre de sesión, Borrado confirmatorio y eliminación/restauración de registros al terminar.
 - Sesión recuperable en el mismo navegador. Guardado separado de la aplicación pública.
 - Laboratorio para adelantar +30 segundos o +2 minutos, con exportación marcada como simulación.
 
@@ -27,7 +27,7 @@ Antes de uso clínico final, resolver el acceso a la identificación/desfibrilac
 
 ## Pruebas
 
-Ejecutar `node --test tests/rcp.test.cjs` con Node.js. Treinta y tres pruebas del código original de esta rama, con DOM, reloj y audio simulados. Cubren intervalos, eventos, secuencia de sonidos, recuperación y carreras de Wake Lock. No equivalen a validación clínica ni a pruebas físicas de altavoz, pantalla o navegador móvil.
+Ejecutar `node --test tests/rcp.test.cjs` con Node.js. Treinta y nueve pruebas del código original de esta rama, con DOM, reloj y audio simulados. Cubren intervalos, eventos, secuencia de sonidos, recuperación y carreras de Wake Lock. No equivalen a validación clínica ni a pruebas físicas de altavoz, pantalla o navegador móvil.
 
 ## Evaluación sugerida
 
@@ -35,11 +35,19 @@ Ejecutar `node --test tests/rcp.test.cjs` con Node.js. Treinta y tres pruebas de
 2. Abrir Laboratorio y adelantar dos minutos; verificar botones de ritmo apilados.
 3. Ajustar energía y pulsar Descarga cuando se haya administrado; comprobar nuevo ciclo.
 4. Registrar adrenalina y adelantar tres minutos para ver el recordatorio.
-5. Confirmar vía aérea y escuchar las señales de ventilación sin pausa del metrónomo.
-6. Deshacer una dosis o vía aérea accidental.
-7. Finalizar y eliminar/restaurar una entrada antes de copiar.
+5. Confirmar vía aérea: ritmo y ventilación con el mismo tamaño, 120/min en una sola línea.
+6. Mantener pulsado un evento en la bitácora en vivo y confirmar su borrado.
+7. Terminar eligiendo RCE o defunción y eliminar/restaurar una entrada antes de copiar.
 8. Recargar y recuperar una sesión.
 
 La prueba no registra Service Worker ni instala una actualización sobre la app pública. Las demás calculadoras se conservan; los errores fuera de RCP de la auditoría requieren otro cambio.
 
 Referencia: https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Algorithms/Algorithm-ACLS-CA-250527.pdf?sc_lang=en
+
+## Tercera revisión
+
+- Sesión guardada: elegir recuperar o iniciar nueva reanimación inmediatamente. La anterior se conserva como copia local de respaldo.
+- Se elimina el botón separado de RCE. Terminar solicita RCE o defunción como resultado indicado por el equipo.
+- Se elimina Deshacer. Mantener pulsado un evento 700 ms abre una confirmación de borrado. Un toque corto, movimiento mayor de 12 px o cancelación del gesto no abren el modal. También se admite Enter/Delete con teclado.
+- Borrar en vivo recalcula dosis, conteos y vía aérea, sin rebobinar los relojes.
+- Colores más intensos y tipografía del metrónomo continuo igual a la ventilación.
