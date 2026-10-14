@@ -1,6 +1,6 @@
-# Prueba RCP ACLS 2025
+# RCP v1.1.0 · historial de evaluación
 
-Esta rama es de evaluación. No fusionar ni desplegar en GitHub Pages antes de la evaluación del propietario.
+La actualización fue evaluada por el propietario y autorizada para publicación el 14 de octubre de 2026.
 
 ## Cambios
 
@@ -27,7 +27,7 @@ Antes de uso clínico final, resolver el acceso a la identificación/desfibrilac
 
 ## Pruebas
 
-Ejecutar `node --test tests/rcp.test.cjs` con Node.js. Treinta y nueve pruebas del código original de esta rama, con DOM, reloj y audio simulados. Cubren intervalos, eventos, secuencia de sonidos, recuperación y carreras de Wake Lock. No equivalen a validación clínica ni a pruebas físicas de altavoz, pantalla o navegador móvil.
+Ejecutar `node --test tests/rcp.test.cjs` con Node.js. Cuarenta y una pruebas del código original de esta rama, con DOM, reloj y audio simulados. Cubren intervalos, eventos, secuencia de sonidos, recuperación y carreras de Wake Lock. No equivalen a validación clínica ni a pruebas físicas de altavoz, pantalla o navegador móvil.
 
 ## Evaluación sugerida
 
@@ -51,3 +51,7 @@ Referencia: https://cpr.heart.org/-/media/CPR-Files/CPR-Guidelines-Files/2025-Al
 - Se elimina Deshacer. Mantener pulsado un evento 700 ms abre una confirmación de borrado. Un toque corto, movimiento mayor de 12 px o cancelación del gesto no abren el modal. También se admite Enter/Delete con teclado.
 - Borrar en vivo recalcula dosis, conteos y vía aérea, sin rebobinar los relojes.
 - Colores más intensos y tipografía del metrónomo continuo igual a la ventilación.
+
+## Publicación v1.1.0
+
+No desfibrilable usa azul propio, descarga conserva amarillo y el indicador de evaluar ritmo usa gris deshabilitado. El laboratorio está oculto y no permite saltos de tiempo en producción. La sesión pública usa una clave independiente de las sesiones de prueba.
