@@ -376,54 +376,61 @@
     .btn-alert-flash { animation: flashRed 1s infinite; color: #fff !important; background-color: var(--danger) !important; }
     @keyframes flashPulse { 0% { background-color: rgba(245, 124, 0, 0.05); border-color: var(--warning); } 50% { background-color: rgba(245, 124, 0, 0.2); border-color: var(--warning); box-shadow: 0 0 15px var(--warning); } 100% { background-color: rgba(245, 124, 0, 0.05); border-color: var(--warning); } }
     .pulse-alarm-active { animation: flashPulse 1s infinite; }
-/* Laboratorio RCP: acciones estables y lectura rápida. */
+/* RCP compacta: rojo compresión, azul ventilación, amarillo descarga. */
 [hidden] { display: none !important; }
-#rcp { max-width: 720px; margin: 0 auto; }
-#rcp .rcp-container { height: auto; max-height: none; gap: 10px; padding: 16px; }
+#rcp { max-width: 620px; margin: 0 auto; --cpr-red: #a73848; --cpr-red-bg: rgba(183,63,81,.10); --cpr-blue: #245f91; --cpr-blue-bg: rgba(46,115,167,.11); --cpr-yellow: #61480c; --cpr-yellow-bg: #fff1bd; --cpr-green: #276747; --cpr-green-bg: rgba(52,139,96,.10); }
+body.theme-cyber #rcp, body.theme-dark-red #rcp { --cpr-red: #f0a0ab; --cpr-red-bg: rgba(220,94,113,.16); --cpr-blue: #a5cdec; --cpr-blue-bg: rgba(85,153,207,.16); --cpr-yellow: #ffe39a; --cpr-yellow-bg: rgba(219,175,59,.18); --cpr-green: #a4d9bf; --cpr-green-bg: rgba(62,156,113,.16); }
+#rcp .rcp-container { height: auto; max-height: none; gap: 8px; padding: 14px; }
 #rcp .rcp-time-grid { margin: 0; gap: 12px; }
-#rcp .rcp-time-value { font-size: clamp(2rem, 7vw, 3rem); font-variant-numeric: tabular-nums; }
+#rcp .rcp-time-value { font-size: clamp(2rem, 7vw, 2.8rem); font-variant-numeric: tabular-nums; }
 #reloj-ciclo { color: var(--accent); }
-#rcp .btn-toggle { min-height: 52px; font-size: .95rem; letter-spacing: 0; }
-#rcp .rcp-primary { background: var(--accent); color: #fff; min-height: 60px; font-size: 1.15rem; }
-.rcp-preview-badge { font-size: .68rem; font-weight: bold; letter-spacing: .8px; color: var(--accent); }
-#rcp progress { width: 100%; height: 7px; flex-shrink: 0; }
-.rcp-guide { padding: 14px; border-radius: 10px; background: rgba(128,128,128,.08); border-left: 4px solid var(--accent); }
-.rcp-instruction { font: 700 1.4rem 'Rajdhani',sans-serif; line-height: 1.15; }
-#rcp-detail { font-size: .8rem; margin-top: 5px; }
-.rcp-breath { font-size: .95rem; font-weight: bold; margin-top: 8px; font-variant-numeric: tabular-nums; }
-.rcp-guide.ventilating { background: rgba(2,119,189,.12); border-color: #0277bd; }
-.rcp-guide.evaluating { background: rgba(245,124,0,.13); border-color: var(--warning); }
-.rcp-rhythm-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
-#rcp .rcp-rhythm-btn { display: flex; flex-direction: column; min-height: 66px; font-size: 1.08rem; }
-#rcp small { display: block; font-size: .73rem; font-weight: normal; text-transform: none; line-height: 1.35; }
-.rcp-shock-option { border: 1px solid var(--warning); border-radius: 9px; padding: 8px; }
-.rcp-energy-row { display: grid; grid-template-columns: 52px 1fr 52px; gap: 8px; align-items: center; text-align: center; margin-bottom: 6px; }
-#rcp-energy { font-size: 1.5rem; font-weight: bold; }
-#rcp .rcp-energy-step { min-height: 48px; font-size: 1.4rem; }
-#rcp .rcp-shock-btn { border-color: var(--warning); background: rgba(245,124,0,.12); }
-#rcp .rcp-btn-grid { margin-bottom: 8px; }
-#rcp .rcp-event-btn { flex-direction: column; min-height: 66px; }
-.rcp-drug-status { border-radius: 6px; padding: 8px 10px; background: rgba(128,128,128,.08); font-size: .85rem; margin: 10px 0; font-variant-numeric: tabular-nums; }
-.rcp-due { border: 2px solid var(--warning) !important; background: rgba(245,124,0,.14) !important; }
-.rcp-overdue { border: 2px solid var(--danger) !important; background: rgba(255,0,0,.1) !important; }
-.rcp-audio-row { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; margin: 10px 0 4px; }
-.rcp-caption { font-size: .72rem; line-height: 1.45; color: var(--text-muted); margin: 5px 0; }
-#rcp .rcp-undo { border-style: dashed; margin: 8px 0; }
-#rcp .btn-danger { margin-top: 8px; }
-.rcp-settings, .rcp-test-tools, .rcp-log-details { border-top: 1px solid var(--border); padding-top: 10px; }
-#rcp summary { cursor: pointer; font-size: .8rem; padding: 7px 0; min-height: 40px; }
-#rcp label { display: block; font-size: .72rem; margin: 8px 0 4px; }
+#rcp .btn-toggle { min-height: 48px; font-size: .92rem; letter-spacing: 0; }
+#rcp .rcp-primary { background: var(--accent); color: #fff; min-height: 60px; font-size: 1.1rem; }
+.rcp-preview-badge { font-size: .65rem; font-weight: bold; letter-spacing: .6px; color: var(--text-muted); }
+#rcp progress { width: 100%; height: 6px; flex-shrink: 0; }
+#rcp .rcp-pacing { gap: 12px; min-height: 68px; }
+#rcp .rcp-pacing:disabled { opacity: 1; cursor: default; }
+#rcp .rcp-pacing.compression { background: var(--cpr-red-bg); color: var(--cpr-red); border: 1px solid var(--cpr-red); }
+#rcp .rcp-pacing.ventilation { background: var(--cpr-blue-bg); color: var(--cpr-blue); border: 1px solid var(--cpr-blue); }
+#rcp .rcp-pacing.evaluation { background: var(--cpr-yellow-bg); color: var(--cpr-yellow); border: 1px solid #bd922e; font-size: 1.08rem; }
+.rcp-pacing-icon { width: 30px; height: 30px; flex-shrink: 0; }
+.rcp-pacing-count { font-size: 1.8rem; font-variant-numeric: tabular-nums; line-height: 1; }
+.rcp-vent-cue { display: flex; align-items: center; gap: 5px; padding-left: 12px; border-left: 1px solid currentColor; font-size: .82rem; }
+.rcp-vent-cue svg { width: 20px; height: 20px; }
+.rcp-rhythm-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+#rcp .rcp-rhythm-btn { display: flex; flex-direction: column; min-height: 58px; font-size: 1rem; }
+#rcp small { display: block; font-size: .76rem; font-weight: normal; text-transform: none; line-height: 1.3; }
+.rcp-energy-row { display: grid; grid-template-columns: 48px minmax(0,1fr) 48px; gap: 6px; align-items: stretch; }
+#rcp .rcp-energy-row .btn-toggle { min-height: 58px; background: var(--cpr-yellow-bg); color: var(--cpr-yellow); border: 1px solid #bd922e; }
+#rcp .rcp-energy-step { font-size: 1.5rem; }
+#rcp .rcp-shock-btn { font-size: 1rem; gap: 5px; }
+#rcp .rcp-energy-step:disabled { opacity: .45; }
+#rcp .rcp-btn-grid { margin-bottom: 6px; gap: 8px; }
+#rcp .rcp-event-btn { flex-direction: column; min-height: 58px; }
+#rcp .rcp-rosc-btn { color: var(--cpr-green); background: var(--cpr-green-bg); border-color: var(--cpr-green); }
+.rcp-drug-status { padding: 6px 2px; font-size: .76rem; margin: 4px 0; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+#rcp .rcp-due { border: 2px solid #bd922e !important; background: var(--cpr-yellow-bg) !important; color: var(--cpr-yellow) !important; }
+#rcp .rcp-overdue { border: 2px solid var(--cpr-red) !important; background: var(--cpr-red-bg) !important; color: var(--cpr-red) !important; }
+.rcp-audio-row { display: grid; grid-template-columns: 1fr 1fr 24px; gap: 8px; align-items: center; margin: 8px 0 2px; }
+#rcp .rcp-audio-row .btn-toggle { min-height: 44px; font-size: .8rem; }
+.rcp-device-status { font-size: 1.05rem; text-align: center; color: var(--text-muted); }
+.rcp-caption { font-size: .72rem; line-height: 1.4; color: var(--text-muted); }
+#rcp-notice:empty { display: none; }
+#rcp .rcp-undo { border-style: dashed; margin: 6px 0; min-height: 44px; font-size: .8rem; }
+#rcp .btn-danger { margin-top: 6px; min-height: 44px; font-size: .85rem; }
+.rcp-test-tools, .rcp-log-details { border-top: 1px solid var(--border); padding-top: 3px; }
+#rcp summary { cursor: pointer; font-size: .75rem; padding: 6px 0; min-height: 36px; }
 #rcp .log-entry { display: grid; grid-template-columns: 58px 1fr auto; gap: 8px; }
 #rcp .log-action { white-space: normal; overflow: visible; margin: 0; font-size: .78rem; }
 #rcp .log-timer { font-size: .73rem; }
 #rcp .log-delete { border: 1px solid var(--border); border-radius: 5px; padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: var(--danger); cursor: pointer; }
 #rcp .log-entry.deleted { opacity: .6; text-decoration: line-through; }
-#rcp .rcp-log-area { max-height: 280px; overflow-y: auto; flex: none; }
+#rcp .rcp-log-area { max-height: 240px; overflow-y: auto; flex: none; }
 #rcp-export { width: 100%; min-height: 180px; font: .8rem monospace; padding: 8px; }
 #rcp button:focus-visible, #rcp summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
 body.rcp-focus .aura-orb { animation: none !important; opacity: .12 !important; }
 body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !important; }
-@media (max-width: 400px) { #rcp .rcp-container { padding: 12px; } #rcp .rcp-event-btn { font-size: .83rem; } }
+@media (max-width: 400px) { #rcp .rcp-container { padding: 12px; } #rcp .rcp-event-btn { font-size: .82rem; } #rcp .rcp-shock-btn { font-size: .84rem; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 
 </style>
@@ -540,80 +547,51 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
 
     <section id="rcp" class="view-section active">
       <div class="card rcp-container">
-        <div class="rcp-preview-badge">PRUEBA RCP · ACLS 2025 · ADULTO</div>
+        <div class="rcp-preview-badge">RCP ADULTA · PRUEBA</div>
         <div class="rcp-time-grid">
-          <div><div class="input-label">Tiempo total</div><div id="reloj-total" class="rcp-time-value">00:00</div></div>
-          <div><div class="input-label" id="label-ciclo">Próxima evaluación</div><div id="reloj-ciclo" class="rcp-time-value">02:00</div></div>
+          <div><div class="input-label">Total</div><div id="reloj-total" class="rcp-time-value">00:00</div></div>
+          <div><div class="input-label" id="label-ciclo">Ciclo</div><div id="reloj-ciclo" class="rcp-time-value">02:00</div></div>
         </div>
         <progress id="progreso-ciclo" value="0" max="120" aria-label="Progreso del ciclo de dos minutos"></progress>
-        <div class="rcp-guide" id="rcp-guide">
-          <div id="rcp-instruction" class="rcp-instruction" role="status">LISTO PARA INICIAR</div>
-          <div id="rcp-detail">Un toque inicia sonido, relojes y guía 30:2.</div>
-          <div id="rcp-breath" class="rcp-breath">30 compresiones · 2 ventilaciones</div>
-        </div>
-        <button id="btn-rcp-start" class="btn-toggle rcp-primary" onclick="toggleRCP()">INICIAR RCP</button>
-        <button id="btn-restore-rcp" class="btn-toggle" onclick="recuperarRCP()" hidden>RECUPERAR SESIÓN GUARDADA</button>
+        <button id="btn-rcp-start" class="btn-toggle rcp-primary rcp-pacing" onclick="toggleRCP()">INICIAR RCP</button>
+        <button id="btn-restore-rcp" class="btn-toggle" onclick="recuperarRCP()" hidden>RECUPERAR SESIÓN</button>
         <div id="rcp-live-controls" hidden>
           <div id="decision-ritmo" class="rcp-rhythm-stack" hidden>
-            <button id="btn-no-desfibrilable" class="btn-toggle rcp-rhythm-btn" onclick="ritmoNoDesfibrilable()">NO DESFIBRILABLE <small>Asistolia / AESP · reanudar RCP</small></button>
-            <div class="rcp-shock-option">
-              <div class="rcp-energy-row">
-                <button id="energy-minus" class="btn-toggle rcp-energy-step" aria-label="Disminuir energía" onclick="adjustEnergy(-1)">−</button>
-                <span id="rcp-energy">200 J</span>
-                <button id="energy-plus" class="btn-toggle rcp-energy-step" aria-label="Aumentar energía" onclick="adjustEnergy(1)">+</button>
-              </div>
-              <button id="btn-descarga" class="btn-toggle rcp-rhythm-btn rcp-shock-btn" onclick="accionDescarga()">DESFIBRILABLE <small>FV / TV sin pulso</small></button>
-              <div id="rcp-energy-hint" class="rcp-caption">Energía ajustable según tu desfibrilador.</div>
+            <button id="btn-no-desfibrilable" class="btn-toggle rcp-rhythm-btn" onclick="ritmoNoDesfibrilable()">NO DESFIBRILABLE <small>Asistolia / AESP</small></button>
+            <div class="rcp-energy-row">
+              <button id="energy-minus" class="btn-toggle rcp-energy-step" aria-label="Disminuir energía" onclick="adjustEnergy(-1)">−</button>
+              <button id="btn-descarga" class="btn-toggle rcp-shock-btn" onclick="accionDescarga()" aria-label="Registrar descarga administrada de 200 joules">⚡ DESCARGA 200 J</button>
+              <button id="energy-plus" class="btn-toggle rcp-energy-step" aria-label="Aumentar energía" onclick="adjustEnergy(1)">+</button>
             </div>
-            <button id="btn-resume-compressions" class="btn-toggle" onclick="reanudarSinClasificar()">REANUDAR RCP · RITMO NO REGISTRADO</button>
-            <div class="rcp-caption">Si el ritmo es organizado, comprobar pulso. Con pulso: RCE.</div>
           </div>
-          <button id="btn-evaluar-ritmo" class="btn-toggle" onclick="evaluarRitmo()">EVALUAR RITMO AHORA</button>
-          <div class="rcp-drug-status" id="timer-adrenalina-txt">Adrenalina: según ritmo inicial</div>
+          <div class="rcp-drug-status" id="timer-adrenalina-txt">Adrenalina —</div>
           <div class="rcp-btn-grid">
-            <button id="btn-adrenalina" class="btn-toggle rcp-event-btn" onclick="registrarAdrenalina()">ADRENALINA <small>Administrada · 1 mg IV/IO</small></button>
-            <button id="btn-amiodarona" class="btn-toggle rcp-event-btn" onclick="registrarAmiodarona()">AMIODARONA <small>Administrada · 300 mg IV/IO</small></button>
-            <button id="btn-intubacion" class="btn-toggle rcp-event-btn" onclick="registrarIntubacion()">VÍA AÉREA <small>Confirmar colocación</small></button>
-            <button id="btn-rosc" class="btn-toggle rcp-event-btn" onclick="confirmarRCE()">RCE <small>Pulso presente</small></button>
+            <button id="btn-adrenalina" class="btn-toggle rcp-event-btn" onclick="registrarAdrenalina()">ADRENALINA <small>1 mg</small></button>
+            <button id="btn-amiodarona" class="btn-toggle rcp-event-btn" onclick="registrarAmiodarona()">AMIODARONA <small>300 mg</small></button>
+            <button id="btn-intubacion" class="btn-toggle rcp-event-btn" onclick="registrarIntubacion()">VÍA AÉREA</button>
+            <button id="btn-rosc" class="btn-toggle rcp-event-btn rcp-rosc-btn" onclick="confirmarRCE()">RCE</button>
           </div>
-          <div id="amio-hint" class="rcp-caption">Antiarrítmico si FV/TV sin pulso persiste. Alternativa: lidocaína.</div>
           <div class="rcp-audio-row">
             <button id="btn-metronomo-toggle" class="btn-toggle" onclick="toggleMetronomo()">SONIDO ON</button>
-            <button id="btn-metronomo-bpm" class="btn-toggle" onclick="cycleBPM()">110 /min</button>
+            <button id="btn-metronomo-bpm" class="btn-toggle" onclick="cycleBPM()">120 /min</button>
+            <span id="rcp-device-status" class="rcp-device-status" aria-label="Estado de pantalla"></span>
           </div>
-          <div id="rcp-device-status" class="rcp-caption"></div>
-          <button id="btn-undo-rcp" class="btn-toggle rcp-undo" onclick="deshacerEvento()" hidden>DESHACER ÚLTIMO REGISTRO</button>
-          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()">TERMINAR REANIMACIÓN</button>
+          <button id="btn-undo-rcp" class="btn-toggle rcp-undo" onclick="deshacerEvento()" hidden>↶ DESHACER</button>
+          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()">TERMINAR RCP</button>
         </div>
         <div id="rcp-ended-controls" hidden>
           <div id="rcp-end-summary" class="rcp-drug-status"></div>
           <button id="btn-copy-rcp" class="btn-toggle rcp-primary" onclick="copiarBitacora()">COPIAR RESUMEN</button>
           <button class="btn-toggle" onclick="resetRCP()">NUEVO PACIENTE</button>
-          <div class="rcp-caption">Puedes eliminar entradas accidentales antes de copiar.</div>
           <textarea id="rcp-export" aria-label="Resumen de reanimación" readonly hidden></textarea>
         </div>
-        <details class="rcp-settings" id="rcp-settings">
-          <summary>Equipo y energía · <span id="rcp-profile-summary">perfil de prueba</span></summary>
-          <label for="rcp-defib-type">Desfibrilador</label>
-          <select id="rcp-defib-type" class="input-moderno" onchange="configureDefib()">
-            <option value="biphasic">Bifásico · según fabricante</option>
-            <option value="unknown">Desconocido · máxima disponible</option>
-            <option value="monophasic">Monofásico · 360 J</option>
-          </select>
-          <div class="rcp-btn-grid">
-            <div><label for="rcp-initial-energy">Inicial según fabricante (J)</label><select id="rcp-initial-energy" class="input-moderno" onchange="configureDefib()"><option>120</option><option>150</option><option selected>200</option></select></div>
-            <div><label for="rcp-max-energy">Máxima del equipo (J)</label><select id="rcp-max-energy" class="input-moderno" onchange="configureDefib()"><option>200</option><option selected>360</option></select></div>
-          </div>
-          <div class="rcp-caption">El perfil inicial de esta prueba es bifásico 200 J, máximo 360 J. Ajustarlo a tu equipo. Las siguientes descargas conservan la energía; puedes aumentarla.</div>
-        </details>
         <details class="rcp-test-tools">
-          <summary>Laboratorio · avanzar sin esperar</summary>
-          <div class="rcp-btn-grid"><button class="btn-toggle" onclick="avanzarPrueba(30)">+30 SEGUNDOS</button><button class="btn-toggle" onclick="avanzarPrueba(120)">+2 MINUTOS</button></div>
-          <div class="rcp-caption">Los saltos marcan la sesión como simulada. No aceleran ni acumulan sonidos.</div>
+          <summary>Laboratorio</summary>
+          <div class="rcp-btn-grid"><button class="btn-toggle" onclick="avanzarPrueba(30)">+30 s</button><button class="btn-toggle" onclick="avanzarPrueba(120)">+2 min</button></div>
         </details>
-        <details class="rcp-log-details" open>
+        <details class="rcp-log-details">
           <summary>Bitácora · <span id="rcp-log-count">0 eventos</span></summary>
-          <div id="log-eventos" class="rcp-log-area"><p class="placeholder-text">Esperando inicio de reanimación…</p></div>
+          <div id="log-eventos" class="rcp-log-area"><p class="placeholder-text">Sin eventos</p></div>
         </details>
         <div id="rcp-notice" role="status" class="rcp-caption"></div>
       </div>
@@ -741,7 +719,7 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
   /* =========================================
        CONFIGURACIÓN GLOBAL Y VERSIÓN
        ========================================= */
-    const APP_VERSION = "1.1.0-rcp-preview";
+    const APP_VERSION = "1.1.0-rcp-preview.2";
     const APP_NAME = "Métrica EX";
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
@@ -1824,7 +1802,6 @@ function renderPediatria(peso) {
        ========================================= */
     // RCP adulta · laboratorio ACLS 2025. La guía y las acciones registradas son distintas.
     const RCP_STORAGE = 'metrica_ex_rcp_preview_v2';
-    const RCP_PROFILE = 'metrica_ex_rcp_profile_v2';
     const energySteps = [50, 70, 100, 120, 150, 200, 250, 300, 360];
     const clockEpoch = Date.now();
     const clockMono = performance.now();
@@ -1848,8 +1825,7 @@ function renderPediatria(peso) {
 
     function freshRCP() {
       return { version: 2, status: 'idle', phase: 'ready', phaseAt: 0, startAt: null,
-        cycleAt: null, endAt: null, events: [], bpm: 110, sound: true,
-        defibType: 'biphasic', initialEnergy: 200, maxEnergy: 360, energy: 200, simulated: false };
+        cycleAt: null, endAt: null, events: [], bpm: 120, sound: true, energy: 200, simulated: false };
     }
     function liveRCP() { return rcp.status === 'active'; }
     function actualEvents(kind) { return rcp.events.filter(e => !e.deleted && (!kind || e.kind === kind)); }
@@ -1896,7 +1872,6 @@ function renderPediatria(peso) {
       initAudio();
       rcp.status = 'active'; rcp.startAt = rcpNow(); beginCycleRCP();
       addRCPEvent('start', 'INICIO DE RCP');
-      $rcp('rcp-settings').open = false;
       startRCPLoop(); requestWakeLock();
       document.body.classList.add('rcp-focus');
       finishActionRCP(true);
@@ -1917,11 +1892,6 @@ function renderPediatria(peso) {
       }
       renderRCP();
     }
-    function evaluarRitmo() {
-      if (!liveRCP() || rcp.phase !== 'compressions') return;
-      addRCPEvent('assessment', 'Evaluación de ritmo solicitada');
-      rcp.phase = 'evaluation'; rcp.phaseAt = rcpNow(); stopRCPAudio(); finishActionRCP();
-    }
     function ritmoNoDesfibrilable() {
       if (!liveRCP() || !['evaluation', 'shock'].includes(rcp.phase)) return;
       addRCPEvent('rhythm', 'Ritmo: Asistolia/AESP', { rhythm: 'nonshockable' });
@@ -1937,7 +1907,11 @@ function renderPediatria(peso) {
     }
     function accionDescarga() {
       if (!liveRCP()) return;
-      if (rcp.phase === 'evaluation') ritmoDesfibrilable();
+      if (rcp.phase === 'evaluation') {
+        addRCPEvent('rhythm', 'Ritmo: FV/TV sin pulso', { rhythm: 'shockable' });
+        rcp.phase = 'shock'; rcp.phaseAt = rcpNow();
+        registrarDescarga();
+      }
       else if (rcp.phase === 'shock') registrarDescarga();
     }
     function registrarDescarga() {
@@ -1953,21 +1927,10 @@ function renderPediatria(peso) {
       beginCycleRCP(); finishActionRCP(true);
     }
     function adjustEnergy(direction) {
-      if (!liveRCP() || !['evaluation', 'shock'].includes(rcp.phase) || rcp.defibType === 'monophasic') return;
-      const choices = energySteps.filter(n => n <= rcp.maxEnergy);
-      const index = choices.indexOf(rcp.energy);
-      rcp.energy = choices[Math.max(0, Math.min(choices.length - 1, index + direction))];
+      if (!liveRCP() || !['evaluation','shock'].includes(rcp.phase)) return;
+      const index = energySteps.indexOf(rcp.energy);
+      rcp.energy = energySteps[Math.max(0, Math.min(energySteps.length-1,index+direction))];
       persistRCP(); renderRCP();
-    }
-    function configureDefib() {
-      if (rcp.status !== 'idle') return;
-      rcp.defibType = $rcp('rcp-defib-type').value;
-      rcp.maxEnergy = Number($rcp('rcp-max-energy').value);
-      rcp.initialEnergy = Math.min(Number($rcp('rcp-initial-energy').value), rcp.maxEnergy);
-      rcp.energy = rcp.defibType === 'monophasic' ? 360 : rcp.defibType === 'unknown' ? rcp.maxEnergy : rcp.initialEnergy;
-      if (rcp.defibType === 'monophasic') rcp.maxEnergy = 360;
-      try { localStorage.setItem(RCP_PROFILE, JSON.stringify({defibType: rcp.defibType, initialEnergy: rcp.initialEnergy, maxEnergy: rcp.maxEnergy})); } catch (_) {}
-      renderRCP();
     }
     function registrarAdrenalina() {
       if (!liveRCP() || doseAlreadyPressed('epi')) return;
@@ -1982,18 +1945,18 @@ function renderPediatria(peso) {
     }
     function registrarIntubacion() {
       if (!liveRCP() || hasAirway()) return;
-      mostrarModal('VÍA AÉREA AVANZADA', '¿Confirmas colocación de tubo endotraqueal o dispositivo supraglótico? Verificar el tubo con capnografía. Cambiará a compresiones continuas y una ventilación cada 6 segundos.', 'Confirmar colocación', '', () => {
+      mostrarModal('VÍA AÉREA AVANZADA', '¿Vía aérea avanzada colocada y verificada?', 'Confirmar', '', () => {
         if (!liveRCP() || hasAirway()) return;
         addRCPEvent('airway', 'Vía aérea avanzada confirmada'); finishActionRCP(true);
       });
     }
     function confirmarRCE() {
       if (!liveRCP()) return;
-      mostrarModal('RCE · PULSO PRESENTE', '¿El equipo confirma recuperación de circulación espontánea? Se detendrán las señales de compresión.', 'Confirmar RCE', '', () => endRCP('rosc'));
+      mostrarModal('RCE · PULSO PRESENTE', '¿Pulso presente?', 'Confirmar RCE', '', () => endRCP('rosc'));
     }
     function terminarRCP() {
       if (!liveRCP()) return;
-      mostrarModal('TERMINAR REANIMACIÓN', '¿Confirmas finalizar la reanimación? Después podrás revisar y corregir el resumen.', 'Terminar', 'btn-danger', () => endRCP('finished'));
+      mostrarModal('TERMINAR REANIMACIÓN', '¿Terminar RCP?', 'Terminar', 'btn-danger', () => endRCP('finished'));
     }
     function endRCP(status) {
       if (!liveRCP()) return;
@@ -2038,20 +2001,18 @@ function renderPediatria(peso) {
     }
     function resetRCP() {
       if (liveRCP()) return;
-      mostrarModal('NUEVO PACIENTE', '¿Descartar la sesión guardada y preparar una nueva prueba? Copia antes el resumen si lo necesitas.', 'Reiniciar', 'btn-danger', ejecutarResetRCP);
+      mostrarModal('NUEVO PACIENTE', '¿Iniciar una nueva sesión?', 'Reiniciar', 'btn-danger', ejecutarResetRCP);
     }
     function ejecutarResetRCP() {
       clearInterval(rcpInterval); rcpInterval = null; stopRCPAudio(); cancelSoundsRCP(); releaseWakeLock();
-      const profile = {defibType:rcp.defibType,initialEnergy:rcp.initialEnergy,maxEnergy:rcp.maxEnergy};
-      rcp = {...freshRCP(), ...profile};
-      rcp.energy = rcp.defibType === 'monophasic' ? 360 : rcp.defibType === 'unknown' ? rcp.maxEnergy : rcp.initialEnergy;
+      rcp = freshRCP();
       savedRcp = null; epiAlertedId = null; simulationOffset = 0;
       document.body.classList.remove('rcp-focus');
       $rcp('rcp-export').hidden = true; noticeRCP(''); finishActionRCP();
     }
     function recuperarRCP() {
       if (!savedRcp || rcp.status !== 'idle') return;
-      mostrarModal('SESIÓN GUARDADA', '¿Recuperar la sesión? Los tiempos incluirán lo transcurrido desde que se cerró la página.', 'Recuperar', '', () => {
+      mostrarModal('SESIÓN GUARDADA', '¿Recuperar la sesión guardada?', 'Recuperar', '', () => {
         if (!savedRcp) return;
         rcp = savedRcp; savedRcp = null;
         eventsSerial = Math.max(0, ...rcp.events.map(e => e.id));
@@ -2067,79 +2028,74 @@ function renderPediatria(peso) {
       if (['compressions','shock'].includes(rcp.phase)) restartRCPAudio();
       persistRCP(); noticeRCP(`SIMULACIÓN · tiempo adelantado ${seconds} segundos.`);
     }
+    function pacingRCP(now = rcpNow()) {
+      const elapsed = Math.max(0,(now-audioAnchor)/1000);
+      if (hasAirway()) return {phase:'compression',count:null,ventSeconds:Math.max(1,Math.ceil(6-elapsed%6))};
+      const beat = 60/rcp.bpm, pos = elapsed%(30*beat+4);
+      if (pos < 30*beat) return {phase:'compression',count:now <= audioAnchor ? 0 : Math.min(30,Math.floor(pos/beat)+1)};
+      return {phase:'ventilation',count:Math.min(2,Math.floor((pos-30*beat)/2)+1)};
+    }
+    function pacingIcon(kind) {
+      const path = kind === 'heart' ? '<path d="M20.8 4.6c-2.2-2.2-5.8-2.2-8 0L12 5.4l-.8-.8a5.7 5.7 0 0 0-8 8L12 21l8.8-8.4a5.7 5.7 0 0 0 0-8Z"/><path d="M3 12h4l2-4 3 8 2-4h7"/>' : '<path d="M10 5v7l-3 2m7-9v7l3 2M10 8C7 6 3 10 3 16c0 4 4 4 7 2V8Zm4 0c3-2 7 2 7 8 0 4-4 4-7 2V8Zm-2-5v7"/>';
+      return `<svg class="rcp-pacing-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+    }
     function renderRCP() {
       const now = rcpNow(), live = liveRCP(), ended = ['finished','rosc'].includes(rcp.status);
       const evaluation = live && ['evaluation','shock'].includes(rcp.phase);
-      const cycleSeconds = rcp.cycleAt === null ? 0 : Math.max(0, ((rcp.endAt ?? now) - rcp.cycleAt)/1000);
+      const cycleSeconds = rcp.cycleAt === null ? 0 : Math.max(0,((rcp.endAt??now)-rcp.cycleAt)/1000);
       $rcp('reloj-total').textContent = formatearTiempo(elapsedRCP(now));
-      $rcp('reloj-ciclo').textContent = ended ? '—' : evaluation ? formatearTiempo((now-rcp.phaseAt)/1000) : formatearTiempo(Math.max(0, Math.ceil(120-cycleSeconds)));
-      $rcp('label-ciclo').textContent = evaluation ? (rcp.phase === 'shock' ? 'Preparando descarga' : 'Evaluando ritmo') : 'Próxima evaluación';
-      $rcp('progreso-ciclo').value = Math.min(120, cycleSeconds);
-      $rcp('btn-rcp-start').hidden = rcp.status !== 'idle' || !!savedRcp;
+      $rcp('reloj-ciclo').textContent = ended ? '—' : evaluation ? formatearTiempo((now-rcp.phaseAt)/1000) : formatearTiempo(Math.max(0,Math.ceil(120-cycleSeconds)));
+      $rcp('label-ciclo').textContent = evaluation ? 'Evaluación' : 'Ciclo';
+      $rcp('progreso-ciclo').value = Math.min(120,cycleSeconds);
+      const main = $rcp('btn-rcp-start');
+      main.hidden = ended || !!savedRcp;
+      main.disabled = live;
+      let phase = '', content = 'INICIAR RCP', accessible = 'Iniciar RCP';
+      if (live && rcp.phase === 'evaluation') {
+        phase = 'evaluation'; content = 'EVALUAR RITMO'; accessible = 'Evaluar ritmo y relevar compresor';
+      } else if (live) {
+        const pacing = pacingRCP(now); phase = pacing.phase; voicePhase = phase;
+        if (hasAirway()) {
+          content = `${pacingIcon('heart')}<span class="rcp-pacing-count">${rcp.bpm}<small>/min</small></span><span class="rcp-vent-cue">${pacingIcon('lungs')}${pacing.ventSeconds}s</span>`;
+          accessible = `Compresiones continuas a ${rcp.bpm} por minuto. Ventilar en ${pacing.ventSeconds} segundos`;
+        } else {
+          const vent = phase === 'ventilation';
+          content = `${pacingIcon(vent?'lungs':'heart')}<span class="rcp-pacing-count">${pacing.count}/${vent?2:30}</span>`;
+          accessible = `${vent?'Ventilación':'Compresión'} sugerida ${pacing.count} de ${vent?2:30}`;
+        }
+      }
+      for (const name of ['compression','ventilation','evaluation']) main.classList.toggle(name,phase===name);
+      if (main.innerHTML !== content) main.innerHTML = content;
+      main.setAttribute('aria-label',accessible);
       $rcp('btn-restore-rcp').hidden = !savedRcp;
       $rcp('rcp-live-controls').hidden = !live;
       $rcp('rcp-ended-controls').hidden = !ended;
       $rcp('decision-ritmo').hidden = !evaluation;
-      $rcp('btn-evaluar-ritmo').hidden = evaluation;
-      $rcp('rcp-settings').hidden = live || ended;
-      $rcp('rcp-defib-type').value = rcp.defibType;
-      $rcp('rcp-initial-energy').value = String(rcp.initialEnergy);
-      $rcp('rcp-max-energy').value = String(rcp.maxEnergy);
-      $rcp('rcp-initial-energy').disabled = rcp.defibType !== 'biphasic';
-      $rcp('rcp-max-energy').disabled = rcp.defibType === 'monophasic';
-      $rcp('rcp-profile-summary').textContent = `${rcp.defibType === 'monophasic' ? 'monofásico' : rcp.defibType === 'unknown' ? 'desconocido' : 'bifásico'} · ${rcp.energy} J`;
-      $rcp('rcp-energy').textContent = `${rcp.energy} J`;
-      $rcp('energy-minus').disabled = rcp.defibType === 'monophasic' || rcp.energy <= 50;
-      $rcp('energy-plus').disabled = rcp.defibType === 'monophasic' || rcp.energy >= rcp.maxEnergy;
-      $rcp('btn-descarga').innerHTML = rcp.phase === 'shock' ? `DESCARGA REALIZADA · ${rcp.energy} J <small>Confirmar solo después de administrarla</small>` : 'DESFIBRILABLE <small>FV / TV sin pulso</small>';
-      $rcp('rcp-energy-hint').textContent = rcp.phase === 'shock' ? 'Continuar compresiones durante la preparación. Despejar para descargar.' : 'La selección de ritmo no registra una descarga.';
+      $rcp('energy-minus').disabled = rcp.energy <= energySteps[0];
+      $rcp('energy-plus').disabled = rcp.energy >= energySteps.at(-1);
+      $rcp('btn-descarga').textContent = `⚡ DESCARGA ${rcp.energy} J`;
+      $rcp('btn-descarga').setAttribute('aria-label',`Registrar descarga administrada de ${rcp.energy} joules`);
       const epi = latestEvent('epi'), epiSeconds = epi ? Math.max(0,(now-epi.at)/1000) : 0;
       const epiDue = live && (epi ? epiSeconds >= 180 : currentRhythm() === 'nonshockable' || shockCountRCP() >= 2);
-      $rcp('timer-adrenalina-txt').textContent = epi ? `Adrenalina: hace ${formatearTiempo(epiSeconds)} · ${epiSeconds >= 180 ? (epiSeconds >= 300 ? 'intervalo >5 min' : 'ventana 3–5 min') : `próximo aviso en ${formatearTiempo(Math.ceil(180-epiSeconds))}`}` : epiDue ? 'PRIMERA ADRENALINA PENDIENTE · 1 mg IV/IO' : 'Primera adrenalina según ritmo; no esperar un tiempo fijo.';
-      $rcp('btn-adrenalina').classList.toggle('rcp-due', epiDue);
-      $rcp('btn-adrenalina').classList.toggle('rcp-overdue', live && !!epi && epiSeconds >= 300);
+      $rcp('timer-adrenalina-txt').textContent = epi ? `Adrenalina · ${formatearTiempo(epiSeconds)}${epiSeconds>=300?' · >5 min':epiSeconds>=180?' · pendiente':''}` : epiDue ? 'Adrenalina · pendiente' : 'Adrenalina —';
+      $rcp('btn-adrenalina').classList.toggle('rcp-due',epiDue);
+      $rcp('btn-adrenalina').classList.toggle('rcp-overdue',live && !!epi && epiSeconds>=300);
       const amios = amioCountRCP(), amio = latestEvent('amio');
-      const amioDue = live && currentRhythm() === 'shockable' && (amios === 0 ? shockCountRCP() >= 3 : amios === 1 && shockCountRCP() > amio.shocksAtDose);
-      $rcp('btn-amiodarona').disabled = amios >= 2;
-      $rcp('btn-amiodarona').classList.toggle('rcp-due', amioDue);
-      $rcp('btn-amiodarona').innerHTML = amios >= 2 ? 'AMIODARONA <small>300 + 150 mg registrados</small>' : `AMIODARONA <small>Administrada · ${amios === 0 ? 300 : 150} mg IV/IO</small>`;
-      $rcp('amio-hint').textContent = amioDue ? (amios === 0 ? 'FV/TVsp persistente: amiodarona 300 mg o lidocaína.' : 'FV/TVsp persistente: valorar segunda dosis de 150 mg según el líder.') : 'Antiarrítmico si FV/TV sin pulso persiste. Alternativa: lidocaína.';
+      const amioDue = live && currentRhythm() === 'shockable' && (amios===0 ? shockCountRCP()>=3 : amios===1 && shockCountRCP()>amio.shocksAtDose);
+      $rcp('btn-amiodarona').disabled = amios>=2;
+      $rcp('btn-amiodarona').classList.toggle('rcp-due',amioDue);
+      $rcp('btn-amiodarona').innerHTML = amios>=2 ? 'AMIODARONA <small>300 + 150 mg ✔</small>' : `AMIODARONA <small>${amios===0?300:150} mg</small>`;
       $rcp('btn-intubacion').disabled = hasAirway();
-      $rcp('btn-intubacion').innerHTML = hasAirway() ? 'VÍA AÉREA ✔ <small>Compresiones continuas</small>' : 'VÍA AÉREA <small>Confirmar colocación</small>';
-      $rcp('btn-metronomo-toggle').textContent = rcp.sound ? (audioCtx && audioCtx.state === 'running' ? 'SONIDO ON' : 'ACTIVAR SONIDO') : 'SONIDO OFF';
+      $rcp('btn-intubacion').textContent = hasAirway() ? 'VÍA AÉREA ✔' : 'VÍA AÉREA';
+      $rcp('btn-metronomo-toggle').textContent = rcp.sound ? (audioCtx && audioCtx.state==='running'?'SONIDO ON':'ACTIVAR SONIDO') : 'SONIDO OFF';
       $rcp('btn-metronomo-bpm').textContent = `${rcp.bpm} /min`;
-      $rcp('btn-undo-rcp').hidden = !actualEvents().some(e => !['start','end'].includes(e.kind));
-      $rcp('rcp-end-summary').textContent = `${rcp.status === 'rosc' ? 'RCE confirmado' : 'Sesión finalizada'} · ${shockCountRCP()} descargas · ${actualEvents('epi').length} dosis de adrenalina`;
-      const guide = $rcp('rcp-guide');
-      guide.classList.toggle('evaluating', live && rcp.phase === 'evaluation');
-      guide.classList.toggle('ventilating', live && ['compressions','shock'].includes(rcp.phase) && voicePhase === 'ventilation');
-      let title = 'LISTO PARA INICIAR', detail = 'Un toque inicia sonido, relojes y guía 30:2.';
-      if (live) {
-        if (rcp.phase === 'evaluation') { title = 'EVALUAR RITMO · RELEVAR COMPRESOR'; detail = 'Minimizar la interrupción. Si hay ritmo organizado, comprobar pulso.'; }
-        else if (rcp.phase === 'shock') { title = 'PREPARAR DESCARGA'; detail = 'Continuar compresiones hasta despejar para descargar. Confirmar después de administrarla.'; }
-        else { title = voicePhase === 'ventilation' && !hasAirway() ? 'DAR 2 VENTILACIONES' : 'CONTINUAR COMPRESIONES'; detail = hasAirway() ? 'Compresiones continuas · ventilación cada 6 segundos.' : '30 compresiones · 2 ventilaciones · sin pulsaciones adicionales.'; }
-      } else if (ended) {
-        title = rcp.status === 'rosc' ? 'RCE · ATENCIÓN POSPARO' : 'REANIMACIÓN FINALIZADA';
-        detail = rcp.status === 'rosc' ? 'Comunicar RCE. Continuar atención posparo: oxigenación, ventilación, hemodinamia y ECG.' : 'Revisa las entradas accidentales y copia el resumen.';
-      } else if (savedRcp) { title = 'HAY UNA SESIÓN GUARDADA'; detail = 'Recupérala para continuar o revisar su resumen.'; }
-      $rcp('rcp-instruction').textContent = title;
-      $rcp('rcp-detail').textContent = detail;
-      let breath = hasAirway() ? 'Continuo · 1 ventilación / 6 s' : '30 compresiones · 2 ventilaciones';
-      if (live && ['compressions','shock'].includes(rcp.phase) && audioAnchor) {
-        const elapsed = Math.max(0,(now-audioAnchor)/1000);
-        const beat = 60/rcp.bpm;
-        if (!hasAirway()) {
-          const pos = elapsed % (30*beat+4);
-          voicePhase = pos < 30*beat ? 'compression' : 'ventilation';
-          breath = pos < 30*beat ? `Compresión sugerida ${Math.min(30,Math.floor(pos/beat)+1)} / 30` : `2 ventilaciones · reinicio en ${Math.max(1,Math.ceil(30*beat+4-pos))} s`;
-        } else { voicePhase = 'compression'; breath = `Continuo · ventilar en ${Math.max(1,Math.ceil(6-elapsed%6))} s`; }
-      } else { voicePhase = 'compression'; }
-      $rcp('rcp-breath').textContent = breath;
+      $rcp('btn-undo-rcp').hidden = !actualEvents().some(e=>!['start','end'].includes(e.kind));
+      $rcp('rcp-end-summary').textContent = `${rcp.status==='rosc'?'RCE':'Finalizada'} · ${shockCountRCP()} descargas · ${actualEvents('epi').length} adrenalina`;
     }
     function renderRCPLog() {
       const panel = $rcp('log-eventos'); panel.replaceChildren();
       $rcp('rcp-log-count').textContent = `${actualEvents().length} eventos`;
-      if (!rcp.events.length) { panel.textContent = 'Esperando inicio de reanimación…'; return; }
+      if (!rcp.events.length) { panel.textContent = 'Sin eventos'; return; }
       for (const e of [...rcp.events].reverse()) {
         if (liveRCP() && e.deleted) continue;
         const row = document.createElement('div'); row.className = 'log-entry' + (e.deleted ? ' deleted' : '');
@@ -2195,7 +2151,7 @@ function renderPediatria(peso) {
       audioScheduler = null; cancelSoundsRCP(); lastAudioState = 'idle';
     }
     function restartRCPAudio() {
-      stopRCPAudio(); voicePhase = 'compression'; audioAnchor = rcpNow();
+      stopRCPAudio(); voicePhase = 'compression'; audioAnchor = rcpNow()+25;
       if (!liveRCP() || !['compressions','shock'].includes(rcp.phase) || !rcp.sound) return;
       initAudio();
       if (!audioCtx || audioCtx.state !== 'running') {
@@ -2235,7 +2191,7 @@ function renderPediatria(peso) {
     }
     function cycleBPM() {
       if (!liveRCP()) return;
-      rcp.bpm = rcp.bpm === 110 ? 120 : rcp.bpm === 120 ? 100 : 110;
+      rcp.bpm = rcp.bpm === 120 ? 100 : rcp.bpm === 100 ? 110 : 120;
       finishActionRCP(true);
     }
     async function requestWakeLock() {
@@ -2246,9 +2202,9 @@ function renderPediatria(peso) {
         if (request !== wakeRequest || !liveRCP()) { await lock.release(); return; }
         if (wakeLock && wakeLock !== lock) { try { await wakeLock.release(); } catch (_) {} }
         wakeLock = lock;
-        $rcp('rcp-device-status').textContent = 'Pantalla activa · sonido y alertas requieren la app visible.';
-        lock.addEventListener('release', () => { if (wakeLock === lock) { wakeLock = null; $rcp('rcp-device-status').textContent = 'Pantalla sin bloqueo activo: comprobar que siga encendida.'; } });
-      } catch (_) { $rcp('rcp-device-status').textContent = 'No se pudo mantener la pantalla encendida automáticamente.'; }
+        deviceStatusRCP(true);
+        lock.addEventListener('release', () => { if (wakeLock === lock) { wakeLock = null; deviceStatusRCP(false); } });
+      } catch (_) { deviceStatusRCP(false); }
     }
     function releaseWakeLock() {
       ++wakeRequest;
@@ -2260,12 +2216,14 @@ function renderPediatria(peso) {
       if (document.visibilityState === 'hidden') { stopRCPAudio(); persistRCP(); }
       else { tickRCP(); requestWakeLock(); restartRCPAudio(); }
     });
+    function deviceStatusRCP(active) {
+      const status = $rcp('rcp-device-status');
+      status.textContent = active ? '▣' : '◻';
+      status.setAttribute('title',active ? 'Pantalla activa' : 'Comprobar que la pantalla siga encendida');
+      status.setAttribute('aria-label',active ? 'Pantalla activa' : 'Sin bloqueo de pantalla');
+    }
     function initRCP() {
       try {
-        const profile = JSON.parse(localStorage.getItem(RCP_PROFILE) || 'null');
-        if (profile && ['biphasic','unknown','monophasic'].includes(profile.defibType) && [200,360].includes(profile.maxEnergy) && [120,150,200].includes(profile.initialEnergy)) {
-          Object.assign(rcp,profile); rcp.energy = rcp.defibType === 'monophasic' ? 360 : rcp.defibType === 'unknown' ? rcp.maxEnergy : rcp.initialEnergy;
-        }
         const saved = JSON.parse(localStorage.getItem(RCP_STORAGE) || 'null');
         if (saved?.version === 2 && ['active','rosc','finished'].includes(saved.status) && Array.isArray(saved.events) && Number.isFinite(saved.startAt)) {
           savedRcp = saved;
