@@ -131,3 +131,63 @@ test('la descarga grande también admite deslizamiento de energía sin choque',(
   assert.match(e.get('btn-descarga').innerHTML,/150 J/);
   assert.equal(e.run('shockCountRCP()'),0);
 });
+
+test('resumen clínico se oculta durante RCP y aparece en bitácora al cerrar con RCE',()=>{
+  const e=setup();begin(e);
+  assert.equal(e.get('rcp-clinical-summary').hidden,true);
+  e.advance(65000);e.run('endRCP("rosc")');
+  assert.equal(e.get('rcp-log-details').open,true);
+  assert.equal(e.get('rcp-clinical-summary').hidden,false);
+  const t=e.get('rcp-clinical-summary-text').textContent;
+  assert.match(t,/1 ciclo de RCP, sin completar uno de 2 minutos/);
+  assert.match(t,/01:05 min/);
+  assert.match(t,/retorno de la circulación espontánea \(RCE\) a las \d{2}:\d{2} h/);
+  assert.match(e.run('summaryRCP()'),/RESUMEN DE REANIMACIÓN[\s\S]*CRONOLOGÍA/);
+});
+test('distingue ciclos iniciados de completados y conserva el tiempo exacto de reanimación',()=>{
+  const e=setup();begin(e);e.advance(120000);e.run('tickRCP()');
+  assert.equal(e.state().completedCycles,1);
+  e.run('ritmoNoDesfibrilable()');e.advance(25000);e.run('endRCP("death")');
+  assert.equal(e.state().cyclesStarted,2);
+  assert.equal(e.state().completedCycles,1);
+  const t=e.get('rcp-clinical-summary-text').textContent;
+  assert.match(t,/1 ciclo completo de 2 minutos \(2 iniciados\)/);
+  assert.match(t,/02:25 min/);
+  assert.match(t,/Sin RCE documentado; se registró la defunción a las \d{2}:\d{2} h/);
+});
+test('ciclo justo en 2 minutos se contabiliza aunque tick aún no se ejecutó',()=>{
+  const e=setup();begin(e);e.advance(120000);e.run('endRCP("rosc")');
+  assert.equal(e.state().completedCycles,1);
+  assert.match(e.run('clinicalSummaryRCP()'),/1 ciclo completo/);
+});
+test('el resumen suma miligramos, dosis y descargas; borrar y restaurar recalcula',()=>{
+  const e=setup();begin(e);
+  e.run('registrarAdrenalina()');e.advance(3000);
+  e.run('registrarAdrenalina()');e.advance(3000);
+  e.run('registrarAdrenalina()');e.advance(3000);
+  e.run('registrarAmiodarona()');e.advance(3000);
+  e.run('registrarAmiodarona()');e.advance(3000);
+  e.run('accionDescarga()');e.advance(3000);
+  e.run('accionDescarga()');e.advance(3000);
+  e.run('endRCP("death")');
+  let t=e.run('clinicalSummaryRCP()');
+  assert.match(t,/Adrenalina: 3 mg \(3 dosis\)/);
+  assert.match(t,/Amiodarona: 450 mg \(2 dosis\)/);
+  assert.match(t,/2 descargas eléctricas/);
+  const epi=e.run('actualEvents("epi")[0].id'),amio=e.run('actualEvents("amio")[1].id'),shockId=e.run('actualEvents("shock")[0].id');
+  e.run(`eliminarEvento(${epi});eliminarEvento(${amio});eliminarEvento(${shockId})`);
+  t=e.get('rcp-clinical-summary-text').textContent;
+  assert.match(t,/Adrenalina: 2 mg \(2 dosis\)/);
+  assert.match(t,/Amiodarona: 300 mg \(1 dosis\)/);
+  assert.match(t,/1 descarga eléctrica/);
+  assert.match(e.run('summaryRCP()'),/Adrenalina: 2 mg \(2 dosis\)/);
+  e.run(`eliminarEvento(${epi});eliminarEvento(${amio});eliminarEvento(${shockId})`);
+  assert.match(e.run('clinicalSummaryRCP()'),/Amiodarona: 450 mg \(2 dosis\)/);
+});
+test('sesión anterior sin contadores no inventa cantidad de ciclos',()=>{
+  const e=setup();begin(e);
+  e.run('delete rcp.cyclesStarted;delete rcp.completedCycles');
+  e.advance(125000);e.run('endRCP("death")');
+  assert.match(e.run('clinicalSummaryRCP()'),/Ciclos completos: dato no disponible/);
+  assert.doesNotMatch(e.run('clinicalSummaryRCP()'),/Se registraron 0 ciclos completos/);
+});
