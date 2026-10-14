@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Métrica Ex - Soporte Crítico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Métrica Ex · Prueba RCP ACLS 2025</title>
   
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#161618">
@@ -376,6 +376,56 @@
     .btn-alert-flash { animation: flashRed 1s infinite; color: #fff !important; background-color: var(--danger) !important; }
     @keyframes flashPulse { 0% { background-color: rgba(245, 124, 0, 0.05); border-color: var(--warning); } 50% { background-color: rgba(245, 124, 0, 0.2); border-color: var(--warning); box-shadow: 0 0 15px var(--warning); } 100% { background-color: rgba(245, 124, 0, 0.05); border-color: var(--warning); } }
     .pulse-alarm-active { animation: flashPulse 1s infinite; }
+/* Laboratorio RCP: acciones estables y lectura rápida. */
+[hidden] { display: none !important; }
+#rcp { max-width: 720px; margin: 0 auto; }
+#rcp .rcp-container { height: auto; max-height: none; gap: 10px; padding: 16px; }
+#rcp .rcp-time-grid { margin: 0; gap: 12px; }
+#rcp .rcp-time-value { font-size: clamp(2rem, 7vw, 3rem); font-variant-numeric: tabular-nums; }
+#reloj-ciclo { color: var(--accent); }
+#rcp .btn-toggle { min-height: 52px; font-size: .95rem; letter-spacing: 0; }
+#rcp .rcp-primary { background: var(--accent); color: #fff; min-height: 60px; font-size: 1.15rem; }
+.rcp-preview-badge { font-size: .68rem; font-weight: bold; letter-spacing: .8px; color: var(--accent); }
+#rcp progress { width: 100%; height: 7px; flex-shrink: 0; }
+.rcp-guide { padding: 14px; border-radius: 10px; background: rgba(128,128,128,.08); border-left: 4px solid var(--accent); }
+.rcp-instruction { font: 700 1.4rem 'Rajdhani',sans-serif; line-height: 1.15; }
+#rcp-detail { font-size: .8rem; margin-top: 5px; }
+.rcp-breath { font-size: .95rem; font-weight: bold; margin-top: 8px; font-variant-numeric: tabular-nums; }
+.rcp-guide.ventilating { background: rgba(2,119,189,.12); border-color: #0277bd; }
+.rcp-guide.evaluating { background: rgba(245,124,0,.13); border-color: var(--warning); }
+.rcp-rhythm-stack { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
+#rcp .rcp-rhythm-btn { display: flex; flex-direction: column; min-height: 66px; font-size: 1.08rem; }
+#rcp small { display: block; font-size: .73rem; font-weight: normal; text-transform: none; line-height: 1.35; }
+.rcp-shock-option { border: 1px solid var(--warning); border-radius: 9px; padding: 8px; }
+.rcp-energy-row { display: grid; grid-template-columns: 52px 1fr 52px; gap: 8px; align-items: center; text-align: center; margin-bottom: 6px; }
+#rcp-energy { font-size: 1.5rem; font-weight: bold; }
+#rcp .rcp-energy-step { min-height: 48px; font-size: 1.4rem; }
+#rcp .rcp-shock-btn { border-color: var(--warning); background: rgba(245,124,0,.12); }
+#rcp .rcp-btn-grid { margin-bottom: 8px; }
+#rcp .rcp-event-btn { flex-direction: column; min-height: 66px; }
+.rcp-drug-status { border-radius: 6px; padding: 8px 10px; background: rgba(128,128,128,.08); font-size: .85rem; margin: 10px 0; font-variant-numeric: tabular-nums; }
+.rcp-due { border: 2px solid var(--warning) !important; background: rgba(245,124,0,.14) !important; }
+.rcp-overdue { border: 2px solid var(--danger) !important; background: rgba(255,0,0,.1) !important; }
+.rcp-audio-row { display: grid; grid-template-columns: 2fr 1fr; gap: 8px; margin: 10px 0 4px; }
+.rcp-caption { font-size: .72rem; line-height: 1.45; color: var(--text-muted); margin: 5px 0; }
+#rcp .rcp-undo { border-style: dashed; margin: 8px 0; }
+#rcp .btn-danger { margin-top: 8px; }
+.rcp-settings, .rcp-test-tools, .rcp-log-details { border-top: 1px solid var(--border); padding-top: 10px; }
+#rcp summary { cursor: pointer; font-size: .8rem; padding: 7px 0; min-height: 40px; }
+#rcp label { display: block; font-size: .72rem; margin: 8px 0 4px; }
+#rcp .log-entry { display: grid; grid-template-columns: 58px 1fr auto; gap: 8px; }
+#rcp .log-action { white-space: normal; overflow: visible; margin: 0; font-size: .78rem; }
+#rcp .log-timer { font-size: .73rem; }
+#rcp .log-delete { border: 1px solid var(--border); border-radius: 5px; padding: 8px; min-width: 44px; min-height: 44px; background: transparent; color: var(--danger); cursor: pointer; }
+#rcp .log-entry.deleted { opacity: .6; text-decoration: line-through; }
+#rcp .rcp-log-area { max-height: 280px; overflow-y: auto; flex: none; }
+#rcp-export { width: 100%; min-height: 180px; font: .8rem monospace; padding: 8px; }
+#rcp button:focus-visible, #rcp summary:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+body.rcp-focus .aura-orb { animation: none !important; opacity: .12 !important; }
+body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !important; }
+@media (max-width: 400px) { #rcp .rcp-container { padding: 12px; } #rcp .rcp-event-btn { font-size: .83rem; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
 </style>
 </head>
 <body class="theme-light">
@@ -397,7 +447,7 @@
   </header>
 
   <nav class="nav-bar">
-    <button class="nav-tab active" onclick="switchTab('choque')">
+    <button class="nav-tab" onclick="switchTab('choque')">
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><polyline points="16 128 72 128 104 40 152 216 184 128 240 128" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
       <span class="nav-text">Choque</span>
     </button>
@@ -405,7 +455,7 @@
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><path d="M84,80a32,32,0,0,1,88,0c0,15.7-12.1,29-28.3,31.7a40,40,0,1,1-31.4,0C96.1,109,84,95.7,84,80Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="80" cy="56" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="176" cy="56" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="80" cy="184" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><circle cx="176" cy="184" r="24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
       <span class="nav-text">Pedia</span>
     </button>
-    <button class="nav-tab" onclick="switchTab('rcp')">
+    <button class="nav-tab active" onclick="switchTab('rcp')">
       <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 256 256"><rect width="256" height="256" fill="none"/><circle cx="128" cy="128" r="88" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="128" y1="128" x2="167.6" y2="88.4" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/><line x1="104" y1="8" x2="152" y2="8" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="16"/></svg>
       <span class="nav-text">Reloj</span>
     </button>
@@ -416,7 +466,7 @@
   </nav>
 
   <main>
-    <section id="choque" class="view-section active">
+    <section id="choque" class="view-section">
       <div class="panel-izquierdo">
         <div class="card">
           <h2 class="static">Biometría</h2>
@@ -488,46 +538,84 @@
       </div>
     </section>
 
-    <section id="rcp" class="view-section">
+    <section id="rcp" class="view-section active">
       <div class="card rcp-container">
-        <div class="rcp-controls">
-          <div class="rcp-time-grid">
-            <div>
-              <div class="input-label">Tiempo Total</div>
-              <div id="reloj-total" class="rcp-time-value" style="color: var(--text-main);">00:00</div>
-            </div>
-            <div id="ciclo-container" style="transition: all 0.3s ease; border-radius: 8px;">
-              <div class="input-label" id="label-ciclo">Ciclo Actual</div>
-              <div id="reloj-ciclo" class="rcp-time-value" style="color: var(--accent);">00:00</div>
-              <div style="display: flex; justify-content: center;"><progress id="progreso-ciclo" value="0" max="120" style="width: 80%; height: 6px; border-radius: 3px; margin-top: 6px;"></progress></div>
-              <div id="decision-ritmo" style="display: none; width: 100%; gap: 8px; margin-top: 10px;">
-                <button class="btn-toggle" style="flex: 1; background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--accent); border-color: var(--accent); font-size: 0.75rem;" onclick="ritmoNoDesfibrilable()">No Desfibrilable<br>(Asis/AESP)</button>
-                <button class="btn-toggle" style="flex: 1; background: color-mix(in srgb, var(--warning) 20%, transparent); color: var(--warning); border-color: var(--warning); font-size: 0.75rem;" onclick="ritmoDesfibrilable()">Desfibrilable<br>(FV/TVsp)</button>
+        <div class="rcp-preview-badge">PRUEBA RCP · ACLS 2025 · ADULTO</div>
+        <div class="rcp-time-grid">
+          <div><div class="input-label">Tiempo total</div><div id="reloj-total" class="rcp-time-value">00:00</div></div>
+          <div><div class="input-label" id="label-ciclo">Próxima evaluación</div><div id="reloj-ciclo" class="rcp-time-value">02:00</div></div>
+        </div>
+        <progress id="progreso-ciclo" value="0" max="120" aria-label="Progreso del ciclo de dos minutos"></progress>
+        <div class="rcp-guide" id="rcp-guide">
+          <div id="rcp-instruction" class="rcp-instruction" role="status">LISTO PARA INICIAR</div>
+          <div id="rcp-detail">Un toque inicia sonido, relojes y guía 30:2.</div>
+          <div id="rcp-breath" class="rcp-breath">30 compresiones · 2 ventilaciones</div>
+        </div>
+        <button id="btn-rcp-start" class="btn-toggle rcp-primary" onclick="toggleRCP()">INICIAR RCP</button>
+        <button id="btn-restore-rcp" class="btn-toggle" onclick="recuperarRCP()" hidden>RECUPERAR SESIÓN GUARDADA</button>
+        <div id="rcp-live-controls" hidden>
+          <div id="decision-ritmo" class="rcp-rhythm-stack" hidden>
+            <button id="btn-no-desfibrilable" class="btn-toggle rcp-rhythm-btn" onclick="ritmoNoDesfibrilable()">NO DESFIBRILABLE <small>Asistolia / AESP · reanudar RCP</small></button>
+            <div class="rcp-shock-option">
+              <div class="rcp-energy-row">
+                <button id="energy-minus" class="btn-toggle rcp-energy-step" aria-label="Disminuir energía" onclick="adjustEnergy(-1)">−</button>
+                <span id="rcp-energy">200 J</span>
+                <button id="energy-plus" class="btn-toggle rcp-energy-step" aria-label="Aumentar energía" onclick="adjustEnergy(1)">+</button>
               </div>
+              <button id="btn-descarga" class="btn-toggle rcp-rhythm-btn rcp-shock-btn" onclick="accionDescarga()">DESFIBRILABLE <small>FV / TV sin pulso</small></button>
+              <div id="rcp-energy-hint" class="rcp-caption">Energía ajustable según tu desfibrilador.</div>
             </div>
+            <button id="btn-resume-compressions" class="btn-toggle" onclick="reanudarSinClasificar()">REANUDAR RCP · RITMO NO REGISTRADO</button>
+            <div class="rcp-caption">Si el ritmo es organizado, comprobar pulso. Con pulso: RCE.</div>
           </div>
+          <button id="btn-evaluar-ritmo" class="btn-toggle" onclick="evaluarRitmo()">EVALUAR RITMO AHORA</button>
+          <div class="rcp-drug-status" id="timer-adrenalina-txt">Adrenalina: según ritmo inicial</div>
           <div class="rcp-btn-grid">
-            <button id="btn-rcp-start" class="btn-toggle" onclick="toggleRCP()" style="background-color: var(--accent); color: #fff; border: none;">INICIAR RCP</button>
-            <div style="display: flex; gap: 4px;">
-              <button id="btn-metronomo-toggle" class="btn-toggle" onclick="toggleMetronomo()" style="flex: 2; border-color: var(--accent); color: var(--accent); background: transparent;">🎵 OFF</button>
-              <button id="btn-metronomo-bpm" class="btn-toggle" onclick="cycleBPM()" style="flex: 1; border-color: var(--accent); color: var(--accent); background: transparent;">120</button>
-            </div>
+            <button id="btn-adrenalina" class="btn-toggle rcp-event-btn" onclick="registrarAdrenalina()">ADRENALINA <small>Administrada · 1 mg IV/IO</small></button>
+            <button id="btn-amiodarona" class="btn-toggle rcp-event-btn" onclick="registrarAmiodarona()">AMIODARONA <small>Administrada · 300 mg IV/IO</small></button>
+            <button id="btn-intubacion" class="btn-toggle rcp-event-btn" onclick="registrarIntubacion()">VÍA AÉREA <small>Confirmar colocación</small></button>
+            <button id="btn-rosc" class="btn-toggle rcp-event-btn" onclick="confirmarRCE()">RCE <small>Pulso presente</small></button>
           </div>
-          <div style="border-top: 1px dashed var(--border); margin: 10px 0;"></div>
-          <div style="text-align: right; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 4px;" id="timer-adrenalina-txt">Última dosis: --</div>
+          <div id="amio-hint" class="rcp-caption">Antiarrítmico si FV/TV sin pulso persiste. Alternativa: lidocaína.</div>
+          <div class="rcp-audio-row">
+            <button id="btn-metronomo-toggle" class="btn-toggle" onclick="toggleMetronomo()">SONIDO ON</button>
+            <button id="btn-metronomo-bpm" class="btn-toggle" onclick="cycleBPM()">110 /min</button>
+          </div>
+          <div id="rcp-device-status" class="rcp-caption"></div>
+          <button id="btn-undo-rcp" class="btn-toggle rcp-undo" onclick="deshacerEvento()" hidden>DESHACER ÚLTIMO REGISTRO</button>
+          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()">TERMINAR REANIMACIÓN</button>
+        </div>
+        <div id="rcp-ended-controls" hidden>
+          <div id="rcp-end-summary" class="rcp-drug-status"></div>
+          <button id="btn-copy-rcp" class="btn-toggle rcp-primary" onclick="copiarBitacora()">COPIAR RESUMEN</button>
+          <button class="btn-toggle" onclick="resetRCP()">NUEVO PACIENTE</button>
+          <div class="rcp-caption">Puedes eliminar entradas accidentales antes de copiar.</div>
+          <textarea id="rcp-export" aria-label="Resumen de reanimación" readonly hidden></textarea>
+        </div>
+        <details class="rcp-settings" id="rcp-settings">
+          <summary>Equipo y energía · <span id="rcp-profile-summary">perfil de prueba</span></summary>
+          <label for="rcp-defib-type">Desfibrilador</label>
+          <select id="rcp-defib-type" class="input-moderno" onchange="configureDefib()">
+            <option value="biphasic">Bifásico · según fabricante</option>
+            <option value="unknown">Desconocido · máxima disponible</option>
+            <option value="monophasic">Monofásico · 360 J</option>
+          </select>
           <div class="rcp-btn-grid">
-            <button id="btn-adrenalina" class="btn-toggle" style="border-color: var(--danger); color: var(--danger); background: transparent;" onclick="registrarAdrenalina()">Adrenalina</button>
-            <button id="btn-descarga" class="btn-toggle" style="border-color: var(--warning); color: var(--warning); background: transparent;" onclick="registrarDescarga()">Descarga <span id="contador-descarga">(0)</span></button>
-            <button id="btn-amiodarona" class="btn-toggle" onclick="registrarAmiodarona()" style="background: transparent;">Amiodarona <span id="dosis-amio"></span></button>
-            <button id="btn-intubacion" class="btn-toggle" onclick="registrarIntubacion()" style="background: transparent;">Intubación</button>
+            <div><label for="rcp-initial-energy">Inicial según fabricante (J)</label><select id="rcp-initial-energy" class="input-moderno" onchange="configureDefib()"><option>120</option><option>150</option><option selected>200</option></select></div>
+            <div><label for="rcp-max-energy">Máxima del equipo (J)</label><select id="rcp-max-energy" class="input-moderno" onchange="configureDefib()"><option>200</option><option selected>360</option></select></div>
           </div>
-          <div style="border-top: 1px dashed var(--border); margin: 10px 0;"></div>
-          <button id="btn-terminar-rcp" class="btn-toggle btn-danger" onclick="terminarRCP()" style="width: 100%; letter-spacing: 2px;">TERMINAR RCP</button>
-          <button id="btn-reset-rcp" class="btn-toggle" onclick="resetRCP()" style="display: none; width: 100%; margin-top: 8px; border-color: var(--text-muted); color: var(--text-muted); background: transparent;">NUEVO PACIENTE</button>
-        </div>
-        <div class="rcp-log-area" id="log-eventos">
-          <p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>
-        </div>
+          <div class="rcp-caption">El perfil inicial de esta prueba es bifásico 200 J, máximo 360 J. Ajustarlo a tu equipo. Las siguientes descargas conservan la energía; puedes aumentarla.</div>
+        </details>
+        <details class="rcp-test-tools">
+          <summary>Laboratorio · avanzar sin esperar</summary>
+          <div class="rcp-btn-grid"><button class="btn-toggle" onclick="avanzarPrueba(30)">+30 SEGUNDOS</button><button class="btn-toggle" onclick="avanzarPrueba(120)">+2 MINUTOS</button></div>
+          <div class="rcp-caption">Los saltos marcan la sesión como simulada. No aceleran ni acumulan sonidos.</div>
+        </details>
+        <details class="rcp-log-details" open>
+          <summary>Bitácora · <span id="rcp-log-count">0 eventos</span></summary>
+          <div id="log-eventos" class="rcp-log-area"><p class="placeholder-text">Esperando inicio de reanimación…</p></div>
+        </details>
+        <div id="rcp-notice" role="status" class="rcp-caption"></div>
       </div>
     </section>
 
@@ -638,7 +726,7 @@
     </div>
   </main>
 
-  <div id="custom-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.2s ease;">
+  <div id="custom-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-msg" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; justify-content: center; align-items: center; padding: 20px; opacity: 0; transition: opacity 0.2s ease;">
     <div id="modal-box" class="glass-modal-box">
       <h2 id="modal-title" style="margin-top: 0; border-bottom: none; padding-bottom: 0; font-size: 1.2rem;">Título</h2>
       <p id="modal-msg" style="color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5;">Mensaje</p>
@@ -653,19 +741,20 @@
   /* =========================================
        CONFIGURACIÓN GLOBAL Y VERSIÓN
        ========================================= */
-    const APP_VERSION = "1.0.5";
+    const APP_VERSION = "1.1.0-rcp-preview";
     const APP_NAME = "Métrica EX";
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
        ========================================= */
     let audioCtx = null;
     function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
+      try {
+        const Audio = window.AudioContext || window.webkitAudioContext;
+        if (!Audio) return false;
+        if (!audioCtx) audioCtx = new Audio();
+        if (audioCtx.state === 'suspended') audioCtx.resume().catch(() => {});
+        return true;
+      } catch (_) { return false; }
     }
 
     function uiFeedback(vibeDuration = 15, freqStart = 600, freqEnd = 100, vol = 0.2) {
@@ -724,7 +813,7 @@
     
     function cycleTheme() {
       uiFeedback(15, 500, 100, 0.15);
-      document.body.className = ''; 
+      themes.forEach(theme => document.body.classList.remove(`theme-${theme}`));
       currentThemeIndex = (currentThemeIndex + 1) % themes.length;
       const newTheme = themes[currentThemeIndex];
       document.body.classList.add(`theme-${newTheme}`);
@@ -735,7 +824,7 @@
       const savedTheme = localStorage.getItem('metrica_ex_theme') || 'light';
       const index = themes.indexOf(savedTheme);
       if (index !== -1) { currentThemeIndex = index; }
-      document.body.className = ''; 
+      themes.forEach(theme => document.body.classList.remove(`theme-${theme}`));
       document.body.classList.add(`theme-${themes[currentThemeIndex]}`);
     }
 
@@ -1733,482 +1822,467 @@ function renderPediatria(peso) {
     /* =========================================
        RELOJ RCP Y BITÁCORA (TIEMPO ABSOLUTO)
        ========================================= */
-    let wakeLock = null;
+    // RCP adulta · laboratorio ACLS 2025. La guía y las acciones registradas son distintas.
+    const RCP_STORAGE = 'metrica_ex_rcp_preview_v2';
+    const RCP_PROFILE = 'metrica_ex_rcp_profile_v2';
+    const energySteps = [50, 70, 100, 120, 150, 200, 250, 300, 360];
+    const clockEpoch = Date.now();
+    const clockMono = performance.now();
+    let simulationOffset = 0;
+    const rcpNow = () => clockEpoch + (performance.now() - clockMono) + simulationOffset;
+    const $rcp = id => document.getElementById(id);
     let rcpInterval = null;
-    let metroInterval = null;
-    let currentBPM = 120;
-    
-    let startTime = 0;
-    let cycleStartTime = 0;
-    let adreStartTime = 0;
-    
-    let totalSeconds = 0;
-    let cycleSeconds = 0;
-    let timeSinceAdrenalina = 0;
-    
-    let isRunning = false;
-    let isMetroRunning = false;
-    let adrenalinaDada = false;
-    let shockCount = 0;
-    let amioDoses = 0;
-    let pulseCheckActive = false;
-    let contadorDesfibrilable = 0;
-    let esperandoDescarga = false;
+    let wakeLock = null;
+    let wakeRequest = 0;
+    let savedRcp = null;
+    let eventsSerial = 0;
+    let lastAudioState = 'idle';
+    let epiAlertedId = null;
+    let activeSounds = new Set();
+    let audioScheduler = null;
+    let nextSoundAt = 0;
+    let nextSoundIndex = 0;
+    let audioAnchor = 0;
+    let voicePhase = 'compression';
+    let rcp = freshRCP();
 
-    async function requestWakeLock() {
-      try {
-        if ('wakeLock' in navigator) {
-          wakeLock = await navigator.wakeLock.request('screen');
-        }
-      } catch (err) { console.error('Wake Lock falló:', err); }
+    function freshRCP() {
+      return { version: 2, status: 'idle', phase: 'ready', phaseAt: 0, startAt: null,
+        cycleAt: null, endAt: null, events: [], bpm: 110, sound: true,
+        defibType: 'biphasic', initialEnergy: 200, maxEnergy: 360, energy: 200, simulated: false };
     }
-    
-    function releaseWakeLock() {
-      if (wakeLock !== null) { 
-        wakeLock.release().then(() => { wakeLock = null; }); 
+    function liveRCP() { return rcp.status === 'active'; }
+    function actualEvents(kind) { return rcp.events.filter(e => !e.deleted && (!kind || e.kind === kind)); }
+    function latestEvent(kind) { return actualEvents(kind).at(-1) || null; }
+    function currentRhythm() { return latestEvent('rhythm')?.rhythm || 'unknown'; }
+    function hasAirway() { return !!latestEvent('airway'); }
+    function shockCountRCP() { return actualEvents('shock').length; }
+    function amioCountRCP() { return actualEvents('amio').length; }
+    function formatearTiempo(seconds) {
+      const s = Math.max(0, Math.floor(seconds));
+      return `${Math.floor(s / 60).toString().padStart(2, '0')}:${(s % 60).toString().padStart(2, '0')}`;
+    }
+    function elapsedRCP(at = rcpNow()) { return rcp.startAt === null ? 0 : Math.max(0, ((rcp.endAt ?? at) - rcp.startAt) / 1000); }
+    function noticeRCP(text) { $rcp('rcp-notice').textContent = text; }
+    function persistRCP() {
+      rcp.savedAt = rcpNow(); rcp.savedRealAt = Date.now();
+      try { localStorage.setItem(RCP_STORAGE, JSON.stringify(rcp)); }
+      catch (_) { noticeRCP('No se pudo guardar la sesión en este dispositivo.'); }
+    }
+    function addRCPEvent(kind, label, extra = {}) {
+      const at = rcpNow();
+      const event = { id: ++eventsSerial, kind, label, at, elapsed: elapsedRCP(at), deleted: false,
+        before: { phase: rcp.phase, phaseAt: rcp.phaseAt, cycleAt: rcp.cycleAt }, ...extra };
+      rcp.events.push(event);
+      return event;
+    }
+    function finishActionRCP(restartAudio = false) {
+      if (restartAudio) restartRCPAudio();
+      persistRCP(); renderRCPLog(); renderRCP();
+    }
+    function doseAlreadyPressed(kind) {
+      const last = latestEvent(kind);
+      if (last && rcpNow() - last.at < 2000) {
+        noticeRCP('Se evitó un doble toque. Si fue un error, usa Deshacer.'); return true;
       }
+      return false;
     }
-
-    document.addEventListener('visibilitychange', async () => {
-      if (document.visibilityState === 'visible' && isRunning) {
-        await requestWakeLock();
-      }
-    });
-
-    function playBeepCustom(freq, type, duration, vol) {
-      if (!audioCtx) initAudio();
-      if (!audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.type = type;
-      osc.frequency.value = freq;
-      gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-      osc.start(audioCtx.currentTime);
-      osc.stop(audioCtx.currentTime + duration);
+    function beginCycleRCP() {
+      rcp.phase = 'compressions'; rcp.phaseAt = rcpNow(); rcp.cycleAt = rcp.phaseAt;
     }
-
-    function cycleBPM() {
-      uiFeedback(15);
-      if (currentBPM === 120) currentBPM = 100;
-      else if (currentBPM === 100) currentBPM = 110;
-      else currentBPM = 120;
-      
-      document.getElementById('btn-metronomo-bpm').textContent = currentBPM;
-      
-      if (isMetroRunning) {
-        clearInterval(metroInterval);
-        const intervalMs = 60000 / currentBPM;
-        metroInterval = setInterval(() => { playBeepCustom(800, 'square', 0.05, 0.3); }, intervalMs);
-      }
-    }
-
-    function toggleMetronomo() {
-      uiFeedback(15);
-      const btnToggle = document.getElementById('btn-metronomo-toggle');
-      const btnBpm = document.getElementById('btn-metronomo-bpm');
-      if (isMetroRunning) {
-        clearInterval(metroInterval);
-        isMetroRunning = false;
-        btnToggle.style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
-        btnToggle.style.color = 'var(--accent)';
-        btnBpm.style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
-        btnBpm.style.color = 'var(--accent)';
-        btnToggle.innerHTML = '🎵 OFF';
-      } else {
-        isMetroRunning = true;
-        btnToggle.style.backgroundColor = 'var(--accent)';
-        btnToggle.style.color = '#fff';
-        btnBpm.style.backgroundColor = 'var(--accent)';
-        btnBpm.style.color = '#fff';
-        btnToggle.innerHTML = '🎵 ON';
-        
-        const intervalMs = 60000 / currentBPM;
-        playBeepCustom(800, 'square', 0.05, 0.3); 
-        metroInterval = setInterval(() => { playBeepCustom(800, 'square', 0.05, 0.3); }, intervalMs);
-      }
-    }
-
-    function formatearTiempo(segundos) {
-      const m = Math.floor(segundos / 60).toString().padStart(2, '0');
-      const s = (segundos % 60).toString().padStart(2, '0');
-      return `${m}:${s}`;
-    }
-
     function toggleRCP() {
-      uiFeedback(30, 400, 50, 0.3); 
-      const btn = document.getElementById('btn-rcp-start');
-      if (isRunning) {
-        clearInterval(rcpInterval);
-        isRunning = false;
-        releaseWakeLock();
-        btn.textContent = 'CONTINUAR RCP';
-        btn.style.backgroundColor = 'transparent';
-        btn.style.border = '1px solid var(--accent)';
-        btn.style.color = 'var(--accent)';
-        registrarEvento('Pausa de Cronómetro', 'var(--text-muted)');
-        
-        document.body.classList.remove('emergencia-activa');
-      } else {
-        isRunning = true;
-        requestWakeLock();
-        btn.textContent = 'PAUSAR RCP';
-        btn.style.backgroundColor = 'var(--warning)';
-        btn.style.color = '#000';
-        btn.style.border = 'none';
-        
-        const now = Date.now();
-        if(totalSeconds === 0) {
-            registrarEvento('INICIO DE RCP', 'var(--accent)');
-            startTime = now;
-            cycleStartTime = now;
-        } else {
-            startTime = now - (totalSeconds * 1000);
-            cycleStartTime = now - (cycleSeconds * 1000);
-            if (adrenalinaDada) adreStartTime = now - (timeSinceAdrenalina * 1000);
-        }
-        
-        rcpInterval = setInterval(tickRCP, 1000);
-        document.body.classList.add('emergencia-activa');
-      }
+      if (rcp.status !== 'idle') return;
+      if (savedRcp) { recuperarRCP(); return; }
+      initAudio();
+      rcp.status = 'active'; rcp.startAt = rcpNow(); beginCycleRCP();
+      addRCPEvent('start', 'INICIO DE RCP');
+      $rcp('rcp-settings').open = false;
+      startRCPLoop(); requestWakeLock();
+      document.body.classList.add('rcp-focus');
+      finishActionRCP(true);
     }
-
+    function startRCPLoop() {
+      if (rcpInterval !== null) clearInterval(rcpInterval);
+      rcpInterval = setInterval(tickRCP, 100);
+    }
     function tickRCP() {
-      const now = Date.now();
-      totalSeconds = Math.floor((now - startTime) / 1000);
-
-      if (!pulseCheckActive) {
-        if (!esperandoDescarga) {
-          cycleSeconds = Math.floor((now - cycleStartTime) / 1000);
-          document.getElementById('reloj-ciclo').textContent = formatearTiempo(cycleSeconds);
-          document.getElementById('progreso-ciclo').value = cycleSeconds;
-          
-          if (cycleSeconds >= 120) activarAlarmaPulso();
-        } else {
-          document.getElementById('reloj-ciclo').textContent = totalSeconds % 2 === 0 ? '--:--' : '00:00';
-        }
+      if (!liveRCP()) return;
+      if (rcp.phase === 'compressions' && rcpNow() - rcp.cycleAt >= 120000) {
+        rcp.phase = 'evaluation'; rcp.phaseAt = rcpNow();
+        stopRCPAudio(); alarmRCP('cycle'); persistRCP();
       }
-
-      if (adrenalinaDada) {
-        timeSinceAdrenalina = Math.floor((now - adreStartTime) / 1000);
-        document.getElementById('timer-adrenalina-txt').textContent = `Última dosis: hace ${formatearTiempo(timeSinceAdrenalina)}`;
-        if (timeSinceAdrenalina >= 240) {
-          document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
-          document.getElementById('timer-adrenalina-txt').style.color = 'var(--danger)';
-          document.getElementById('timer-adrenalina-txt').style.fontWeight = 'bold';
-        }
-      } else {
-        if (totalSeconds >= 120 && contadorDesfibrilable === 0) {
-            document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
-        }
+      const epi = latestEvent('epi');
+      if (epi && rcpNow() - epi.at >= 180000 && epiAlertedId !== epi.id) {
+        epiAlertedId = epi.id; alarmRCP('epi');
       }
-      document.getElementById('reloj-total').textContent = formatearTiempo(totalSeconds);
+      renderRCP();
     }
-
-    function activarAlarmaPulso() {
-      pulseCheckActive = true;
-      document.getElementById('ciclo-container').classList.add('pulse-alarm-active');
-      document.getElementById('reloj-ciclo').style.display = 'none';
-      document.getElementById('progreso-ciclo').style.display = 'none';
-      document.getElementById('label-ciclo').style.display = 'none';
-      
-      document.getElementById('decision-ritmo').style.display = 'flex';
-      
-      playBeepCustom(400, 'square', 0.5, 2);
-      setTimeout(() => playBeepCustom(600, 'square', 0.5, 2), 600);
-      if(navigator.vibrate) navigator.vibrate([200, 100, 200]); 
+    function evaluarRitmo() {
+      if (!liveRCP() || rcp.phase !== 'compressions') return;
+      addRCPEvent('assessment', 'Evaluación de ritmo solicitada');
+      rcp.phase = 'evaluation'; rcp.phaseAt = rcpNow(); stopRCPAudio(); finishActionRCP();
     }
-
-    function reanudarCicloBasico(nombreRitmo, colorLog) {
-      uiFeedback(30, 400, 50, 0.3);
-      pulseCheckActive = false;
-      
-      cycleStartTime = Date.now();
-      cycleSeconds = 0;
-      
-      document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
-      document.getElementById('reloj-ciclo').style.display = 'block';
-      document.getElementById('progreso-ciclo').style.display = 'block';
-      document.getElementById('label-ciclo').style.display = 'block';
-      
-      document.getElementById('decision-ritmo').style.display = 'none';
-      
-      document.getElementById('reloj-ciclo').textContent = '00:00';
-      document.getElementById('progreso-ciclo').value = 0;
-      registrarEvento(nombreRitmo, colorLog);
-    }
-
-    function ritmoDesfibrilable() {
-      contadorDesfibrilable++;
-      esperandoDescarga = true; 
-      reanudarCicloBasico(`Ritmo: FV/TVsp (Alerta Choque ${contadorDesfibrilable})`, 'var(--warning)');
-      
-      const energias = [150, 200, 200, 250, 270];
-      let energia = energias[contadorDesfibrilable - 1] || 270;
-      document.getElementById('btn-descarga').innerHTML = `⚡ ${energia}J <span id="contador-descarga">(${shockCount})</span>`;
-      document.getElementById('btn-descarga').classList.add('btn-alert-flash');
-
-      if (contadorDesfibrilable === 3 && amioDoses === 0) {
-         document.getElementById('btn-amiodarona').classList.add('btn-alert-flash');
-         document.getElementById('dosis-amio').textContent = " 300mg";
-      } else if (contadorDesfibrilable === 5 && amioDoses === 1) {
-         document.getElementById('btn-amiodarona').classList.add('btn-alert-flash');
-         document.getElementById('dosis-amio').textContent = " 150mg";
-      }
-    }
-
     function ritmoNoDesfibrilable() {
-      reanudarCicloBasico('Ritmo: Asistolia/AESP', 'var(--accent)');
-      
-      if (!adrenalinaDada) {
-        document.getElementById('btn-adrenalina').classList.add('btn-alert-flash');
-      }
+      if (!liveRCP() || !['evaluation', 'shock'].includes(rcp.phase)) return;
+      addRCPEvent('rhythm', 'Ritmo: Asistolia/AESP', { rhythm: 'nonshockable' });
+      beginCycleRCP(); finishActionRCP(true);
+      if (!latestEvent('epi')) alarmRCP('epi');
     }
-
-    function registrarAdrenalina() {
-      if (totalSeconds === 0 && !isRunning) return;
-      uiFeedback(30, 400, 50, 0.3);
-      
-      adrenalinaDada = true; 
-      adreStartTime = Date.now(); 
-      timeSinceAdrenalina = 0;
-      
-      document.getElementById('btn-adrenalina').classList.remove('btn-alert-flash');
-      document.getElementById('timer-adrenalina-txt').textContent = `Última dosis: hace 00:00`;
-      document.getElementById('timer-adrenalina-txt').style.color = 'var(--text-muted)';
-      document.getElementById('timer-adrenalina-txt').style.fontWeight = 'normal';
-      registrarEvento('Adrenalina 1mg', 'var(--danger)');
+    function ritmoDesfibrilable() {
+      if (!liveRCP() || rcp.phase !== 'evaluation') return;
+      addRCPEvent('rhythm', 'Ritmo: FV/TV sin pulso', { rhythm: 'shockable' });
+      rcp.phase = 'shock'; rcp.phaseAt = rcpNow();
+      // Seguir guiando compresiones durante la preparación; esto no supone descarga entregada.
+      finishActionRCP(true);
     }
-
+    function accionDescarga() {
+      if (!liveRCP()) return;
+      if (rcp.phase === 'evaluation') ritmoDesfibrilable();
+      else if (rcp.phase === 'shock') registrarDescarga();
+    }
     function registrarDescarga() {
-      if (totalSeconds === 0 && !isRunning) return;
-      uiFeedback(30, 400, 50, 0.3);
-      
-      if (esperandoDescarga) {
-        esperandoDescarga = false;
-        cycleStartTime = Date.now(); 
-        cycleSeconds = 0; 
-        document.getElementById('reloj-ciclo').textContent = '00:00';
-        document.getElementById('progreso-ciclo').value = 0;
-      }
-
-      shockCount++;
-      const energias = [150, 200, 200, 250, 270];
-      let energia = energias[contadorDesfibrilable - 1] || 270;
-      
-      document.getElementById('contador-descarga').textContent = `(${shockCount})`;
-      document.getElementById('btn-descarga').classList.remove('btn-alert-flash');
-      document.getElementById('btn-descarga').innerHTML = `Descarga <span id="contador-descarga">(${shockCount})</span>`;
-      
-      registrarEvento(`Choque Entregado (${energia}J)`, 'var(--warning)');
+      if (!liveRCP() || rcp.phase !== 'shock' || doseAlreadyPressed('shock')) return;
+      addRCPEvent('shock', `Descarga administrada · ${rcp.energy} J`, { energy: rcp.energy });
+      beginCycleRCP(); finishActionRCP(true);
+      if (shockCountRCP() === 2 && !latestEvent('epi')) alarmRCP('epi');
+      if (shockCountRCP() === 3 && !latestEvent('amio')) alarmRCP('drug');
     }
-
+    function reanudarSinClasificar() {
+      if (!liveRCP() || !['evaluation', 'shock'].includes(rcp.phase)) return;
+      addRCPEvent('rhythm', 'RCP reanudada · ritmo no registrado', { rhythm: 'unknown' });
+      beginCycleRCP(); finishActionRCP(true);
+    }
+    function adjustEnergy(direction) {
+      if (!liveRCP() || !['evaluation', 'shock'].includes(rcp.phase) || rcp.defibType === 'monophasic') return;
+      const choices = energySteps.filter(n => n <= rcp.maxEnergy);
+      const index = choices.indexOf(rcp.energy);
+      rcp.energy = choices[Math.max(0, Math.min(choices.length - 1, index + direction))];
+      persistRCP(); renderRCP();
+    }
+    function configureDefib() {
+      if (rcp.status !== 'idle') return;
+      rcp.defibType = $rcp('rcp-defib-type').value;
+      rcp.maxEnergy = Number($rcp('rcp-max-energy').value);
+      rcp.initialEnergy = Math.min(Number($rcp('rcp-initial-energy').value), rcp.maxEnergy);
+      rcp.energy = rcp.defibType === 'monophasic' ? 360 : rcp.defibType === 'unknown' ? rcp.maxEnergy : rcp.initialEnergy;
+      if (rcp.defibType === 'monophasic') rcp.maxEnergy = 360;
+      try { localStorage.setItem(RCP_PROFILE, JSON.stringify({defibType: rcp.defibType, initialEnergy: rcp.initialEnergy, maxEnergy: rcp.maxEnergy})); } catch (_) {}
+      renderRCP();
+    }
+    function registrarAdrenalina() {
+      if (!liveRCP() || doseAlreadyPressed('epi')) return;
+      addRCPEvent('epi', 'Adrenalina administrada · 1 mg IV/IO', { doseMg: 1 });
+      epiAlertedId = null; finishActionRCP();
+    }
     function registrarAmiodarona() {
-      if (totalSeconds === 0 && !isRunning) return;
-      uiFeedback(30, 400, 50, 0.3);
-      amioDoses++;
-      document.getElementById('btn-amiodarona').classList.remove('btn-alert-flash');
-      let dosis = amioDoses === 1 ? '300mg' : '150mg';
-      document.getElementById('dosis-amio').textContent = "";
-      registrarEvento(`Amiodarona ${dosis}`, '#9C27B0');
-      if(amioDoses >= 2) {
-        document.getElementById('btn-amiodarona').disabled = true;
-        document.getElementById('btn-amiodarona').style.opacity = '0.5';
-      }
+      if (!liveRCP() || amioCountRCP() >= 2 || doseAlreadyPressed('amio')) return;
+      const mg = amioCountRCP() === 0 ? 300 : 150;
+      addRCPEvent('amio', `Amiodarona administrada · ${mg} mg IV/IO`, { doseMg: mg, shocksAtDose: shockCountRCP() });
+      finishActionRCP();
     }
-
     function registrarIntubacion() {
-      if (totalSeconds === 0 && !isRunning) return;
-      uiFeedback(30, 400, 50, 0.3);
-      registrarEvento('Vía Aérea Avanzada', 'var(--accent)');
-      const btn = document.getElementById('btn-intubacion');
-      btn.disabled = true;
-      btn.style.opacity = '0.5';
-      btn.textContent = 'Intubado ✔';
+      if (!liveRCP() || hasAirway()) return;
+      mostrarModal('VÍA AÉREA AVANZADA', '¿Confirmas colocación de tubo endotraqueal o dispositivo supraglótico? Verificar el tubo con capnografía. Cambiará a compresiones continuas y una ventilación cada 6 segundos.', 'Confirmar colocación', '', () => {
+        if (!liveRCP() || hasAirway()) return;
+        addRCPEvent('airway', 'Vía aérea avanzada confirmada'); finishActionRCP(true);
+      });
     }
-
+    function confirmarRCE() {
+      if (!liveRCP()) return;
+      mostrarModal('RCE · PULSO PRESENTE', '¿El equipo confirma recuperación de circulación espontánea? Se detendrán las señales de compresión.', 'Confirmar RCE', '', () => endRCP('rosc'));
+    }
     function terminarRCP() {
-      if (!isRunning && totalSeconds === 0) return;
-      mostrarModal(
-        'TERMINAR REANIMACIÓN',
-        '¿Estás seguro de TERMINAR la reanimación?',
-        'Terminar RCP',
-        'btn-danger',
-        ejecutarTerminarRCP
-      );
+      if (!liveRCP()) return;
+      mostrarModal('TERMINAR REANIMACIÓN', '¿Confirmas finalizar la reanimación? Después podrás revisar y corregir el resumen.', 'Terminar', 'btn-danger', () => endRCP('finished'));
     }
-
-    function ejecutarTerminarRCP() {
-      esperandoDescarga = false;
-      document.body.classList.remove('emergencia-activa');
-      clearInterval(rcpInterval);
-      
-      // FIX: Detener metronomo correctamente al terminar RCP
-      if (isMetroRunning) {
-        clearInterval(metroInterval);
-        isMetroRunning = false;
+    function endRCP(status) {
+      if (!liveRCP()) return;
+      addRCPEvent('end', status === 'rosc' ? 'RCE CONFIRMADO' : 'FIN DE REANIMACIÓN');
+      rcp.endAt = rcpNow(); rcp.status = status;
+      clearInterval(rcpInterval); rcpInterval = null; stopRCPAudio(); cancelSoundsRCP(); releaseWakeLock();
+      document.body.classList.remove('rcp-focus'); finishActionRCP();
+    }
+    function deshacerEvento() {
+      if (!liveRCP()) return;
+      const event = actualEvents().filter(e => !['start', 'end'].includes(e.kind)).at(-1);
+      if (!event) return;
+      event.deleted = true;
+      Object.assign(rcp, event.before);
+      noticeRCP(`Deshecho: ${event.label}`);
+      finishActionRCP(true); tickRCP();
+    }
+    function eliminarEvento(id) {
+      if (liveRCP() || rcp.status === 'idle') return;
+      const event = rcp.events.find(e => e.id === id);
+      if (!event || ['start','end'].includes(event.kind)) return;
+      event.deleted = !event.deleted;
+      finishActionRCP();
+      if (!$rcp('rcp-export').hidden) $rcp('rcp-export').value = summaryRCP();
+    }
+    function summaryRCP() {
+      let text = `MÉTRICA EX · RCP ADULTA · VERSIÓN DE PRUEBA${rcp.simulated ? ' · SIMULACIÓN CON SALTOS DE TIEMPO' : ''}\n`;
+      text += `Duración: ${formatearTiempo(elapsedRCP())} | Descargas: ${shockCountRCP()} | Adrenalina: ${actualEvents('epi').length} dosis\n`;
+      text += actualEvents().map(e => `${new Date(e.at).toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit',second:'2-digit'})} | T+${formatearTiempo(e.elapsed)} | ${e.label}`).join('\n');
+      return text;
+    }
+    async function copiarBitacora() {
+      if (liveRCP() || rcp.status === 'idle') return;
+      const text = summaryRCP();
+      try {
+        if (!navigator.clipboard?.writeText) throw new Error('Sin portapapeles');
+        await navigator.clipboard.writeText(text); noticeRCP('Resumen copiado.');
+      } catch (_) {
+        const field = $rcp('rcp-export'); field.hidden = false; field.value = text; field.focus(); field.select();
+        noticeRCP('Selecciona y copia el resumen desde este campo.');
       }
-      
-      isRunning = false;
-      releaseWakeLock();
-      
-      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
-      document.getElementById('btn-metronomo-toggle').style.color = 'var(--accent)';
-      document.getElementById('btn-metronomo-toggle').innerHTML = '🎵 OFF';
-      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
-      document.getElementById('btn-metronomo-bpm').style.color = 'var(--accent)';
-      
-      registrarEvento('FIN DE REANIMACIÓN', 'var(--danger)');
-      
-      const btnTerminar = document.getElementById('btn-terminar-rcp');
-      btnTerminar.textContent = '📋 COPIAR BITÁCORA';
-      btnTerminar.className = 'btn-toggle';
-      btnTerminar.style.backgroundColor = 'var(--accent)';
-      btnTerminar.style.color = '#fff';
-      btnTerminar.style.border = 'none';
-      btnTerminar.onclick = copiarBitacora; 
-
-      document.getElementById('btn-reset-rcp').style.display = 'block';
-      
-      document.getElementById('btn-rcp-start').disabled = true;
-      document.getElementById('btn-adrenalina').disabled = true;
-      document.getElementById('btn-descarga').disabled = true;
-      document.getElementById('btn-amiodarona').disabled = true;
-      document.getElementById('btn-intubacion').disabled = true;
     }
-
-    function copiarBitacora() {
-      uiFeedback(15);
-      const logPanel = document.getElementById('log-eventos');
-      const entries = logPanel.querySelectorAll('.log-entry');
-      let textoBitacora = "BITÁCORA DE REANIMACIÓN - Métrica Ex\n-----------------------------------\n";
-      
-      const arrayEntries = Array.from(entries).reverse();
-      arrayEntries.forEach(entry => {
-        const dt = entry.querySelector('.log-datetime').textContent;
-        const action = entry.querySelector('.log-action').textContent;
-        const timer = entry.querySelector('.log-timer').textContent;
-        textoBitacora += `${dt} | ${action.padEnd(30, ' ')} | ${timer}\n`;
-      });
-      
-      navigator.clipboard.writeText(textoBitacora).then(() => {
-        const btn = document.getElementById('btn-terminar-rcp');
-        const originalText = btn.textContent;
-        btn.textContent = '¡COPIADO CON ÉXITO!';
-        setTimeout(() => { btn.textContent = originalText; }, 2000);
-      }).catch(err => alert('Error al copiar: ' + err));
-    }
-
     function resetRCP() {
-      mostrarModal(
-        'NUEVO PACIENTE',
-        '¿Reiniciar todo para un nuevo paciente?',
-        'Reiniciar',
-        'btn-danger',
-        ejecutarResetRCP
-      );
+      if (liveRCP()) return;
+      mostrarModal('NUEVO PACIENTE', '¿Descartar la sesión guardada y preparar una nueva prueba? Copia antes el resumen si lo necesitas.', 'Reiniciar', 'btn-danger', ejecutarResetRCP);
     }
-
     function ejecutarResetRCP() {
-      document.body.classList.remove('emergencia-activa');
-      
-      totalSeconds = 0; cycleSeconds = 0; timeSinceAdrenalina = 0; currentBPM = 120;
-      startTime = 0; cycleStartTime = 0; adreStartTime = 0;
-      
-      adrenalinaDada = false; shockCount = 0; amioDoses = 0; pulseCheckActive = false; 
-      contadorDesfibrilable = 0; esperandoDescarga = false;
-      
-      const btnStart = document.getElementById('btn-rcp-start');
-      btnStart.disabled = false;
-      btnStart.textContent = 'INICIAR RCP';
-      btnStart.style.backgroundColor = 'var(--accent)';
-      btnStart.style.color = '#fff';
-      btnStart.style.border = 'none';
-      
-      const btnTerminar = document.getElementById('btn-terminar-rcp');
-      btnTerminar.textContent = 'TERMINAR RCP';
-      btnTerminar.className = 'btn-toggle btn-danger';
-      btnTerminar.style.backgroundColor = '';
-      btnTerminar.style.color = '';
-      btnTerminar.onclick = terminarRCP; 
-      
-      document.getElementById('btn-reset-rcp').style.display = 'none';
-      document.getElementById('reloj-total').textContent = '00:00';
-      document.getElementById('reloj-ciclo').textContent = '00:00';
-      document.getElementById('progreso-ciclo').value = 0;
-      
-      document.getElementById('btn-adrenalina').disabled = false;
-      document.getElementById('btn-adrenalina').classList.remove('btn-alert-flash');
-      document.getElementById('timer-adrenalina-txt').textContent = 'Última dosis: --';
-      document.getElementById('timer-adrenalina-txt').style.color = 'var(--text-muted)';
-      
-      document.getElementById('btn-descarga').disabled = false;
-      document.getElementById('btn-descarga').innerHTML = 'Descarga <span id="contador-descarga">(0)</span>';
-      document.getElementById('btn-descarga').classList.remove('btn-alert-flash');
-      
-      document.getElementById('btn-amiodarona').disabled = false;
-      document.getElementById('btn-amiodarona').classList.remove('btn-alert-flash');
-      document.getElementById('btn-amiodarona').style.opacity = '1';
-      document.getElementById('dosis-amio').textContent = '';
-
-      document.getElementById('btn-intubacion').disabled = false;
-      document.getElementById('btn-intubacion').style.opacity = '1';
-      document.getElementById('btn-intubacion').textContent = 'Intubación';
-      
-      document.getElementById('btn-metronomo-bpm').textContent = currentBPM;
-      document.getElementById('btn-metronomo-toggle').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
-      document.getElementById('btn-metronomo-toggle').style.color = 'var(--accent)';
-      document.getElementById('btn-metronomo-toggle').innerHTML = '🎵 OFF';
-      document.getElementById('btn-metronomo-bpm').style.backgroundColor = 'rgba(128, 128, 128, 0.05)';
-      document.getElementById('btn-metronomo-bpm').style.color = 'var(--accent)';
-      
-      document.getElementById('log-eventos').innerHTML = '<p class="placeholder-text" style="text-align: center; margin-top: 20px;">Esperando inicio de reanimación...</p>';
-      document.getElementById('ciclo-container').classList.remove('pulse-alarm-active');
-      document.getElementById('reloj-ciclo').style.display = 'block';
-      document.getElementById('progreso-ciclo').style.display = 'block';
-      document.getElementById('decision-ritmo').style.display = 'none';
-      document.getElementById('label-ciclo').style.display = 'block';
+      clearInterval(rcpInterval); rcpInterval = null; stopRCPAudio(); cancelSoundsRCP(); releaseWakeLock();
+      const profile = {defibType:rcp.defibType,initialEnergy:rcp.initialEnergy,maxEnergy:rcp.maxEnergy};
+      rcp = {...freshRCP(), ...profile};
+      rcp.energy = rcp.defibType === 'monophasic' ? 360 : rcp.defibType === 'unknown' ? rcp.maxEnergy : rcp.initialEnergy;
+      savedRcp = null; epiAlertedId = null; simulationOffset = 0;
+      document.body.classList.remove('rcp-focus');
+      $rcp('rcp-export').hidden = true; noticeRCP(''); finishActionRCP();
     }
-
-    function registrarEvento(nombre, color) {
-      const logPanel = document.getElementById('log-eventos');
-      if (logPanel.querySelector('.placeholder-text')) logPanel.innerHTML = '';
-      
-      const now = new Date();
-      const dia = now.getDate().toString().padStart(2, '0');
-      const mes = (now.getMonth() + 1).toString().padStart(2, '0');
-      const anio = now.getFullYear().toString().slice(-2);
-      const hora = now.getHours().toString().padStart(2, '0');
-      const min = now.getMinutes().toString().padStart(2, '0');
-      
-      const dtStr = `${dia}/${mes}/${anio} ${hora}:${min}`;
-      const tiempoRcp = formatearTiempo(totalSeconds);
-      
-      const logItem = document.createElement('div');
-      logItem.className = 'log-entry';
-      
-      logItem.innerHTML = `
-        <span class="log-datetime">${dtStr}</span>
-        <span class="log-action" style="color: ${color};" title="${nombre}">${nombre}</span>
-        <span class="log-timer">T: ${tiempoRcp}</span>
-      `;
-      logPanel.prepend(logItem); 
-    }
-
-    // Registro del Service Worker para funcionamiento Offline
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-          .then((registration) => {
-            console.log('ServiceWorker registrado con éxito: ', registration.scope);
-          })
-          .catch((err) => {
-            console.log('Fallo al registrar el ServiceWorker: ', err);
-          });
+    function recuperarRCP() {
+      if (!savedRcp || rcp.status !== 'idle') return;
+      mostrarModal('SESIÓN GUARDADA', '¿Recuperar la sesión? Los tiempos incluirán lo transcurrido desde que se cerró la página.', 'Recuperar', '', () => {
+        if (!savedRcp) return;
+        rcp = savedRcp; savedRcp = null;
+        eventsSerial = Math.max(0, ...rcp.events.map(e => e.id));
+        initAudio();
+        if (liveRCP()) { startRCPLoop(); requestWakeLock(); document.body.classList.add('rcp-focus'); }
+        finishActionRCP(true); tickRCP();
       });
     }
+    function avanzarPrueba(seconds) {
+      if (!liveRCP()) { noticeRCP('Inicia la prueba antes de adelantar el tiempo.'); return; }
+      simulationOffset += seconds * 1000; rcp.simulated = true;
+      stopRCPAudio(); tickRCP();
+      if (['compressions','shock'].includes(rcp.phase)) restartRCPAudio();
+      persistRCP(); noticeRCP(`SIMULACIÓN · tiempo adelantado ${seconds} segundos.`);
+    }
+    function renderRCP() {
+      const now = rcpNow(), live = liveRCP(), ended = ['finished','rosc'].includes(rcp.status);
+      const evaluation = live && ['evaluation','shock'].includes(rcp.phase);
+      const cycleSeconds = rcp.cycleAt === null ? 0 : Math.max(0, ((rcp.endAt ?? now) - rcp.cycleAt)/1000);
+      $rcp('reloj-total').textContent = formatearTiempo(elapsedRCP(now));
+      $rcp('reloj-ciclo').textContent = ended ? '—' : evaluation ? formatearTiempo((now-rcp.phaseAt)/1000) : formatearTiempo(Math.max(0, Math.ceil(120-cycleSeconds)));
+      $rcp('label-ciclo').textContent = evaluation ? (rcp.phase === 'shock' ? 'Preparando descarga' : 'Evaluando ritmo') : 'Próxima evaluación';
+      $rcp('progreso-ciclo').value = Math.min(120, cycleSeconds);
+      $rcp('btn-rcp-start').hidden = rcp.status !== 'idle' || !!savedRcp;
+      $rcp('btn-restore-rcp').hidden = !savedRcp;
+      $rcp('rcp-live-controls').hidden = !live;
+      $rcp('rcp-ended-controls').hidden = !ended;
+      $rcp('decision-ritmo').hidden = !evaluation;
+      $rcp('btn-evaluar-ritmo').hidden = evaluation;
+      $rcp('rcp-settings').hidden = live || ended;
+      $rcp('rcp-defib-type').value = rcp.defibType;
+      $rcp('rcp-initial-energy').value = String(rcp.initialEnergy);
+      $rcp('rcp-max-energy').value = String(rcp.maxEnergy);
+      $rcp('rcp-initial-energy').disabled = rcp.defibType !== 'biphasic';
+      $rcp('rcp-max-energy').disabled = rcp.defibType === 'monophasic';
+      $rcp('rcp-profile-summary').textContent = `${rcp.defibType === 'monophasic' ? 'monofásico' : rcp.defibType === 'unknown' ? 'desconocido' : 'bifásico'} · ${rcp.energy} J`;
+      $rcp('rcp-energy').textContent = `${rcp.energy} J`;
+      $rcp('energy-minus').disabled = rcp.defibType === 'monophasic' || rcp.energy <= 50;
+      $rcp('energy-plus').disabled = rcp.defibType === 'monophasic' || rcp.energy >= rcp.maxEnergy;
+      $rcp('btn-descarga').innerHTML = rcp.phase === 'shock' ? `DESCARGA REALIZADA · ${rcp.energy} J <small>Confirmar solo después de administrarla</small>` : 'DESFIBRILABLE <small>FV / TV sin pulso</small>';
+      $rcp('rcp-energy-hint').textContent = rcp.phase === 'shock' ? 'Continuar compresiones durante la preparación. Despejar para descargar.' : 'La selección de ritmo no registra una descarga.';
+      const epi = latestEvent('epi'), epiSeconds = epi ? Math.max(0,(now-epi.at)/1000) : 0;
+      const epiDue = live && (epi ? epiSeconds >= 180 : currentRhythm() === 'nonshockable' || shockCountRCP() >= 2);
+      $rcp('timer-adrenalina-txt').textContent = epi ? `Adrenalina: hace ${formatearTiempo(epiSeconds)} · ${epiSeconds >= 180 ? (epiSeconds >= 300 ? 'intervalo >5 min' : 'ventana 3–5 min') : `próximo aviso en ${formatearTiempo(Math.ceil(180-epiSeconds))}`}` : epiDue ? 'PRIMERA ADRENALINA PENDIENTE · 1 mg IV/IO' : 'Primera adrenalina según ritmo; no esperar un tiempo fijo.';
+      $rcp('btn-adrenalina').classList.toggle('rcp-due', epiDue);
+      $rcp('btn-adrenalina').classList.toggle('rcp-overdue', live && !!epi && epiSeconds >= 300);
+      const amios = amioCountRCP(), amio = latestEvent('amio');
+      const amioDue = live && currentRhythm() === 'shockable' && (amios === 0 ? shockCountRCP() >= 3 : amios === 1 && shockCountRCP() > amio.shocksAtDose);
+      $rcp('btn-amiodarona').disabled = amios >= 2;
+      $rcp('btn-amiodarona').classList.toggle('rcp-due', amioDue);
+      $rcp('btn-amiodarona').innerHTML = amios >= 2 ? 'AMIODARONA <small>300 + 150 mg registrados</small>' : `AMIODARONA <small>Administrada · ${amios === 0 ? 300 : 150} mg IV/IO</small>`;
+      $rcp('amio-hint').textContent = amioDue ? (amios === 0 ? 'FV/TVsp persistente: amiodarona 300 mg o lidocaína.' : 'FV/TVsp persistente: valorar segunda dosis de 150 mg según el líder.') : 'Antiarrítmico si FV/TV sin pulso persiste. Alternativa: lidocaína.';
+      $rcp('btn-intubacion').disabled = hasAirway();
+      $rcp('btn-intubacion').innerHTML = hasAirway() ? 'VÍA AÉREA ✔ <small>Compresiones continuas</small>' : 'VÍA AÉREA <small>Confirmar colocación</small>';
+      $rcp('btn-metronomo-toggle').textContent = rcp.sound ? (audioCtx && audioCtx.state === 'running' ? 'SONIDO ON' : 'ACTIVAR SONIDO') : 'SONIDO OFF';
+      $rcp('btn-metronomo-bpm').textContent = `${rcp.bpm} /min`;
+      $rcp('btn-undo-rcp').hidden = !actualEvents().some(e => !['start','end'].includes(e.kind));
+      $rcp('rcp-end-summary').textContent = `${rcp.status === 'rosc' ? 'RCE confirmado' : 'Sesión finalizada'} · ${shockCountRCP()} descargas · ${actualEvents('epi').length} dosis de adrenalina`;
+      const guide = $rcp('rcp-guide');
+      guide.classList.toggle('evaluating', live && rcp.phase === 'evaluation');
+      guide.classList.toggle('ventilating', live && ['compressions','shock'].includes(rcp.phase) && voicePhase === 'ventilation');
+      let title = 'LISTO PARA INICIAR', detail = 'Un toque inicia sonido, relojes y guía 30:2.';
+      if (live) {
+        if (rcp.phase === 'evaluation') { title = 'EVALUAR RITMO · RELEVAR COMPRESOR'; detail = 'Minimizar la interrupción. Si hay ritmo organizado, comprobar pulso.'; }
+        else if (rcp.phase === 'shock') { title = 'PREPARAR DESCARGA'; detail = 'Continuar compresiones hasta despejar para descargar. Confirmar después de administrarla.'; }
+        else { title = voicePhase === 'ventilation' && !hasAirway() ? 'DAR 2 VENTILACIONES' : 'CONTINUAR COMPRESIONES'; detail = hasAirway() ? 'Compresiones continuas · ventilación cada 6 segundos.' : '30 compresiones · 2 ventilaciones · sin pulsaciones adicionales.'; }
+      } else if (ended) {
+        title = rcp.status === 'rosc' ? 'RCE · ATENCIÓN POSPARO' : 'REANIMACIÓN FINALIZADA';
+        detail = rcp.status === 'rosc' ? 'Comunicar RCE. Continuar atención posparo: oxigenación, ventilación, hemodinamia y ECG.' : 'Revisa las entradas accidentales y copia el resumen.';
+      } else if (savedRcp) { title = 'HAY UNA SESIÓN GUARDADA'; detail = 'Recupérala para continuar o revisar su resumen.'; }
+      $rcp('rcp-instruction').textContent = title;
+      $rcp('rcp-detail').textContent = detail;
+      let breath = hasAirway() ? 'Continuo · 1 ventilación / 6 s' : '30 compresiones · 2 ventilaciones';
+      if (live && ['compressions','shock'].includes(rcp.phase) && audioAnchor) {
+        const elapsed = Math.max(0,(now-audioAnchor)/1000);
+        const beat = 60/rcp.bpm;
+        if (!hasAirway()) {
+          const pos = elapsed % (30*beat+4);
+          voicePhase = pos < 30*beat ? 'compression' : 'ventilation';
+          breath = pos < 30*beat ? `Compresión sugerida ${Math.min(30,Math.floor(pos/beat)+1)} / 30` : `2 ventilaciones · reinicio en ${Math.max(1,Math.ceil(30*beat+4-pos))} s`;
+        } else { voicePhase = 'compression'; breath = `Continuo · ventilar en ${Math.max(1,Math.ceil(6-elapsed%6))} s`; }
+      } else { voicePhase = 'compression'; }
+      $rcp('rcp-breath').textContent = breath;
+    }
+    function renderRCPLog() {
+      const panel = $rcp('log-eventos'); panel.replaceChildren();
+      $rcp('rcp-log-count').textContent = `${actualEvents().length} eventos`;
+      if (!rcp.events.length) { panel.textContent = 'Esperando inicio de reanimación…'; return; }
+      for (const e of [...rcp.events].reverse()) {
+        if (liveRCP() && e.deleted) continue;
+        const row = document.createElement('div'); row.className = 'log-entry' + (e.deleted ? ' deleted' : '');
+        const time = document.createElement('span'); time.className = 'log-timer'; time.textContent = `+${formatearTiempo(e.elapsed)}`;
+        const action = document.createElement('span'); action.className = 'log-action'; action.textContent = e.label;
+        row.append(time,action);
+        if (!liveRCP() && rcp.status !== 'idle' && !['start','end'].includes(e.kind)) {
+          const btn = document.createElement('button'); btn.className = 'log-delete'; btn.textContent = e.deleted ? 'Restaurar' : 'Eliminar';
+          btn.setAttribute('aria-label', `${e.deleted ? 'Restaurar' : 'Eliminar'} ${e.label}`);
+          btn.onclick = () => eliminarEvento(e.id); row.append(btn);
+        }
+        panel.append(row);
+      }
+    }
+    function playBeepCustom(freq, type, duration, volume, scheduledAt) {
+      if (!audioCtx || audioCtx.state !== 'running') return;
+      try {
+        const at = scheduledAt ?? audioCtx.currentTime;
+        const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+        osc.type = type; osc.frequency.value = freq; osc.connect(gain); gain.connect(audioCtx.destination);
+        gain.gain.setValueAtTime(volume,at); gain.gain.exponentialRampToValueAtTime(.001,at+duration);
+        activeSounds.add(osc);
+        osc.onended = () => { activeSounds.delete(osc); osc.disconnect(); gain.disconnect(); };
+        osc.start(at); osc.stop(at+duration);
+      } catch (_) { noticeRCP('Audio no disponible; relojes y registros siguen activos.'); }
+    }
+    function cancelSoundsRCP() {
+      for (const osc of activeSounds) { try { osc.stop(); } catch (_) {} }
+      activeSounds.clear();
+    }
+    function alarmRCP(kind) {
+      if (!liveRCP()) return;
+      if (rcp.sound) {
+        initAudio();
+        if (audioCtx?.state === 'running') {
+          const at = audioCtx.currentTime;
+          playBeepCustom(kind === 'cycle' ? 440 : 620,'sine',.16,.25,at);
+          playBeepCustom(kind === 'cycle' ? 660 : 880,'sine',.16,.25,at+.23);
+        }
+      }
+      try { navigator.vibrate?.([120,80,120]); } catch (_) {}
+    }
+    // 30 pulsos, después dos señales de ventilación en una ventana de 4 s.
+    // Web Audio programa por adelantado 120 ms; nunca acumula pulsos atrasados.
+    function soundSlot(index, airway, bpm) {
+      const beat = 60/bpm;
+      if (airway) return {at:index*beat,kind:'compression'};
+      const cycle = Math.floor(index/32), slot = index%32;
+      return {at:cycle*(30*beat+4)+(slot<30 ? slot*beat : 30*beat+(slot-30)*2),kind:slot<30?'compression':'ventilation'};
+    }
+    function stopRCPAudio() {
+      if (audioScheduler !== null) clearInterval(audioScheduler);
+      audioScheduler = null; cancelSoundsRCP(); lastAudioState = 'idle';
+    }
+    function restartRCPAudio() {
+      stopRCPAudio(); voicePhase = 'compression'; audioAnchor = rcpNow();
+      if (!liveRCP() || !['compressions','shock'].includes(rcp.phase) || !rcp.sound) return;
+      initAudio();
+      if (!audioCtx || audioCtx.state !== 'running') {
+        audioCtx?.resume()?.then(() => {
+          if (liveRCP() && rcp.sound && ['compressions','shock'].includes(rcp.phase) && audioScheduler === null) restartRCPAudio();
+        }).catch(() => noticeRCP('Pulsa Activar sonido para habilitar el audio.'));
+        return;
+      }
+      nextSoundIndex = 0; nextSoundAt = audioCtx.currentTime+.025;
+      const anchor = nextSoundAt, airway = hasAirway(), bpm = rcp.bpm;
+      let nextVentAt = anchor+6;
+      lastAudioState = 'running';
+      const schedule = () => {
+        if (!liveRCP() || !rcp.sound || !['compressions','shock'].includes(rcp.phase)) { stopRCPAudio(); return; }
+        const now = audioCtx.currentTime;
+        if (nextSoundAt < now-.15) {
+          // Reanclar tras suspensión evita ráfagas de sonidos y un contador visual desfasado.
+          restartRCPAudio(); return;
+        }
+        while (nextSoundAt < now+.12) {
+          const slot = soundSlot(nextSoundIndex,airway,bpm);
+          playBeepCustom(slot.kind === 'compression' ? 850 : 340,'sine',slot.kind === 'compression' ? .045 : .22,slot.kind === 'compression' ? .22 : .3,Math.max(now,nextSoundAt));
+          nextSoundIndex++;
+          nextSoundAt = anchor+soundSlot(nextSoundIndex,airway,bpm).at;
+        }
+        if (airway && nextVentAt < now+.12) {
+          playBeepCustom(340,'sine',.22,.3,Math.max(now,nextVentAt)); nextVentAt+=6;
+        }
+      };
+      schedule(); audioScheduler = setInterval(schedule,25);
+    }
+    function toggleMetronomo() {
+      if (!liveRCP()) return;
+      if (rcp.sound && audioCtx?.state === 'running') rcp.sound = false;
+      else rcp.sound = true;
+      finishActionRCP(true);
+    }
+    function cycleBPM() {
+      if (!liveRCP()) return;
+      rcp.bpm = rcp.bpm === 110 ? 120 : rcp.bpm === 120 ? 100 : 110;
+      finishActionRCP(true);
+    }
+    async function requestWakeLock() {
+      const request = ++wakeRequest;
+      if (!navigator.wakeLock || !liveRCP() || document.visibilityState === 'hidden') return;
+      try {
+        const lock = await navigator.wakeLock.request('screen');
+        if (request !== wakeRequest || !liveRCP()) { await lock.release(); return; }
+        if (wakeLock && wakeLock !== lock) { try { await wakeLock.release(); } catch (_) {} }
+        wakeLock = lock;
+        $rcp('rcp-device-status').textContent = 'Pantalla activa · sonido y alertas requieren la app visible.';
+        lock.addEventListener('release', () => { if (wakeLock === lock) { wakeLock = null; $rcp('rcp-device-status').textContent = 'Pantalla sin bloqueo activo: comprobar que siga encendida.'; } });
+      } catch (_) { $rcp('rcp-device-status').textContent = 'No se pudo mantener la pantalla encendida automáticamente.'; }
+    }
+    function releaseWakeLock() {
+      ++wakeRequest;
+      const lock = wakeLock; wakeLock = null;
+      if (lock) lock.release().catch(() => {});
+    }
+    document.addEventListener('visibilitychange', () => {
+      if (!liveRCP()) return;
+      if (document.visibilityState === 'hidden') { stopRCPAudio(); persistRCP(); }
+      else { tickRCP(); requestWakeLock(); restartRCPAudio(); }
+    });
+    function initRCP() {
+      try {
+        const profile = JSON.parse(localStorage.getItem(RCP_PROFILE) || 'null');
+        if (profile && ['biphasic','unknown','monophasic'].includes(profile.defibType) && [200,360].includes(profile.maxEnergy) && [120,150,200].includes(profile.initialEnergy)) {
+          Object.assign(rcp,profile); rcp.energy = rcp.defibType === 'monophasic' ? 360 : rcp.defibType === 'unknown' ? rcp.maxEnergy : rcp.initialEnergy;
+        }
+        const saved = JSON.parse(localStorage.getItem(RCP_STORAGE) || 'null');
+        if (saved?.version === 2 && ['active','rosc','finished'].includes(saved.status) && Array.isArray(saved.events) && Number.isFinite(saved.startAt)) {
+          savedRcp = saved;
+          // Un laboratorio adelantado se recupera en su propio reloj virtual.
+          const lastAt = Math.max(saved.startAt,...saved.events.map(e=>e.at), saved.endAt || 0);
+          if (saved.simulated) {
+            const recoveredAt = Number.isFinite(saved.savedAt) && Number.isFinite(saved.savedRealAt) ? saved.savedAt+Math.max(0,Date.now()-saved.savedRealAt) : lastAt;
+            simulationOffset = Math.max(0,recoveredAt-(clockEpoch+performance.now()-clockMono));
+          }
+        }
+      } catch (_) { noticeRCP('Sesión guardada no disponible. Puedes iniciar una nueva prueba.'); }
+      renderRCPLog(); renderRCP();
+    }
+    document.addEventListener('DOMContentLoaded', initRCP);
+
+
+    // La prueba no registra un Service Worker ni actualiza una instalación pública.
 
 document.addEventListener('DOMContentLoaded', () => {
       initTheme();
