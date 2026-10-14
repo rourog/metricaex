@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Métrica Ex · Prueba RCP ACLS 2025</title>
+  <title>Métrica Ex - Soporte Crítico</title>
   
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#161618">
@@ -392,12 +392,15 @@ body.theme-cyber #rcp, body.theme-dark-red #rcp { --cpr-red: #ffd1d9; --cpr-red-
 #rcp .rcp-pacing:disabled { opacity: 1; cursor: default; }
 #rcp .rcp-pacing.compression { background: var(--cpr-red-bg); color: var(--cpr-red); border: 1px solid var(--cpr-red); }
 #rcp .rcp-pacing.ventilation { background: var(--cpr-blue-bg); color: var(--cpr-blue); border: 1px solid var(--cpr-blue); }
-#rcp .rcp-pacing.evaluation { background: var(--cpr-yellow-bg); color: var(--cpr-yellow); border: 1px solid #bd922e; font-size: 1.08rem; }
+#rcp .rcp-pacing.evaluation { background: #e6e9ed; color: #515b68; border: 1px solid #a4acb6; font-size: 1.08rem; }
 .rcp-pacing-icon { width: 30px; height: 30px; flex-shrink: 0; }
 .rcp-pacing-count { font-size: var(--pacing-size); white-space: nowrap; font-variant-numeric: tabular-nums; line-height: 1; }
 .rcp-vent-cue { display: flex; align-items: center; gap: 5px; padding-left: 12px; border-left: 1px solid currentColor; font-size: var(--pacing-size); white-space: nowrap; line-height: 1; }
 .rcp-vent-cue svg { width: 30px; height: 30px; }
 .rcp-rhythm-stack { display: flex; flex-direction: column; gap: 8px; margin-bottom: 8px; }
+#rcp #btn-no-desfibrilable { background: #b9d9ff; color: #114d91; border: 1px solid #2478d7; }
+body.theme-cyber #rcp #btn-no-desfibrilable, body.theme-dark-red #rcp #btn-no-desfibrilable { background: #163f6b; color: #d9ecff; border-color: #57a3ed; }
+body.theme-cyber #rcp .rcp-pacing.evaluation, body.theme-dark-red #rcp .rcp-pacing.evaluation { background: #353d45; color: #dde3e8; border-color: #687380; }
 #rcp .rcp-rhythm-btn { display: flex; flex-direction: column; min-height: 58px; font-size: 1rem; }
 #rcp small { display: block; font-size: .76rem; font-weight: normal; text-transform: none; line-height: 1.3; }
 .rcp-energy-row { display: grid; grid-template-columns: 48px minmax(0,1fr) 48px; gap: 6px; align-items: stretch; }
@@ -557,7 +560,7 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
 
     <section id="rcp" class="view-section active">
       <div class="card rcp-container">
-        <div class="rcp-preview-badge">RCP ADULTA · PRUEBA</div>
+        <div class="rcp-preview-badge">RCP ADULTA</div>
         <div class="rcp-time-grid">
           <div><div class="input-label">Total</div><div id="reloj-total" class="rcp-time-value">00:00</div></div>
           <div><div class="input-label" id="label-ciclo">Ciclo</div><div id="reloj-ciclo" class="rcp-time-value">02:00</div></div>
@@ -594,7 +597,7 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
           <button class="btn-toggle" onclick="resetRCP()">NUEVO PACIENTE</button>
           <textarea id="rcp-export" aria-label="Resumen de reanimación" readonly hidden></textarea>
         </div>
-        <details class="rcp-test-tools">
+        <details class="rcp-test-tools" id="rcp-test-tools" hidden>
           <summary>Laboratorio</summary>
           <div class="rcp-btn-grid"><button class="btn-toggle" onclick="avanzarPrueba(30)">+30 s</button><button class="btn-toggle" onclick="avanzarPrueba(120)">+2 min</button></div>
         </details>
@@ -736,7 +739,7 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
   /* =========================================
        CONFIGURACIÓN GLOBAL Y VERSIÓN
        ========================================= */
-    const APP_VERSION = "1.1.0-rcp-preview.3";
+    const APP_VERSION = "1.1.0";
     const APP_NAME = "Métrica EX";
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
@@ -1818,7 +1821,8 @@ function renderPediatria(peso) {
        RELOJ RCP Y BITÁCORA (TIEMPO ABSOLUTO)
        ========================================= */
     // RCP adulta · laboratorio ACLS 2025. La guía y las acciones registradas son distintas.
-    const RCP_STORAGE = 'metrica_ex_rcp_preview_v2';
+    const RCP_STORAGE = 'metrica_ex_rcp_v1';
+    const RCP_PREVIEW = false;
     const energySteps = [50, 70, 100, 120, 150, 200, 250, 300, 360];
     const clockEpoch = Date.now();
     const clockMono = performance.now();
@@ -2017,7 +2021,7 @@ function renderPediatria(peso) {
       if (!$rcp('rcp-export').hidden) $rcp('rcp-export').value = summaryRCP();
     }
     function summaryRCP() {
-      let text = `MÉTRICA EX · RCP ADULTA · VERSIÓN DE PRUEBA${rcp.simulated ? ' · SIMULACIÓN CON SALTOS DE TIEMPO' : ''}\n`;
+      let text = `MÉTRICA EX · RCP ADULTA${rcp.simulated ? ' · SIMULACIÓN CON SALTOS DE TIEMPO' : ''}\n`;
       text += `Duración: ${formatearTiempo(elapsedRCP())} | Descargas: ${shockCountRCP()} | Adrenalina: ${actualEvents('epi').length} dosis\n`;
       text += actualEvents().map(e => `${new Date(e.at).toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit',second:'2-digit'})} | T+${formatearTiempo(e.elapsed)} | ${e.label}`).join('\n');
       return text;
@@ -2063,6 +2067,7 @@ function renderPediatria(peso) {
     }
     function avanzarPrueba(seconds) {
       if (!liveRCP()) { noticeRCP('Inicia la prueba antes de adelantar el tiempo.'); return; }
+      if (!RCP_PREVIEW) return;
       simulationOffset += seconds * 1000; rcp.simulated = true;
       stopRCPAudio(); tickRCP();
       if (['compressions','shock'].includes(rcp.phase)) restartRCPAudio();
@@ -2294,12 +2299,13 @@ function renderPediatria(peso) {
           }
         }
       } catch (_) { noticeRCP('Sesión guardada no disponible. Puedes iniciar una nueva prueba.'); }
+      $rcp('rcp-test-tools').hidden = !RCP_PREVIEW;
       renderRCPLog(); renderRCP();
     }
     document.addEventListener('DOMContentLoaded', initRCP);
 
 
-    // La prueba no registra un Service Worker ni actualiza una instalación pública.
+    // Sin Service Worker: la página obtiene la versión vigente directamente de GitHub Pages.
 
 document.addEventListener('DOMContentLoaded', () => {
       initTheme();
