@@ -442,6 +442,9 @@ body.rcp-focus .app-title, body.rcp-focus .card-header h2 { animation: none !imp
 .rcp-outcome-box .btn-toggle { min-height: 54px; }
 .rcp-outcome-rosc { background: #c3efd8; color: #155a37; border-color: #21794d; }
 .rcp-outcome-death { background: #fbd0d7; color: #922037; border-color: #ac2942; }
+#rcp .rcp-clinical-summary { margin: 6px 0 12px; padding: 11px 12px; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; background: rgba(128,128,128,.055); }
+#rcp .rcp-clinical-summary-title { font-weight: 700; font-size: .85rem; margin: 0 0 6px; }
+#rcp .rcp-clinical-summary-text { font-size: .78rem; line-height: 1.65; white-space: pre-line; overflow-wrap: anywhere; }
 
 
 .rcp-audio-menu { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--border); border-radius: 8px; background: rgba(128,128,128,.08); color: var(--text-main); cursor: pointer; }
@@ -634,8 +637,12 @@ body.theme-cyber #rcp .rcp-log-rhythm, body.theme-dark-red #rcp .rcp-log-rhythm 
           <summary>Laboratorio</summary>
           <div class="rcp-btn-grid"><button class="btn-toggle" onclick="avanzarPrueba(30)">+30 s</button><button class="btn-toggle" onclick="avanzarPrueba(120)">+2 min</button></div>
         </details>
-        <details class="rcp-log-details">
+        <details class="rcp-log-details" id="rcp-log-details">
           <summary>Bitácora · <span id="rcp-log-count">0 eventos</span></summary>
+          <div id="rcp-clinical-summary" class="rcp-clinical-summary" role="status" hidden>
+            <div class="rcp-clinical-summary-title">Resumen de reanimación</div>
+            <p id="rcp-clinical-summary-text" class="rcp-clinical-summary-text"></p>
+          </div>
           <div id="log-eventos" class="rcp-log-area"><p class="placeholder-text">Sin eventos</p></div>
         </details>
         <div id="rcp-notice" role="status" class="rcp-caption"></div>
@@ -772,7 +779,7 @@ body.theme-cyber #rcp .rcp-log-rhythm, body.theme-dark-red #rcp .rcp-log-rhythm 
   /* =========================================
        CONFIGURACIÓN GLOBAL Y VERSIÓN
        ========================================= */
-    const APP_VERSION = "1.1.3";
+    const APP_VERSION = "1.1.4";
     const APP_NAME = "Métrica EX";
     /* =========================================
        SISTEMA DE FEEDBACK HÁPTICO Y AUDIO
@@ -1880,7 +1887,8 @@ function renderPediatria(peso) {
 
     function freshRCP() {
       return { version: 2, status: 'idle', phase: 'ready', phaseAt: 0, startAt: null,
-        cycleAt: null, endAt: null, events: [], bpm: 120, sound: true, energy: 200, simulated: false };
+        cycleAt: null, endAt: null, events: [], bpm: 120, sound: true, energy: 200, simulated: false,
+        cyclesStarted: 0, completedCycles: 0 };
     }
     function liveRCP() { return rcp.status === 'active'; }
     function actualEvents(kind) { return rcp.events.filter(e => !e.deleted && (!kind || e.kind === kind)); }
@@ -1920,6 +1928,7 @@ function renderPediatria(peso) {
     }
     function beginCycleRCP() {
       rcp.phase = 'compressions'; rcp.phaseAt = rcpNow(); rcp.cycleAt = rcp.phaseAt;
+      if (Number.isInteger(rcp.cyclesStarted)) rcp.cyclesStarted++;
     }
     function toggleRCP() {
       if (rcp.status !== 'idle') return;
@@ -1939,6 +1948,7 @@ function renderPediatria(peso) {
       if (!liveRCP()) return;
       if (rcp.phase === 'compressions' && rcpNow() - rcp.cycleAt >= 120000) {
         rcp.phase = 'evaluation'; rcp.phaseAt = rcpNow();
+        if (Number.isInteger(rcp.completedCycles)) rcp.completedCycles++;
         stopRCPAudio(); alarmRCP('cycle'); persistRCP();
       }
       const epi = latestEvent('epi');
@@ -2054,10 +2064,14 @@ function renderPediatria(peso) {
     });
     function endRCP(status) {
       if (!liveRCP()) return;
+      // Evita perder un ciclo terminado si todavía no se disparó el tick de 100 ms.
+      if (rcp.phase === 'compressions' && rcp.cycleAt !== null
+          && rcpNow() - rcp.cycleAt >= 120000 && Number.isInteger(rcp.completedCycles)) rcp.completedCycles++;
       addRCPEvent('end',status === 'rosc' ? 'RCE CONFIRMADO' : status === 'death' ? 'FIN DE RCP · DEFUNCIÓN REGISTRADA' : 'FIN DE REANIMACIÓN');
       rcp.endAt = rcpNow(); rcp.status = status;
       clearInterval(rcpInterval); rcpInterval = null; stopRCPAudio(); cancelSoundsRCP(); releaseWakeLock();
       document.body.classList.remove('rcp-focus'); finishActionRCP();
+      $rcp('rcp-log-details').open = true;
     }
     function solicitarBorradoRCP(id) {
       if (!liveRCP()) return;
@@ -2078,9 +2092,42 @@ function renderPediatria(peso) {
       if (liveRCP()) tickRCP();
       if (!$rcp('rcp-export').hidden) $rcp('rcp-export').value = summaryRCP();
     }
+    function horaEventoRCP(at) {
+      return Number.isFinite(at) ? new Date(at).toLocaleTimeString('es-MX', {
+        hour: '2-digit', minute: '2-digit', hour12: false
+      }) : null;
+    }
+    function clinicalSummaryRCP() {
+      if (!['rosc','death','finished'].includes(rcp.status)) return '';
+      const started = rcp.cyclesStarted, completed = rcp.completedCycles;
+      const duration = formatearTiempo(elapsedRCP());
+      let cycles;
+      if (!Number.isInteger(started) || !Number.isInteger(completed)) {
+        cycles = 'Ciclos completos: dato no disponible en esta sesión anterior a la actualización.';
+      } else if (completed === 0) {
+        cycles = `Se ${started === 1 ? 'inició' : 'iniciaron'} ${started} ${started === 1 ? 'ciclo' : 'ciclos'} de RCP, sin completar uno de 2 minutos.`;
+      } else {
+        cycles = `Se registraron ${completed} ${completed === 1 ? 'ciclo completo' : 'ciclos completos'} de 2 minutos${started > completed ? ` (${started} iniciados)` : ''}.`;
+      }
+      const epi = actualEvents('epi'), amio = actualEvents('amio');
+      const sumMg = (events, fallback) => events.reduce((total, e) =>
+        total + (Number.isFinite(e.doseMg) ? e.doseMg : fallback), 0);
+      const medication = `Adrenalina: ${sumMg(epi,1)} mg (${epi.length} dosis). Amiodarona: ${sumMg(amio,0)} mg (${amio.length} dosis).`;
+      const shocks = shockCountRCP();
+      const interventions = `Se ${shocks === 1 ? 'registró' : 'registraron'} ${shocks} ${shocks === 1 ? 'descarga eléctrica' : 'descargas eléctricas'}.`;
+      const time = horaEventoRCP(rcp.endAt ?? latestEvent('end')?.at);
+      const hour = time ? ` a las ${time} h` : '';
+      const outcome = rcp.status === 'rosc'
+        ? `Se documentó retorno de la circulación espontánea (RCE)${hour}.`
+        : rcp.status === 'death'
+          ? `Sin RCE documentado; se registró la defunción${hour}.`
+          : `Reanimación finalizada${hour}; desenlace no especificado.`;
+      return [cycles + ` Duración total de la reanimación: ${duration} min.`,
+        medication + ' ' + interventions, outcome].join('\n');
+    }
     function summaryRCP() {
       let text = `MÉTRICA EX · RCP ADULTA${rcp.simulated ? ' · SIMULACIÓN CON SALTOS DE TIEMPO' : ''}\n`;
-      text += `Duración: ${formatearTiempo(elapsedRCP())} | Descargas: ${shockCountRCP()} | Adrenalina: ${actualEvents('epi').length} dosis\n`;
+      text += `RESUMEN DE REANIMACIÓN\n${clinicalSummaryRCP()}\n\nCRONOLOGÍA\n`;
       text += actualEvents().map(e => `${new Date(e.at).toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit',second:'2-digit'})} | T+${formatearTiempo(e.elapsed)} | ${e.label}`).join('\n');
       return text;
     }
@@ -2104,7 +2151,7 @@ function renderPediatria(peso) {
       rcp = freshRCP();
       savedRcp = null; epiAlertedId = null; simulationOffset = 0;
       document.body.classList.remove('rcp-focus');
-      $rcp('rcp-export').hidden = true; noticeRCP(''); finishActionRCP();
+      $rcp('rcp-export').hidden = true; $rcp('rcp-log-details').open = false; noticeRCP(''); finishActionRCP();
     }
     function nuevaReanimacionRCP() {
       if (rcp.status !== 'idle' || !savedRcp) return;
@@ -2120,6 +2167,7 @@ function renderPediatria(peso) {
         eventsSerial = Math.max(0, ...rcp.events.map(e => e.id));
         initAudio();
         if (liveRCP()) { startRCPLoop(); requestWakeLock(); document.body.classList.add('rcp-focus'); }
+        $rcp('rcp-log-details').open = !liveRCP();
         finishActionRCP(true); tickRCP();
       });
     }
@@ -2203,6 +2251,9 @@ function renderPediatria(peso) {
     function renderRCPLog() {
       const panel = $rcp('log-eventos'); panel.replaceChildren();
       $rcp('rcp-log-count').textContent = `${actualEvents().length} eventos`;
+      const clinical = clinicalSummaryRCP();
+      $rcp('rcp-clinical-summary').hidden = !clinical;
+      $rcp('rcp-clinical-summary-text').textContent = clinical;
       if (!rcp.events.length) { panel.textContent = 'Sin eventos'; return; }
       for (const e of [...rcp.events].reverse()) {
         if (liveRCP() && e.deleted) continue;
